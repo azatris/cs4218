@@ -18,6 +18,7 @@ import org.junit.Test;
 public class GrepToolTest {
 	private GrepTool grepTool;
 	private static String testDataFileName;
+	private static String testData;
 	private static Properties prop;
 	final private static String IP = "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b";
 	
@@ -31,7 +32,7 @@ public class GrepToolTest {
 			e.printStackTrace();			
 		}
 		testDataFileName = prop.getProperty("testDataFileName");
-		String testData = prop.getProperty("testData");
+		testData = prop.getProperty("testData");
 		// Creating a file to store the test data.
 		File testfile = new File(testDataFileName);
 		if (!testfile.isFile()) {
@@ -58,97 +59,97 @@ public class GrepToolTest {
 
 	@Test
 	public void getCountOfMatchingLinesJavaTest() {
-		int result = grepTool.getCountOfMatchingLines("java", testDataFileName);
+		int result = grepTool.getCountOfMatchingLines("java", testData);
 		assertEquals("Incorrect number of matched lines.", 8, result);
 	}
 	
 	@Test
 	public void getCountOfMatchingLinesIPTest() {
-		int result = grepTool.getCountOfMatchingLines(IP, testDataFileName);
+		int result = grepTool.getCountOfMatchingLines(IP, testData);
 		assertEquals("Incorrect number of matched lines.", 3, result);
 	}
 
 	@Test
 	public void getOnlyMatchingLinesJavaTest() {
 		String correctResult = prop.getProperty("getOnlyMatchingLinesTestJava");
-		String result = grepTool.getOnlyMatchingLines("java", testDataFileName);
+		String result = grepTool.getOnlyMatchingLines("java", testData);
 		assertEquals("The right lines were not matched.", correctResult, result);
 	}
 	
 	@Test
 	public void getOnlyMatchingLinesIPTest() {
 		String correctResult = prop.getProperty("getOnlyMatchingLinesTestIP");
-		String result = grepTool.getOnlyMatchingLines(IP, testDataFileName);
+		String result = grepTool.getOnlyMatchingLines(IP, testData);
 		assertEquals("The right lines were not matched.", correctResult, result);
 	}
 
 	@Test
 	public void getMatchingLinesWithTrailingContextJavaTest() {
 		String correctResult = prop.getProperty("getMatchingLinesWithTrailingContextTestJava");
-		String result = grepTool.getMatchingLinesWithTrailingContext(2, "java", testDataFileName);
+		String result = grepTool.getMatchingLinesWithTrailingContext(2, "java", testData);
 		assertEquals("The right lines with trailing context were not matched.", correctResult, result);
 	}
 	
 	@Test
 	public void getMatchingLinesWithTrailingContextIPTest() {
 		String correctResult = prop.getProperty("getMatchingLinesWithTrailingContextTestIP");
-		String result = grepTool.getMatchingLinesWithTrailingContext(2, IP, testDataFileName);
+		String result = grepTool.getMatchingLinesWithTrailingContext(2, IP, testData);
 		assertEquals("The right lines with trailing context were not matched.", correctResult, result);
 	}
 
 	@Test
 	public void getMatchingLinesWithLeadingContextJavaTest() {
 		String correctResult = prop.getProperty("getMatchingLinesWithLeadingContextTestJava");
-		String result = grepTool.getMatchingLinesWithLeadingContext(2, "java", testDataFileName);
+		String result = grepTool.getMatchingLinesWithLeadingContext(2, "java", testData);
 		assertEquals("The right lines with leading context were not matched.", correctResult, result);
 	}
 	
 	@Test
 	public void getMatchingLinesWithLeadingContextIPTest() {
 		String correctResult = prop.getProperty("getMatchingLinesWithLeadingContextTestIP");
-		String result = grepTool.getMatchingLinesWithLeadingContext(2, IP, testDataFileName);
+		String result = grepTool.getMatchingLinesWithLeadingContext(2, IP, testData);
 		assertEquals("The right lines with leading context were not matched.", correctResult, result);
 	}
 
 	@Test
 	public void getMatchingLinesWithOutputContextJavaTest() {
 		String correctResult = prop.getProperty("getMatchingLinesWithOutputContextTestJava");
-		String result = grepTool.getMatchingLinesWithOutputContext(1, "java", testDataFileName);
+		String result = grepTool.getMatchingLinesWithOutputContext(1, "java", testData);
 		assertEquals("The right lines with output context were not matched.", correctResult, result);
 	}
 	
 	@Test
 	public void getMatchingLinesWithOutputContextIPTest() {
 		String correctResult = prop.getProperty("getMatchingLinesWithOutputContextTestIP");
-		String result = grepTool.getMatchingLinesWithOutputContext(1, IP, testDataFileName);
+		String result = grepTool.getMatchingLinesWithOutputContext(1, IP, testData);
 		assertEquals("The right lines with output context were not matched.", correctResult, result);
 	}
 
 	@Test
 	public void getMatchingLinesOnlyMatchingPartJavaTest() {
 		String correctResult = prop.getProperty("getMatchingLinesOnlyMatchingPartTestJava");
-		String result = grepTool.getMatchingLinesOnlyMatchingPart("java", testDataFileName);
+		String result = grepTool.getMatchingLinesOnlyMatchingPart("java", testData);
 		assertEquals("The right parts were not matched.", correctResult, result);
 	}
 	
 	@Test
 	public void getMatchingLinesOnlyMatchingPartIPTest() {
 		String correctResult = prop.getProperty("getMatchingLinesOnlyMatchingPartTestIP");
-		String result = grepTool.getMatchingLinesOnlyMatchingPart(IP, testDataFileName);
+		String result = grepTool.getMatchingLinesOnlyMatchingPart(IP, testData);
 		assertEquals("The right parts were not matched.", correctResult, result);
 	}
 
 	@Test
 	public void getNonMatchingLinesJavaTest() {
 		String correctResult = prop.getProperty("getNonMatchingLinesTestJava");
-		String result = grepTool.getNonMatchingLines("java", testDataFileName);
+		String result = grepTool.getNonMatchingLines("java", testData);
 		assertEquals("The right non-matching lines were not found.", correctResult, result);
 	}
 	
 	@Test
 	public void getNonMatchingLinesIPTest() {
 		String correctResult = prop.getProperty("getNonMatchingLinesTestIP");
-		String result = grepTool.getNonMatchingLines(IP, testDataFileName);
+		String result = grepTool.getNonMatchingLines(IP, testData);
 		assertEquals("The right non-matching lines were not found.", correctResult, result);
 	}
 
