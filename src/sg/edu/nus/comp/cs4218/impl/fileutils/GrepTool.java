@@ -1,9 +1,7 @@
 package sg.edu.nus.comp.cs4218.impl.fileutils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Properties;
@@ -277,7 +275,7 @@ public class GrepTool extends ATool implements IGrepTool {
 			}
 		} else {
 			setStatusCode(127);                                                                                                                                                                               
-		}
+		}		
 		return returnable;
 	}
 }
