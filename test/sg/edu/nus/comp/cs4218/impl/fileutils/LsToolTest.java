@@ -36,7 +36,7 @@ public class LsToolTest {
 	
 	@Before
 	public void setUp() {
-		lsTool = new LsTool();
+		lsTool = new LsTool(new String[]{"ls", "."});
 	}
 	
 	// Removes the created mock folders and file.

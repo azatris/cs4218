@@ -9,33 +9,60 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class LsTool extends ATool implements ILsTool {
 
-	public LsTool(String [] args) {
+	public LsTool(String[] args) {
 		super(args);
 	}
 
+	/**
+	 * @param directory place to scan for files
+	 * @return list of files in the <code>directory</code>
+	 */
 	@Override
 	public List<File> getFiles(File directory) {
 		File[] files = directory.listFiles();
 		return Arrays.asList(files);
 	}
 
+	/**
+	 * @param files list of files
+	 * @return <code>files</code> in human-readable form
+	 */
 	@Override
 	public String getStringForFiles(List<File> files) {
-		StringBuilder stringBuilder = new StringBuilder();
-		for (File file : files) {
-			stringBuilder.append(file.getName());
-			if (file.isDirectory()) {
-				stringBuilder.append(File.separator);
+		String returnable = null;
+		if (files != null) {
+			StringBuilder stringBuilder = new StringBuilder();
+			for (File file : files) {
+				stringBuilder.append(file.getName());
+				if (file.isDirectory()) {
+					stringBuilder.append(File.separator);
+				}
+				stringBuilder.append('\t');
 			}
-			stringBuilder.append('\t');
+			returnable = stringBuilder.toString();
+		} else {
+			setStatusCode(127);
 		}
-		return stringBuilder.toString();
+		return returnable;
 	}
 
+	/**
+	 * Executes the command according to 
+	 * <code>args</code> and <code>stdin</code>. 
+	 * @param workingDir current directory
+	 * @param stdin passed input from another command
+	 */
 	@Override
 	public String execute(File workingDir, String stdin) {
-		if (args.length == 1 && stdin == null) {
-			List<File> files = getFiles(workingDir);
+		if (stdin == null) {
+			List<File> files = null;
+			if (args.length == 2) {
+				File targetDirectory = new File(args[1]);
+				files = getFiles(targetDirectory);
+			}
+			if (args.length == 1) {
+				files = getFiles(workingDir);
+			}
 			return getStringForFiles(files);
 		} else {
 			setStatusCode(127);
