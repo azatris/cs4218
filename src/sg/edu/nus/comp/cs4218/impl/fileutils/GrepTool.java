@@ -13,12 +13,22 @@ import java.util.regex.Pattern;
 import sg.edu.nus.comp.cs4218.extended1.IGrepTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
+/**
+ * Contains methods to call the grep command with
+ * different arguments.
+ */
 public class GrepTool extends ATool implements IGrepTool {
 
 	public GrepTool(String[] arguments) {
 		super(arguments);
 	}
 
+	/**
+	 * Is called using "-c" flag.
+	 * @param pattern regular expression
+	 * @param input multiline string being matched 
+	 * @return count of matched lines
+	 */
 	@Override
 	public int getCountOfMatchingLines(String pattern, String input) {
 		Pattern regexp = Pattern.compile(pattern, Pattern.MULTILINE);
@@ -36,6 +46,12 @@ public class GrepTool extends ATool implements IGrepTool {
 		return count;
 	}
 
+	/**
+	 * Flag-free grep.
+	 * @param pattern regular expression
+	 * @param input multiline string being matched
+	 * @return matched lines
+	 */
 	@Override
 	public String getOnlyMatchingLines(String pattern, String input) {
 		Pattern regexp = Pattern.compile(pattern, Pattern.MULTILINE);
@@ -56,12 +72,19 @@ public class GrepTool extends ATool implements IGrepTool {
 		return stringBuilder.toString();
 	}
 
+	/**
+	 * Is called using "-A NUM" flag.
+	 * @param optionA number of trailing lines
+	 * @param pattern regular expression
+	 * @param input multiline string being matched 
+	 * @return matched lines with trailing lines
+	 */
 	@Override
-	public String getMatchingLinesWithTrailingContext(int option_A,
+	public String getMatchingLinesWithTrailingContext(int optionA,
 			String pattern, String input) {
 		Pattern regexp = Pattern.compile(pattern, Pattern.MULTILINE);
 		
-		int linesShown = option_A;
+		int linesShown = optionA;
 		StringBuilder stringBuilder = new StringBuilder();
 		Scanner scanner = new Scanner(input);
 		String currentLine;
@@ -72,7 +95,7 @@ public class GrepTool extends ATool implements IGrepTool {
 			    stringBuilder.append(currentLine);
 			    stringBuilder.append('\n');
 			    linesShown = 0;
-			} else if (linesShown < option_A) {
+			} else if (linesShown < optionA) {
 				stringBuilder.append(currentLine);
 			    stringBuilder.append('\n');
 			    linesShown++;
@@ -83,8 +106,15 @@ public class GrepTool extends ATool implements IGrepTool {
 		return stringBuilder.toString();
 	}
 
+	/**
+	 * Is called using "-B NUM" flag.
+	 * @param optionB number of leading lines
+	 * @param pattern regular expression
+	 * @param input multiline string being matched
+	 * @return matched lines with leading lines
+	 */
 	@Override
-	public String getMatchingLinesWithLeadingContext(int option_B,
+	public String getMatchingLinesWithLeadingContext(int optionB,
 			String pattern, String input) {
 		Pattern regexp = Pattern.compile(pattern, Pattern.MULTILINE);
 		
@@ -105,7 +135,7 @@ public class GrepTool extends ATool implements IGrepTool {
 				stringBuilder.append(currentLine);
 				stringBuilder.append('\n');
 			} else {
-				if (leadingContext.size() == option_B) {
+				if (leadingContext.size() == optionB) {
 					leadingContext.remove();
 					leadingContext.add(currentLine);
 				} else {
@@ -118,8 +148,15 @@ public class GrepTool extends ATool implements IGrepTool {
 		return stringBuilder.toString();
 	}
 
+	/**
+	 * Is called using "-C NUM" flag.
+	 * @param optionC number of trailing lines
+	 * @param pattern regular expression
+	 * @param input multiline string being matched
+	 * @return matched lines with leading and trailing lines
+	 */
 	@Override
-	public String getMatchingLinesWithOutputContext(int option_C,
+	public String getMatchingLinesWithOutputContext(int optionC,
 			String pattern, String input) {
 		Pattern regexp = Pattern.compile(pattern, Pattern.MULTILINE);
 		
@@ -140,13 +177,13 @@ public class GrepTool extends ATool implements IGrepTool {
 				}
 				stringBuilder.append(currentLine);
 				stringBuilder.append('\n');
-				trailingContext = option_C;
+				trailingContext = optionC;
 			} else {
 				if (trailingContext > 0) {
 					stringBuilder.append(currentLine);
 					stringBuilder.append('\n');
 					trailingContext--;
-				} else if (leadingContext.size() == option_C) {
+				} else if (leadingContext.size() == optionC) {
 					leadingContext.remove();
 					leadingContext.add(currentLine);
 				} else {
@@ -159,6 +196,12 @@ public class GrepTool extends ATool implements IGrepTool {
 		return stringBuilder.toString();
 	}
 
+	/**
+	 * Is called using "-o" flag.
+	 * @param pattern regular expression
+	 * @param input multiline string being matched 
+	 * @return matching part from the matched lines
+	 */
 	@Override
 	public String getMatchingLinesOnlyMatchingPart(String pattern, String input) {
 		Pattern regexp = Pattern.compile(pattern, Pattern.MULTILINE);
@@ -179,6 +222,12 @@ public class GrepTool extends ATool implements IGrepTool {
 		return stringBuilder.toString();
 	}
 
+	/**
+	 * Is called using "-v" flag.
+	 * @param pattern regular expression
+	 * @param input multiline string being matched
+	 * @return lines that did not match
+	 */
 	@Override
 	public String getNonMatchingLines(String pattern, String input) {
 		Pattern regexp = Pattern.compile(pattern, Pattern.MULTILINE);
@@ -199,6 +248,10 @@ public class GrepTool extends ATool implements IGrepTool {
 		return stringBuilder.toString();
 	}
 
+	/**
+	 * Is called using "-help" flag.
+	 * @return help text
+	 */
 	@Override
 	public String getHelp() {
 		Properties prop = new Properties();
