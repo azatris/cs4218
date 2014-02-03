@@ -9,8 +9,8 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class LsTool extends ATool implements ILsTool {
 
-	public LsTool() {
-		super(null);
+	public LsTool(String [] args) {
+		super(args);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class LsTool extends ATool implements ILsTool {
 
 	@Override
 	public String execute(File workingDir, String stdin) {
-		if (args.length == 0 && stdin == null) {
+		if (args.length == 1 && stdin == null) {
 			List<File> files = getFiles(workingDir);
 			return getStringForFiles(files);
 		} else {
