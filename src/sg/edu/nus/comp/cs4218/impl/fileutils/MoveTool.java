@@ -1,6 +1,9 @@
 package sg.edu.nus.comp.cs4218.impl.fileutils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import sg.edu.nus.comp.cs4218.fileutils.IMoveTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
@@ -13,13 +16,30 @@ public class MoveTool extends ATool implements IMoveTool {
 
 	@Override
 	public boolean move(File from, File to) {
-		if (from.renameTo(to)){
-			setStatusCode(0);
-			return true;
-		}else{
+		if (from == null || !from.exists() || from.isDirectory() || to == null){
 			setStatusCode(1);
 			return false;
 		}
+		
+		if (!to.exists()){
+			try {
+				to.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(to.isDirectory()){
+			to = new File(to.getAbsolutePath() + File.separator + from.getName());
+		}
+		try {
+			Files.move(from.toPath(), to.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		setStatusCode(0);
+		return true;
 	}
 
 	@Override
