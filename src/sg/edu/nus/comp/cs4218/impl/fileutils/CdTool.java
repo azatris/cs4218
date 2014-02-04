@@ -7,24 +7,21 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class CdTool extends ATool implements ICdTool {
 
-	public CdTool(String[] arguments) {
-		super(arguments);
-		// TODO Auto-generated constructor stub
+	public CdTool() {
+		super(null);
 	}
 
 	@Override
 	public File changeDirectory(String newDirectory) {
-		// TODO Auto-generated method stub
-		File newDir = new File(newDirectory);
-		if (newDir.isDirectory()){
-			return newDir;
+		if (newDirectory != null){
+			File newDir = new File(newDirectory);
+			if (newDir.isDirectory()){
+				return newDir;
+			}
 		}
-		else
-		{
-			setStatusCode(1);
-			System.err.println("Error: No such file or directory");
-			return null;
-		}
+		setStatusCode(1);
+		System.err.println("Error: No such file or directory");
+		return null;
 	}
 
 	@Override

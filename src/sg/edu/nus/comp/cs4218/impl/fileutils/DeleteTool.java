@@ -7,18 +7,16 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class DeleteTool extends ATool implements IDeleteTool {
 
-	public DeleteTool(String[] arguments) {
-		super(arguments);
-		// TODO Auto-generated constructor stub
+	public DeleteTool() {
+		super(null);
 	}
 
 	@Override
 	public boolean delete(File toDelete) {
-		// TODO Auto-generated method stub
-		if(toDelete.isFile() && toDelete.delete()){
+		if(toDelete != null && toDelete.delete()){
+			setStatusCode(0);
 			return true;
-		}else
-		{
+		}else{
 			setStatusCode(1);
 			return false;
 			//return "Error: Cannot find working directory";
@@ -27,7 +25,6 @@ public class DeleteTool extends ATool implements IDeleteTool {
 
 	@Override
 	public String execute(File workingDir, String stdin) {
-		// TODO Auto-generated method stub
 		if(args.length==0){
 			setStatusCode(1);
 			return "Error: Cannot find working directory";
@@ -38,7 +35,7 @@ public class DeleteTool extends ATool implements IDeleteTool {
 					return "Error: Cannot delete " + args[i];
 				}
 			}
-			return "";
+			return null;
 		}
 	}
 }

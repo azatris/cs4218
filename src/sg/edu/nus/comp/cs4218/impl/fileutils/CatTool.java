@@ -1,6 +1,5 @@
 package sg.edu.nus.comp.cs4218.impl.fileutils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,40 +14,40 @@ public class CatTool extends ATool implements ICatTool {
 		super(null);
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	public String getStringForFile(File toRead) {
-		// TODO Auto-generated method stub
 		// Error Handling
 		if (toRead == null || !toRead.exists()
 				|| !toRead.isFile()) {
 			setStatusCode(1);
-			return "Error: Cannot find working directory";
+			return null;
 		}
 		
 		// Processing the command
-		BufferedReader reader = null;
+		FileReader fileReader = null;
 		try {
-			reader = new BufferedReader( new FileReader (toRead));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fileReader = new FileReader(toRead);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
 		}
-	    String line = null;
-	    StringBuilder stringBuilder = new StringBuilder();
-	    String ls = System.getProperty("line.separator");
-
-	    try {
-			while( ( line = reader.readLine() ) != null ) {
-			    stringBuilder.append( line );
-			    stringBuilder.append( ls );
+	    
+		String fileContents = "";
+		int i ;
+		try {
+			while((i =  fileReader.read()) != -1){
+				char ch = (char)i;
+				fileContents = fileContents + ch; 
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-
-	    return stringBuilder.toString();
+		
+		try {
+			fileReader.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return fileContents;
 	}
 
 	@Override
