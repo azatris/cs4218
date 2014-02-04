@@ -22,15 +22,142 @@ public class Shell implements IShell {
         private static PrintStream out = System.out;
 	
 	@Override
-	public ITool parse(String commandline) {
-		if(commandline.startsWith("pwd")){
-			return new PWDTool();
-		} else {
-			//TODO Implement all other tools
-			System.err.println("Cannot parse " + commandline);
-			return null;
-		}
-	}
+	public ITool parse(final String commandline) {
+                ITool tool;
+                final String[] pipe=commandline.split(" \\| ");
+                if(pipe.length>ONE){
+                		ITool[] allTools = parseWithPipe(pipe);
+                        tool = new PipingTool(allTools);
+                }
+                else if(pipe.length==ONE){
+                        String[] commandArray;
+                        String argument = pipe[0];
+                        argument = argument.trim();
+                        commandArray = getCommandArray(argument);
+                        tool = getWhatTool(commandArray);
+                } else {
+                        tool = null;
+                }
+                return tool;
+        }      
+       
+        /**
+         * Method of creating the PipingTool
+         * @param pipe String
+         * @return A PipingTool of the type ITool.
+         */
+        public ITool[] parseWithPipe(String[] pipe){
+                ITool[] work = new ITool[pipe.length];
+                String[] commandArray;
+                for(int i=0; i<pipe.length; i++){
+                        commandArray = getCommandArray(pipe[i]);
+                        work[i]= getWhatTool(commandArray);
+                }
+                return work;
+        }
+ 
+        /**
+         *  
+         * @param argument
+         * @retur
+         */
+        public String[] getCommandArray(final String argument){
+                // Something could go wrong
+                final String[] hasPattern = argument.split(" \"|\" ");// . ". or ." .
+                String[] argumentArray;
+                if(hasPattern.length == THREE && argument.startsWith("grep")){
+                        argumentArray = patternForGrep(hasPattern);
+                }
+                else if(hasPattern.length == ONE){
+                        argumentArray = argument.split(" ");
+                }
+                else if(hasPattern.length != ONE || hasPattern.length != THREE){
+                        argumentArray = new String[ONE];
+                        argumentArray[0] = "Parsing failed"; //TODO
+ 
+                }
+                else{
+                        argumentArray = new String[ONE];
+                        argumentArray[0] = "Parsing failed"; //TODO
+ 
+                }
+                return argumentArray;
+        }
+       
+        /**
+         * The parser if a pattern and grep is the next running iTool
+         * @param hasPattern A string array of lenght 3 with command and maybe option it there is any
+         * as first paramenter, The pattern as is second and the filename as the third paramenter.
+         * @return A argument array ready to process by grep.
+         */
+        public String[] patternForGrep(final String[] hasPattern){
+                final String commandAndOption = hasPattern[0];
+                final String pattern=hasPattern[ONE];
+                final String file = hasPattern[TWO];
+                final String[] firstPart = commandAndOption.split(" ");
+                final String[] files = file.split(" ");
+                String[] argumentArray = new String[firstPart.length + ONE + files.length];
+                int loopVarible;
+                for(loopVarible = 0; loopVarible<firstPart.length; loopVarible++){
+                        argumentArray[loopVarible]=firstPart[loopVarible];
+                }
+                argumentArray[loopVarible] = pattern;
+                loopVarible++;
+                for(int i=0; loopVarible<argumentArray.length ; loopVarible++, i++){
+                        argumentArray[loopVarible] = files[i];
+                }
+ 
+                return argumentArray;
+        }
+ 
+ 
+ 
+        /**
+         *
+         * @param arguments
+         * @param tool
+         * @return The new Command that should be ececuted
+         */
+        private ITool getWhatTool(final String[] arguments){
+                ITool newCommand;
+                String tool = arguments[0];
+                switch(tool){
+                case "grep":
+                        newCommand =new GrepTool(arguments);
+                        break;
+                case  "cat":
+                        newCommand = new CatTool(arguments);
+                        break;
+                case "cd":
+                        newCommand = new CdTool(arguments);
+                        break;
+                case "copy":
+                        newCommand =  new CopyTool(arguments);
+                        break;
+                case "delete":
+                        newCommand = new DeleteTool(arguments);
+                        break;
+                case "echo":
+                        newCommand = new EchoTool(arguments);
+                        break;
+                case "ls":
+                        newCommand = new LsTool(arguments);
+                        break;
+                case "move":
+                        newCommand = new MoveTool(arguments);
+                        break;
+                case "pwd":
+                        newCommand = new PWDTool(arguments);
+                        break;
+                case "Parsing failed":
+                        newCommand = null;
+	                        System.out.println("Wrong parsing");
+                default:
+                        // wrong input
+                        newCommand = null;
+                }
+                return newCommand;
+        }
 
 	@Override
         public Runnable execute(ITool tool) {
