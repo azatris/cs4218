@@ -8,6 +8,14 @@ import sg.edu.nus.comp.cs4218.IShell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
 import sg.edu.nus.comp.cs4218.impl.extended1.GrepTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.PWDTool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.CdTool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.CopyTool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.DeleteTool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.EchoTool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.LsTool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.MoveTool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.PWDTool;
 
 /**
  * The Shell is used to interpret and execute user's
