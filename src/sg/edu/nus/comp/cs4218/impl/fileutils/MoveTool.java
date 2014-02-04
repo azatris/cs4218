@@ -7,17 +7,17 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class MoveTool extends ATool implements IMoveTool {
 
-	public MoveTool(String[] arguments) {
-		super(arguments);
-		// TODO Auto-generated constructor stub
+	public MoveTool() {
+		super(null);
 	}
 
 	@Override
 	public boolean move(File from, File to) {
-		// TODO Auto-generated method stub
 		if (from.renameTo(to)){
+			setStatusCode(0);
 			return true;
 		}else{
+			setStatusCode(1);
 			return false;
 		}
 	}
