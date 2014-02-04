@@ -279,6 +279,9 @@ public class Shell implements IShell {
                                         out.println(errorMessage);
                                 }
                         }
+                        else{
+                        	out.println("There is no tool associated with the given command!");
+                        }
                 }
         }
 }
