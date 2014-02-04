@@ -263,7 +263,7 @@ public class Shell implements IShell {
                 		errorMessage = "Error Detected";
                 		break;
                 	}
-                	return errorMessage;              	
+                	return errorMessage + '\n';              	
                 }
         
                 @Override
