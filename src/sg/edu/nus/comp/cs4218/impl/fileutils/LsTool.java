@@ -12,7 +12,11 @@ public class LsTool extends ATool implements ILsTool {
 	public LsTool(String[] args) {
 		super(args);
 	}
-
+	
+	public LsTool() {
+		super(null);
+	}
+	
 	/**
 	 * @param directory place to scan for files
 	 * @return list of files in the <code>directory</code>

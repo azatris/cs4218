@@ -10,7 +10,11 @@ public class DeleteTool extends ATool implements IDeleteTool {
 	public DeleteTool() {
 		super(null);
 	}
-
+	
+	public DeleteTool(String[] arguments) {
+		super(arguments);
+	}
+	
 	@Override
 	public boolean delete(File toDelete) {
 		if(toDelete != null && toDelete.delete()){

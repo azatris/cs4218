@@ -13,7 +13,11 @@ public class MoveTool extends ATool implements IMoveTool {
 	public MoveTool() {
 		super(null);
 	}
-
+	
+	public MoveTool(String[] arguments) {
+		super(arguments);
+	}
+	
 	@Override
 	public boolean move(File fromFile, File toFile) {
 		File from = fromFile;

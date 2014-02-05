@@ -1,4 +1,4 @@
-package sg.edu.nus.com.cs4218.impl;
+package sg.edu.nus.comp.cs4218.impl;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +16,7 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 import sg.edu.nus.comp.cs4218.impl.Shell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
-import sg.edu.nus.comp.cs4218.impl.fileutils.GrepTool;
+import sg.edu.nus.comp.cs4218.impl.extended1.GrepTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.LsTool;
 
 public class ShellParse {

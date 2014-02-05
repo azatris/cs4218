@@ -10,6 +10,10 @@ public class PWDTool extends ATool implements IPwdTool{
 	public PWDTool() {
 		super(null);
 	}
+	
+	public PWDTool(String[] arguments) {
+		super(arguments);
+	}
 
 	@Override
 	public String getStringForDirectory(File directory) {
