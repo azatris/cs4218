@@ -1,4 +1,4 @@
-package sg.edu.nus.comp.cs4218.impl.fileutils;
+package sg.edu.nus.comp.cs4218.impl.extended1;
 
 import static org.junit.Assert.*;
 
@@ -180,7 +180,7 @@ public class GrepToolTest {
 	
 	@Test
 	public void testExecuteArguments3() {
-		grepToolForExecute = new GrepTool(new String[]{"grep", IP_PATTERN, testData});
+		grepToolForExecute = new GrepTool(new String[]{"grep", IP_PATTERN, testDataFileName});
 		String correctResult = prop.getProperty("getOnlyMatchingLinesTestIP");
 		String result = grepToolForExecute.execute(Paths.get(".").toFile(), null);
 		assertEquals("The lines were not matched.", correctResult, result);
@@ -188,14 +188,14 @@ public class GrepToolTest {
 	
 	@Test
 	public void testExecuteArguments4() {
-		grepToolForExecute = new GrepTool(new String[]{"grep", "-c", IP_PATTERN, testData});
+		grepToolForExecute = new GrepTool(new String[]{"grep", "-c", IP_PATTERN, testDataFileName});
 		String result = grepToolForExecute.execute(Paths.get(".").toFile(), null);
 		assertEquals("Incorrect number of matched lines.", Integer.toString(3), result);
 	}
 	
 	@Test
 	public void testExecuteArguments5() {
-		grepToolForExecute = new GrepTool(new String[]{"grep", "-C", "1", IP_PATTERN, testData});
+		grepToolForExecute = new GrepTool(new String[]{"grep", "-C", "1", IP_PATTERN, testDataFileName});
 		String correctResult = prop.getProperty("getMatchingLinesWithOutputContextTestIP");
 		String result = grepToolForExecute.execute(Paths.get(".").toFile(), null);
 		assertEquals("The lines with output context were not matched.", correctResult, result);

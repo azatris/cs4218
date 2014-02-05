@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import sg.edu.nus.comp.cs4218.extended1.IGrepTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
 
 /**
  * Contains methods to call the grep command with
@@ -265,6 +266,10 @@ public class GrepTool extends ATool implements IGrepTool {
 
 	@Override
 	public String execute(File workingDir, String stdin) {
+		// using catTool to call the file reading method
+		CatTool catTool = new CatTool();
+		
+		
 		String returnable = null;
 		if (args.length == 5) {
 			String argument = args[1];
@@ -274,7 +279,7 @@ public class GrepTool extends ATool implements IGrepTool {
 			if (stdin != null) {
 				input = stdin;
 			} else {
-				input = args[4];	
+				input = catTool.getStringForFile(new File(args[4]));	
 			}
 			switch (argument) {
 			case "-A":
@@ -297,7 +302,7 @@ public class GrepTool extends ATool implements IGrepTool {
 			if (stdin != null) {
 				input = stdin;
 			} else {
-				input = args[3];	
+				input = catTool.getStringForFile(new File(args[3]));	
 			}
 			switch (argument) {
 			case "-c":
@@ -319,7 +324,7 @@ public class GrepTool extends ATool implements IGrepTool {
 			if (stdin != null) {
 				input = stdin;
 			} else {
-				input = args[2];	
+				input = catTool.getStringForFile(new File(args[2]));	
 			}
 			returnable = getOnlyMatchingLines(pattern, input);
 		} else if (args.length == 2) {
