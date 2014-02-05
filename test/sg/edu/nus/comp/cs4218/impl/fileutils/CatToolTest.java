@@ -21,22 +21,11 @@ public class CatToolTest {
 	private ICatTool catTool;
 	@Before
 	public void setUp() throws Exception {
-		catTool = new CatTool();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		catTool = null;
-	}
-	
-	//Testing String getStringForFile(File toRead)
-	@Test
-	public void getStringForEmptyFileTest() throws IOException {
-		File fileToRead = File.createTempFile("emptyfile", "cattmp");
-		assertTrue(fileToRead.exists());
-		assertEquals("",catTool.getStringForFile(fileToRead));
-		assertEquals(0, catTool.getStatusCode());
-		fileToRead.delete();
 	}
 	
 	public String writeRandomStringTo(File toWrite) throws IOException{
@@ -58,8 +47,20 @@ public class CatToolTest {
 		return str;
 	}
 	
+	//Testing String getStringForFile(File toRead)
+	@Test
+	public void getStringForEmptyFileTest() throws IOException {
+		catTool = new CatTool();
+		File fileToRead = File.createTempFile("emptyfile", "cattmp");
+		assertTrue(fileToRead.exists());
+		assertEquals("",catTool.getStringForFile(fileToRead));
+		assertEquals(0, catTool.getStatusCode());
+		fileToRead.delete();
+	}
+	
 	@Test
 	public void getStringForExistingFileTest() throws IOException {
+		catTool = new CatTool();
 		File fileToRead = File.createTempFile("random", "cattmp");
 		String str = writeRandomStringTo(fileToRead);
 		
@@ -70,6 +71,7 @@ public class CatToolTest {
 	
 	@Test
 	public void getStringForNonExistingFileTest() throws IOException {
+		catTool = new CatTool();
 		File fileNonExists = File.createTempFile("nonExists", "cattmp");
 		
 		assertTrue(fileNonExists.delete());
@@ -80,6 +82,7 @@ public class CatToolTest {
 	
 	@Test
 	public void getStringForExistingDirectoryTest() throws IOException {
+		catTool = new CatTool();
 		File dirExists = Files.createTempDirectory("cattmpfolder").toFile();
 
 		assertTrue(dirExists.exists());
@@ -91,6 +94,7 @@ public class CatToolTest {
 	
 	@Test
 	public void getStringForNonExistingDirectoryTest() throws IOException {
+		catTool = new CatTool();
 		File dirNonExists = Files.createTempDirectory("cattmpfolder").toFile();
 		dirNonExists.delete();
 		
@@ -101,8 +105,60 @@ public class CatToolTest {
 	
 	@Test
 	public void getStringForNullDirectoryTest() {
+		catTool = new CatTool();
 		assertTrue(catTool.getStringForFile(null) == null);
 		assertTrue(catTool.getStatusCode() != 0);
+	}
+	
+	/*Testing String execute(File workingDir, String stdin)*/
+	// Test "cat -"
+	@Test
+	public void catStdinTest() {
+
+	}
+	
+	@Test
+	public void catOneFileInCurDirTest() {
+
+	}
+	
+	// "./......"
+	@Test
+	public void catOneFileInCurDirWithDotInPathTest() {
+
+	}
+	
+	@Test
+	public void catMoreThanOneFilesInCurDirTest() {
+
+	}
+	
+	// "../../"
+	@Test
+	public void catTwoFilesInParentDirTest() {
+
+	}
+	
+	// "~/"
+	@Test
+	public void catTwoFilesInHomeDirTest() {
+
+	}
+	
+	// "/......"
+	@Test
+	public void catTwoFilesInChildDirTest() {
+
+	}
+	
+	@Test
+	public void catTwoFilesInAbsolutePathTest() {
+
+	}
+	
+	@Test
+	public void catNoArgumentTest() {
+
 	}
 
 }

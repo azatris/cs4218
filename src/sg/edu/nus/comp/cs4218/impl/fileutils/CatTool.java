@@ -1,9 +1,12 @@
 package sg.edu.nus.comp.cs4218.impl.fileutils;
 
+import java.util.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Stack;
 
 import sg.edu.nus.comp.cs4218.fileutils.ICatTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
@@ -12,6 +15,10 @@ public class CatTool extends ATool implements ICatTool {
 
 	public CatTool() {
 		super(null);
+	}
+	
+	public CatTool(String[] arguments) {
+		super(arguments);
 	}
 
 	@Override
@@ -52,14 +59,42 @@ public class CatTool extends ATool implements ICatTool {
 
 	@Override
 	public String execute(File workingDir, String stdin) {
-		// TODO Auto-generated method stub
 		StringBuilder stringBuilder = new StringBuilder();
-		if (args.length==0 && args[0]=="-")
+		if (args.length < 2){
+			return "Error: Not enough arguments\n";
+		}else if (args[1]=="-") // as long as args[1]="-", not considering the rest
 		{
 			return stdin;
 		}else{
-			for (int i=0; i<args.length; i++){
-			stringBuilder.append(getStringForFile(new File(workingDir+File.separator+args[i])));
+			for (int i=1; i<args.length; i++){
+				String separator = File.separator;
+				if(File.separator.equals("\\")){
+					separator =("\\\\");
+				}
+				
+				Stack<String> buildNewAbsDir = new Stack<String>();
+				buildNewAbsDir.addAll(Arrays.asList(workingDir.getAbsolutePath().split(separator)));
+				// The for loop works correctly if it loops from dir1 to dirN in the case "args[i]=dir1/dir2/.../dirN"
+				for(String str: Arrays.asList(args[i].split(separator))){
+					if (str != ""){
+						if (str == ".."){ // parent directory
+							buildNewAbsDir.pop();
+						}else if ((str == ".")){ // current directory
+						}else{ // child directory
+							buildNewAbsDir.push(str);
+						}
+					}
+				}
+				StringBuilder newWorkingDir = new StringBuilder();
+				for (int j=buildNewAbsDir.size()-1; j>=0; j--){
+					newWorkingDir.append(buildNewAbsDir.get(j));
+					newWorkingDir.append(File.separator);	
+				}
+				String strForFile = getStringForFile(new File(newWorkingDir.toString()));
+				if (strForFile == null){
+					strForFile = "cat: " + args[i] +": No such file or directory\n";
+				}
+				stringBuilder.append(strForFile);
 			}
 		}
 		return stringBuilder.toString();
