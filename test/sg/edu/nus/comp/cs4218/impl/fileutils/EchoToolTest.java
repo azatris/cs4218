@@ -12,7 +12,7 @@ public class EchoToolTest {
 	private IEchoTool echoTool;
 	@Before
 	public void setUp() throws Exception {
-		echoTool = new EchoTool();
+		
 	}
 
 	@After
@@ -23,6 +23,7 @@ public class EchoToolTest {
 	// Testing String echo(String toEcho)
 	@Test
 	public void echoStringTest() {
+		echoTool = new EchoTool(null);
 		String str= "echo testing echo testing echo testing echo testing \n echo testing echo testing \t\n";
 		assertEquals(str, echoTool.echo(str));
 		assertEquals(0, echoTool.getStatusCode());
@@ -30,12 +31,14 @@ public class EchoToolTest {
 	
 	@Test
 	public void echoEmptyStringTest() {
+		echoTool = new EchoTool(null);
 		assertEquals("", echoTool.echo(""));
 		assertEquals(0, echoTool.getStatusCode());
 	}
 	
 	@Test
 	public void echoNullTest() {
+		echoTool = new EchoTool(null);
 		assertNull(echoTool.echo(null));
 		assertTrue(echoTool.getStatusCode() != 0);
 	}

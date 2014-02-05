@@ -17,7 +17,7 @@ public class PWDToolTest {
 	
 	@Before
 	public void before(){
-		pwdtool = new PWDTool();
+		
 	}
 
     @After
@@ -27,6 +27,7 @@ public class PWDToolTest {
 	
 	@Test
 	public void getStringForDirectoryTest() throws IOException {
+		pwdtool = new PWDTool(null);
 		//Test expected behavior
 		//Create a tmp-file and get (existing) parent directory
 		String existsDirString = File.createTempFile("exists", "tmp").getParent();
@@ -39,6 +40,7 @@ public class PWDToolTest {
 
 	@Test
 	public void getStringForNonExistingDirectoryTest() throws IOException { 
+		pwdtool = new PWDTool(null);
 		//Test error-handling 1
 		//Reference non-existing file
 		File notExistsDir = new File("notexists");
@@ -49,6 +51,7 @@ public class PWDToolTest {
 
 	@Test
 	public void getStringForNullDirectoryTest() throws IOException { 
+		pwdtool = new PWDTool(null);
 		//Test error-handling 2
 		pwdtool.getStringForDirectory(null);
 		assertNotEquals(pwdtool.getStatusCode(), 0);

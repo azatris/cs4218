@@ -23,7 +23,7 @@ public class CopyToolTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		copyTool = new CopyTool();
+		
 	}
 
 	@After
@@ -67,6 +67,7 @@ public class CopyToolTest {
 	//Testing boolean copy(File from, File to)
 	@Test
 	public void copyFileToExistFileTest() throws IOException {
+		copyTool = new CopyTool(null);
 		File from = File.createTempFile("from","copytmp");
 		File to = File.createTempFile("tofile","copytmp");
 		String fromStr = writeRandomStringTo(from);
@@ -85,6 +86,7 @@ public class CopyToolTest {
 	
 	@Test
 	public void copyFileToNonExistFileTest() throws IOException {
+		copyTool = new CopyTool(null);
 		File from = File.createTempFile("from","copytmp");
 		String fromStr = writeRandomStringTo(from);
 		File to = File.createTempFile("tofile","copytmp");
@@ -102,6 +104,7 @@ public class CopyToolTest {
 	
 	@Test
 	public void copyFileToExistDirTest() throws IOException {
+		copyTool = new CopyTool(null);
 		File from = File.createTempFile("from","copytmp");
 		File to = Files.createTempDirectory("tocopytmp").toFile();
 		String fromStr = writeRandomStringTo(from);
@@ -119,6 +122,7 @@ public class CopyToolTest {
 	
 	@Test
 	public void copyFileToNonExistDirTest() throws IOException {
+		copyTool = new CopyTool(null);
 		File from = File.createTempFile("from","copytmp");
 		String fromStr = writeRandomStringTo(from);
 		File to = Files.createTempDirectory("tononexistcopytmp").toFile();
@@ -136,6 +140,7 @@ public class CopyToolTest {
 	
 	@Test
 	public void copyFileToNullDirTest() throws IOException {
+		copyTool = new CopyTool(null);
 		File from = File.createTempFile("from","copytmp");
 		writeRandomStringTo(from);
 
@@ -148,6 +153,7 @@ public class CopyToolTest {
 	
 	@Test
 	public void copyNonExistFileTest() throws IOException {
+		copyTool = new CopyTool(null);
 		File from = File.createTempFile("from","copytmp");
 		File to = File.createTempFile("tofile","copytmp");
 		writeRandomStringTo(from);
@@ -164,6 +170,7 @@ public class CopyToolTest {
 	
 	@Test
 	public void copyExistDirTest() throws IOException {
+		copyTool = new CopyTool(null);
 		File from = Files.createTempDirectory("fromFoldercopytmp").toFile();
 		File to = File.createTempFile("tofile","copytmp");
 		writeRandomStringTo(to);
@@ -179,6 +186,7 @@ public class CopyToolTest {
 	
 	@Test
 	public void copyNonExistDirTest() throws IOException {
+		copyTool = new CopyTool(null);
 		File from = Files.createTempDirectory("fromFoldercopytmp").toFile();
 		File to = File.createTempFile("tofile","copytmp");
 		writeRandomStringTo(to);
@@ -194,6 +202,7 @@ public class CopyToolTest {
 	
 	@Test
 	public void copyNullTest() {
+		copyTool = new CopyTool(null);
 		assertFalse(copyTool.copy(null, null));
 		assertTrue(copyTool.getStatusCode()!=0);
 	}
