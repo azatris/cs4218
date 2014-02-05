@@ -157,17 +157,31 @@ public class GrepToolTest {
 	}
 	
 	@Test
-	public void testExecuteArguments0() {
+	public void testExecuteArguments0ReturnsNull() {
 		grepToolForExecute = new GrepTool(new String[]{});
 		String result = grepToolForExecute.execute(Paths.get(".").toFile(), null);
 		assertNull("Execution runtime should never reach this point", result);
 	}
 	
 	@Test
-	public void testExecuteArguments1() {
+	public void testExecuteArguments0StatusCode() {
+		grepToolForExecute = new GrepTool(new String[]{});
+		grepToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
+	}
+	
+	@Test
+	public void testExecuteArguments1ReturnsNull() {
 		grepToolForExecute = new GrepTool(new String[]{"grep"});
 		String result = grepToolForExecute.execute(Paths.get(".").toFile(), null);
 		assertNull("Grep must have at least 1 argument", result);
+	}
+	
+	@Test
+	public void testExecuteArguments1StatusCode() {
+		grepToolForExecute = new GrepTool(new String[]{"grep"});
+		grepToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
 	}
 
 	@Test
@@ -202,10 +216,39 @@ public class GrepToolTest {
 	}
 	
 	@Test
+	public void testExecuteArgumentsMoreThan5StatusCode() {
+		grepToolForExecute = new GrepTool(new String[]{
+				"grep", "-C", "4", IP_PATTERN, testDataFileName, "dummyArgument"});
+		grepToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
+	}
+	
+	@Test
 	public void testExecuteWithStdin() {
 		grepToolForExecute = new GrepTool(new String[]{"grep", IP_PATTERN, "-"});
 		String correctResult = prop.getProperty("getOnlyMatchingLinesTestIP");
 		String result = grepToolForExecute.execute(Paths.get(".").toFile(), testData);
 		assertEquals("The lines were not matched.", correctResult, result);
+	}
+	
+	@Test
+	public void testExecuteWithStdinWithTooManyArguments() {
+		grepToolForExecute = new GrepTool(new String[]{"grep", IP_PATTERN, "-", "dummyArgument"});
+		grepToolForExecute.execute(Paths.get(".").toFile(), testData);
+		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
+	}
+	
+	@Test
+	public void testExecuteWithIncorrectTool() {
+		grepToolForExecute = new GrepTool(new String[]{"cat", IP_PATTERN, testDataFileName});
+		grepToolForExecute.execute(Paths.get(".").toFile(), testData);
+		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
+	}
+	
+	@Test
+	public void testExecuteWithInvalidTool() {
+		grepToolForExecute = new GrepTool(new String[]{"dog", IP_PATTERN, testDataFileName});
+		grepToolForExecute.execute(Paths.get(".").toFile(), testData);
+		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
 	}
 }
