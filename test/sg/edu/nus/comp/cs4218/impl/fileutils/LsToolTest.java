@@ -15,8 +15,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import sg.edu.nus.comp.cs4218.impl.extended1.GrepTool;
+
 public class LsToolTest {
 	private transient LsTool lsTool;
+	private LsTool lsToolForExecute;
 	final private static String PARENTFOLDER = "tempParentFolder";
 	final private static String CHILDFOLDER = "tempChildFolder";
 	final private static String FILE = "tempFile.txt";
@@ -62,4 +65,47 @@ public class LsToolTest {
 				stringForFiles.contains(CHILDFOLDER + File.separator) &&
 				stringForFiles.contains(FILE));
 	}
+	
+	@Test
+	public void testExecuteWithStdIn() {
+		lsToolForExecute = new LsTool(new String[]{"ls", "-"});
+		lsToolForExecute.execute(Paths.get(".").toFile(), "dummy Data");
+		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
+	}
+	
+	@Test
+	public void testExecuteArguments0ReturnsNull() {
+		
+	}
+	
+	@Test
+	public void testExecuteArguments0StatusCode() {
+		
+	}
+	
+	@Test
+	public void testExecuteArguments1() {
+		
+	}
+	
+	@Test
+	public void testExecuteArguments2() {
+		
+	}
+	
+	@Test
+	public void testExecuteArgumentsMoreThan2() {
+		
+	}
+	
+	@Test
+	public void testExecuteWithIncorrectTool() {
+
+	}
+	
+	@Test
+	public void testExecuteWithInvalidTool() {
+
+	}
+	
 }
