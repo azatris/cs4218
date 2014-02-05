@@ -51,8 +51,9 @@ public class CatToolTest {
 	//Testing String getStringForFile(File toRead)
 	@Test
 	public void getStringForEmptyFileTest() throws IOException {
-		catTool = new CatTool(null);
 		File fileToRead = File.createTempFile("emptyfile", "cattmp");
+		String[] args = {"cat", fileToRead.getName()};
+		catTool = new CatTool(args);
 		assertTrue(fileToRead.exists());
 		assertEquals("",catTool.getStringForFile(fileToRead));
 		assertEquals(0, catTool.getStatusCode());
@@ -61,8 +62,9 @@ public class CatToolTest {
 	
 	@Test
 	public void getStringForExistingFileTest() throws IOException {
-		catTool = new CatTool(null);
 		File fileToRead = File.createTempFile("random", "cattmp");
+		String[] args = {"cat", fileToRead.getName()};
+		catTool = new CatTool(args);
 		String str = writeRandomStringTo(fileToRead);
 		
 		assertEquals(str,catTool.getStringForFile(fileToRead));
@@ -72,8 +74,9 @@ public class CatToolTest {
 	
 	@Test
 	public void getStringForNonExistingFileTest() throws IOException {
-		catTool = new CatTool(null);
 		File fileNonExists = File.createTempFile("nonExists", "cattmp");
+		String[] args = {"cat", fileNonExists.getName()};
+		catTool = new CatTool(args);
 		
 		assertTrue(fileNonExists.delete());
 		assertFalse(fileNonExists.exists());
@@ -83,8 +86,9 @@ public class CatToolTest {
 	
 	@Test
 	public void getStringForExistingDirectoryTest() throws IOException {
-		catTool = new CatTool(null);
 		File dirExists = Files.createTempDirectory("cattmpfolder").toFile();
+		String[] args = {"cat", dirExists.getName()};
+		catTool = new CatTool(args);
 
 		assertTrue(dirExists.exists());
 		assertNull(catTool.getStringForFile(dirExists));
@@ -95,8 +99,9 @@ public class CatToolTest {
 	
 	@Test
 	public void getStringForNonExistingDirectoryTest() throws IOException {
-		catTool = new CatTool(null);
 		File dirNonExists = Files.createTempDirectory("cattmpfolder").toFile();
+		String[] args = {"cat", dirNonExists.getName()};
+		catTool = new CatTool(args);
 		dirNonExists.delete();
 		
 		assertFalse(dirNonExists.exists());
@@ -106,7 +111,8 @@ public class CatToolTest {
 	
 	@Test
 	public void getStringForNullDirectoryTest() {
-		catTool = new CatTool(null);
+		String[] args = {"cat", null};
+		catTool = new CatTool(args);
 		assertTrue(catTool.getStringForFile(null) == null);
 		assertTrue(catTool.getStatusCode() != 0);
 	}
@@ -186,9 +192,9 @@ public class CatToolTest {
 		fileToRead3.delete();
 	}
 	
-	// Test cat Two file in parent directory "cat ../file1"
+	// Test cat file in parent directory "cat ../file1"
 	@Test
-	public void catTwoFilesInParentDirTest() {
+	public void catFileInParentDirTest() {
 		String dummyFileName = "file1.txt";
 		String[] args = {"cat", "../" + dummyFileName};
 		catTool = new CatTool(args);
@@ -206,8 +212,21 @@ public class CatToolTest {
 	
 	// Test cat files in Home Dir: Should fail, since we only consider relative directory
 	@Test
-	public void catTwoFilesInHomeDirTest() {
-		
+	public void catFileInHomeDirTest() {
+		String dummyFileName = "file1.txt";
+		String[] args = {"cat", "~/" + dummyFileName};
+		catTool = new CatTool(args);
+		File fileToRead = new File(System.getProperty("user.home") + "/" + dummyFileName);
+		System.out.println(System.getProperty("user.home") + "/" + dummyFileName);
+		try {
+			String str = writeRandomStringTo(fileToRead);
+			String result = catTool.execute(workingDirectory, null);
+			assertTrue(result.equals(str));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fileToRead.delete();
 	}
 	
 	// Test cat Two file in child directory "cat folder/file1"
@@ -216,16 +235,13 @@ public class CatToolTest {
 		
 	}
 	
-	// Test cat Two file in absolute path "cat /folder/file1": Should fail, since we only consider relative directory
-	@Test
-	public void catTwoFilesInAbsolutePathTest() {
-
-	}
-	
 	// Test cat no arguments "cat"
 	@Test
 	public void catNoArgumentTest() {
-		
+		String[] args = {"cat"};
+		catTool = new CatTool(args);
+		catTool.execute(workingDirectory, null);
+		assertTrue(catTool.getStatusCode() != 0);
 	}
 
 }

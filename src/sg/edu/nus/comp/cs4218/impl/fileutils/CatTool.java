@@ -91,6 +91,7 @@ public class CatTool extends ATool implements ICatTool {
 	public String execute(File workingDir, String stdin) {
 		StringBuilder stringBuilder = new StringBuilder();
 		if (args.length < 2){
+			setStatusCode(1);
 			return "Error: Not enough arguments\n";
 		}else if (args[1]=="-") // as long as args[1]="-", not considering the rest
 		{
