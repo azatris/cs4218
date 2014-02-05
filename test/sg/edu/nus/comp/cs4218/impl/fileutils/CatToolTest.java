@@ -225,7 +225,7 @@ public class CatToolTest {
 	// Test cat no arguments "cat"
 	@Test
 	public void catNoArgumentTest() {
-
+		
 	}
 
 }
