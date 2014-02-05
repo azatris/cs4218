@@ -17,7 +17,9 @@ public class CopyTool extends ATool implements ICopyTool {
 	}
 
 	@Override
-	public boolean copy(File from, File to) {
+	public boolean copy(File fromFile, File toFile) {
+		File from = fromFile;
+		File to = toFile;
 		if (from!=null && from.isFile()){
 			if (to == null){
 				setStatusCode(1);
