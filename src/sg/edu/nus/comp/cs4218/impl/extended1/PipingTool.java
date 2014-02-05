@@ -9,20 +9,20 @@ public class PipingTool implements IPipingTool {
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
 	private static final int TWO = 2;
-	ITool[] argsuments;
+	ITool[] arguments;
 	File workingDir;
 	int statuscode=ZERO;
 	public PipingTool(ITool[] arguments){
-		this.argsuments = arguments;
+		this.arguments = arguments;
 		workingDir=getWorkingdir();
 	}
 
 	@Override
 	public String execute(File workingDir, String stdin) {
-		String result = pipe(argsuments[ZERO], argsuments[ONE]);
+		String result = pipe(arguments[ZERO], arguments[ONE]);
 
-		for(int loopValue=TWO; loopValue<argsuments.length && statuscode==ZERO; loopValue++){
-			result = pipe(result, argsuments[loopValue]);
+		for(int loopValue=TWO; loopValue<arguments.length && statuscode==ZERO; loopValue++){
+			result = pipe(result, arguments[loopValue]);
 		}
 		return result;
 	}
@@ -77,11 +77,11 @@ public class PipingTool implements IPipingTool {
 	@Override
 	public boolean equals(Object object){
 		PipingTool pipe =(PipingTool) object;
-		if(argsuments.length!=pipe.argsuments.length){
+		if(arguments.length!=pipe.arguments.length){
 			return false;
 		}
-		for (int i = 0; i < argsuments.length; i++) {
-			if(!argsuments[i].equals(pipe.argsuments[i])){
+		for (int i = 0; i < arguments.length; i++) {
+			if(!arguments[i].equals(pipe.arguments[i])){
 				return false;
 			}
 		}
