@@ -24,8 +24,7 @@ public class CdToolTest {
 		cdTool = null;
 	}
 
-	// Testing File changeDirectory(String newDirectory)
-	
+	/* Testing File changeDirectory(String newDirectory)*/
 	@Test
 	public void changeToEmptyStringTest(){
 		cdTool = new CdTool(null);

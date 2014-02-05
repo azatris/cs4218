@@ -22,6 +22,8 @@ public class CdTool extends ATool implements ICdTool {
 		if (newDirectory != null){
 			File newDir = new File(newDirectory);
 			if (newDir.isDirectory()){
+				// set status code to 55 meaning change directory
+				setStatusCode(55);
 				return newDir;
 			}
 		}
@@ -63,33 +65,22 @@ public class CdTool extends ATool implements ICdTool {
 	
 	@Override
 	public String execute(File workingDir, String stdin) {
-		if (args.length==0){
-			changeDirectory(System.getProperty( "user.home" ));
-			return "";
-		}else if(args.length == 1){
-			StringBuilder stringBuilder = new StringBuilder();
-			//List<String> newDir = Arrays.asList(workingDir.getAbsolutePath().split(File.separator));
-			for(String dir: args[0].split(File.separator)){
-				if(dir == "~"){
-					//stringBuilder.delete(0, stringBuilder.length());
-					stringBuilder.append(System.getProperty("user.home"));
-					break;
-				}else if(dir == ".."){
-					stringBuilder.append(workingDir.getAbsolutePath());
-					stringBuilder.delete(stringBuilder.lastIndexOf(File.separator), stringBuilder.length());
-				}else if(dir == "."){
-					
-				}else{
-					stringBuilder.append(File.separator);
-					stringBuilder.append(dir);
-				}
+		if (args.length==1){
+			File newDir = changeDirectory(System.getProperty( "user.home" ));
+			if (newDir != null){
+				return newDir.getAbsolutePath();
 			}
-			changeDirectory(stringBuilder.toString());
-			return "";
+			return null;
+		}else if(args.length >= 2){
+			File newDir = changeDirectory(concatenateDirectory(workingDir.getAbsolutePath(), args[1]));
+			if (newDir != null){
+				return newDir.getAbsolutePath();
+			}
+			return null;
 		}else
 		{
 			setStatusCode(1);
-			return "Error: Should have one directory";
+			return "cd: No command";
 		}
 	}
 }

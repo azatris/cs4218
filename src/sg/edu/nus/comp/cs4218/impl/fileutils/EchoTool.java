@@ -28,12 +28,15 @@ public class EchoTool extends ATool implements IEchoTool {
 
 	@Override
 	public String execute(File workingDir, String stdin) {
-		if (args.length == 0){
+		if (args.length == 1){
 			return echo(System.getProperty("line.separator"));
 		}else{
 			StringBuilder stringBuilder = new StringBuilder();
-			for (int i=0; i<args.length; i++){
+			for (int i=1; i<args.length; i++){
 				stringBuilder.append(echo(args[i]));
+				if (i != args.length-1){
+					stringBuilder.append(" ");
+				}
 			}
 			return stringBuilder.toString();
 		}

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.Stack;
 
 import sg.edu.nus.comp.cs4218.fileutils.IMoveTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
@@ -31,7 +33,6 @@ public class MoveTool extends ATool implements IMoveTool {
 			try {
 				to.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -41,18 +42,50 @@ public class MoveTool extends ATool implements IMoveTool {
 		try {
 			Files.move(from.toPath(), to.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setStatusCode(0);
 		return true;
 	}
+	
+	public String concatenateDirectory(String curAbsDir, String newRelDir){
+		String separator = File.separator;
+		if(File.separator.equals("\\")){
+			separator =("\\\\");
+		}
 
+		Stack<String> buildNewAbsDir = new Stack<String>();
+		buildNewAbsDir.addAll(Arrays.asList(curAbsDir.split(separator)));
+		
+		for(String str: Arrays.asList(newRelDir.split(separator))){
+			if (!str.equals("")){
+				if (str.equals("..")){ // parent directory
+					buildNewAbsDir.pop();
+				}else if ((str.equals("."))){ // current directory
+				}else{ // child directory
+					buildNewAbsDir.push(str);
+				}
+			}
+		}
+		StringBuilder newWorkingDir = new StringBuilder();
+		newWorkingDir.append(File.separator);
+		for (int i = 0; i<buildNewAbsDir.size(); i++){
+			newWorkingDir.append(buildNewAbsDir.get(i));
+			if ( i != 0 ){
+				newWorkingDir.append(File.separator);
+			}		
+		}
+		System.out.println(newWorkingDir.toString());
+		return newWorkingDir.toString();
+	}
+	
 	@Override
 	public String execute(File workingDir, String stdin) {
-		// TODO Auto-generated method stub
 		if (args.length==2) {
-			if (move(new File(workingDir+File.separator+args[0]), new File(workingDir+File.separator+args[1]))){
+			boolean result = move(
+					new File(concatenateDirectory(workingDir.getAbsolutePath(), args[1])), 
+					new File(concatenateDirectory(workingDir.getAbsolutePath(), args[2])));
+			if (result){
 				return null;
 			}else{
 				return "Error: Cannot move file.";

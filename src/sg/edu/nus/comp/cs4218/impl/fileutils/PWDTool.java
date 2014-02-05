@@ -28,7 +28,13 @@ public class PWDTool extends ATool implements IPwdTool{
 
 	@Override
 	public String execute(File workingDir, String stdin) {
-		return getStringForDirectory(workingDir);
+		if (args.length == 1){
+			return getStringForDirectory(workingDir);
+		}else{
+			setStatusCode(1);
+			return "Error: PWD command wrong";
+		}
+		
 	}
 
 

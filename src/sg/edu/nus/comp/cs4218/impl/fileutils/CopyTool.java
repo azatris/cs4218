@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Stack;
 
 import sg.edu.nus.comp.cs4218.fileutils.ICopyTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
@@ -87,12 +89,44 @@ public class CopyTool extends ATool implements ICopyTool {
 			return false;
 		}
 	}
+	
+	public String concatenateDirectory(String curAbsDir, String newRelDir){
+		String separator = File.separator;
+		if(File.separator.equals("\\")){
+			separator =("\\\\");
+		}
 
+		Stack<String> buildNewAbsDir = new Stack<String>();
+		buildNewAbsDir.addAll(Arrays.asList(curAbsDir.split(separator)));
+		
+		for(String str: Arrays.asList(newRelDir.split(separator))){
+			if (!str.equals("")){
+				if (str.equals("..")){ // parent directory
+					buildNewAbsDir.pop();
+				}else if ((str.equals("."))){ // current directory
+				}else{ // child directory
+					buildNewAbsDir.push(str);
+				}
+			}
+		}
+		StringBuilder newWorkingDir = new StringBuilder();
+		newWorkingDir.append(File.separator);
+		for (int i = 0; i<buildNewAbsDir.size(); i++){
+			newWorkingDir.append(buildNewAbsDir.get(i));
+			if ( i != 0 ){
+				newWorkingDir.append(File.separator);
+			}		
+		}
+		System.out.println(newWorkingDir.toString());
+		return newWorkingDir.toString();
+	}
+	
 	@Override
 	public String execute(File workingDir, String stdin) {
-		// TODO Auto-generated method stub
-		if (args.length == 2 && stdin==""){
-			copy(new File(workingDir+File.separator+args[0]), new File(workingDir+File.separator+args[1]));
+		if (args.length == 3){
+			copy(
+					new File(concatenateDirectory(workingDir.getAbsolutePath(), args[1])), 
+					new File(concatenateDirectory(workingDir.getAbsolutePath(), args[2])));
 			return "";
 		}else{
 			setStatusCode(1);
