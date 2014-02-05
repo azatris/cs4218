@@ -154,7 +154,7 @@ public class Shell implements IShell {
                         newCommand = new MoveTool(arguments);
                         break;
                 case "pwd":
-                        newCommand = new PWDTool();
+                        newCommand = new PWDTool(arguments);
                         break;
                 case "Parsing failed":
                         newCommand = null;

@@ -7,8 +7,8 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class EchoTool extends ATool implements IEchoTool {
 
-	public EchoTool() {
-		super(null);
+	public EchoTool(String[] arguments) {
+		super(arguments);
 	}
 
 	@Override

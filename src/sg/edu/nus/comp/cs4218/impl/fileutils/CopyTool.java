@@ -12,8 +12,8 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class CopyTool extends ATool implements ICopyTool {
 
-	public CopyTool() {
-		super(null);
+	public CopyTool(String[] arguments) {
+		super(arguments);
 	}
 
 	@Override

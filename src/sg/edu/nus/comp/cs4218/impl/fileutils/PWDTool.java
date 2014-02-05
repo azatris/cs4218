@@ -7,8 +7,8 @@ import sg.edu.nus.comp.cs4218.fileutils.IPwdTool;
 
 
 public class PWDTool extends ATool implements IPwdTool{
-	public PWDTool() {
-		super(null);
+	public PWDTool(String[] arguments) {
+		super(arguments);
 	}
 
 	@Override

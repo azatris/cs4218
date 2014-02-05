@@ -7,8 +7,8 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class DeleteTool extends ATool implements IDeleteTool {
 
-	public DeleteTool() {
-		super(null);
+	public DeleteTool(String[] arguments) {
+		super(arguments);
 	}
 
 	@Override

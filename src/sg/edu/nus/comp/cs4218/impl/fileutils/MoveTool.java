@@ -10,8 +10,8 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class MoveTool extends ATool implements IMoveTool {
 
-	public MoveTool() {
-		super(null);
+	public MoveTool(String[] arguments) {
+		super(arguments);
 	}
 
 	@Override
