@@ -66,22 +66,24 @@ public class CatTool extends ATool implements ICatTool {
 		buildNewAbsDir.addAll(Arrays.asList(curAbsDir.split(separator)));
 		
 		for(String str: Arrays.asList(newRelDir.split(separator))){
-			if (str != ""){
-				if (str == ".."){ // parent directory
+			if (!str.equals("")){
+				if (str.equals("..")){ // parent directory
 					buildNewAbsDir.pop();
-				}else if ((str == ".")){ // current directory
+				}else if ((str.equals("."))){ // current directory
 				}else{ // child directory
 					buildNewAbsDir.push(str);
 				}
 			}
 		}
 		StringBuilder newWorkingDir = new StringBuilder();
-		for (int i=buildNewAbsDir.size()-1; i>=0; i--){
+		newWorkingDir.append(File.separator);
+		for (int i = 0; i<buildNewAbsDir.size(); i++){
 			newWorkingDir.append(buildNewAbsDir.get(i));
 			if ( i != 0 ){
 				newWorkingDir.append(File.separator);
 			}		
 		}
+		System.out.println(newWorkingDir.toString());
 		return newWorkingDir.toString();
 	}
 	
@@ -96,7 +98,7 @@ public class CatTool extends ATool implements ICatTool {
 		}else{
 			for (int i=1; i<args.length; i++){
 				String strForFile = getStringForFile(new File(concatenateDirectory(workingDir.getAbsolutePath(), args[i])));
-				if (strForFile == null){
+				if (strForFile == null){ 
 					strForFile = "cat: " + args[i] +": No such file or directory\n";
 				}
 				stringBuilder.append(strForFile);
@@ -106,3 +108,4 @@ public class CatTool extends ATool implements ICatTool {
 	}
 
 }
+
