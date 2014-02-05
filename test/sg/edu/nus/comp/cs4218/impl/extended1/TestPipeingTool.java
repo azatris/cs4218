@@ -1,4 +1,4 @@
-package sg.ecu.nus.comp.cs4218.impl.extended1;
+package sg.edu.nus.comp.cs4218.impl.extended1;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,7 +20,7 @@ import sg.edu.nus.comp.cs4218.impl.Shell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.EchoTool;
-import sg.edu.nus.comp.cs4218.impl.fileutils.GrepTool;
+import sg.edu.nus.comp.cs4218.impl.extended1.GrepTool;
 
 public class TestPipeingTool {
 

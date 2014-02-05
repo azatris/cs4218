@@ -117,45 +117,49 @@ public class CatToolTest {
 
 	}
 	
+	// Test cat one file in current directory "cat file1"
 	@Test
 	public void catOneFileInCurDirTest() {
 
 	}
 	
-	// "./......"
+	// Test cat one file in current directory but with dot "cat ./file1"
 	@Test
 	public void catOneFileInCurDirWithDotInPathTest() {
 
 	}
 	
+	// Test cat more than one (maybe three) file in current directory but with dot "cat file1 file2 file3"
 	@Test
 	public void catMoreThanOneFilesInCurDirTest() {
 
 	}
 	
-	// "../../"
+	// Test cat Two file in parent directory "cat ../file1"
 	@Test
 	public void catTwoFilesInParentDirTest() {
 
 	}
 	
-	// "~/"
+	// Test cat files in Home Dir: Should fail, since we only consider relative directory
 	@Test
 	public void catTwoFilesInHomeDirTest() {
 
 	}
 	
-	// "/......"
+	// Test cat Two file in child directory "cat folder/file1"
 	@Test
 	public void catTwoFilesInChildDirTest() {
 
 	}
 	
+	// Test cat Two file in absolute path "cat /folder/file1": Should fail, since we only consider relative directory
 	@Test
 	public void catTwoFilesInAbsolutePathTest() {
 
 	}
 	
+	// Test cat no arguments "cat"
 	@Test
 	public void catNoArgumentTest() {
 

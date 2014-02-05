@@ -1,4 +1,4 @@
-package sg.edu.nus.com.cs4218.impl;
+package sg.edu.nus.comp.cs4218.impl;
 
 import java.util.Properties;
 

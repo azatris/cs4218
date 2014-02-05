@@ -15,7 +15,11 @@ public class CopyTool extends ATool implements ICopyTool {
 	public CopyTool(String[] arguments) {
 		super(arguments);
 	}
-
+	
+	public CopyTool(String[] arguments) {
+		super(arguments);
+	}
+	
 	@Override
 	public boolean copy(File fromFile, File toFile) {
 		File from = fromFile;

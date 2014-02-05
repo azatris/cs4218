@@ -10,7 +10,11 @@ public class EchoTool extends ATool implements IEchoTool {
 	public EchoTool(String[] arguments) {
 		super(arguments);
 	}
-
+	
+	public EchoTool(String[] arguments) {
+		super(arguments);
+	}
+	
 	@Override
 	public String echo(String toEcho) {
 		if (toEcho==null){
