@@ -215,7 +215,9 @@ public class Shell implements IShell {
                 do{
                         try {
                                 commandLine = input.readLine(); //Get the command line
-                                if(commandLine.equalsIgnoreCase("ctrl-z")){
+                                if(commandLine.equalsIgnoreCase("ctrl-z")||
+                                		commandLine.equalsIgnoreCase("ctrl z")||
+                                		commandLine.equalsIgnoreCase("ctrlz")){
                                 		out.println("Stopping the running thread");
                                         shell.stop(executingThread); //stop the execution when it reads ctrl-z
                                 }
