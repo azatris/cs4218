@@ -10,12 +10,8 @@ import java.util.Stack;
 import sg.edu.nus.comp.cs4218.fileutils.ICatTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
-<<<<<<< HEAD
-public class CatTool extends ATool implements ICatTool {
-
-=======
 public class CatTool extends ATool implements ICatTool {	
->>>>>>> 5d815614ebb46cecb0e977b88a236b8113c1a274
+
 	public CatTool(String[] arguments) {
 		super(arguments);
 		if (args.length == 0 || !args[0].equals("cat")) {
