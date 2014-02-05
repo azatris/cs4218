@@ -14,6 +14,10 @@ public class CopyTool extends ATool implements ICopyTool {
 
 	public CopyTool(String[] arguments) {
 		super(arguments);
+		if (args.length == 0 || !args[0].equals("cp")) {
+			setStatusCode(127);
+			
+		}
 	}
 	
 	@Override

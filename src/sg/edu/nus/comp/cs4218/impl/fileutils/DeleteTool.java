@@ -9,6 +9,10 @@ public class DeleteTool extends ATool implements IDeleteTool {
 
 	public DeleteTool(String[] arguments) {
 		super(arguments);
+		if (args.length == 0 || !args[0].equals("rm")) {
+			setStatusCode(127);
+			
+		}
 	}
 	
 	@Override

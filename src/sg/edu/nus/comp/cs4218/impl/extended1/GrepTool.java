@@ -271,7 +271,7 @@ public class GrepTool extends ATool implements IGrepTool {
 	@Override
 	public String execute(File workingDir, String stdin) {
 		// using catTool to call the file reading method
-		CatTool catTool = new CatTool();
+		CatTool catTool = new CatTool(new String[]{"cat"});
 		
 		
 		String returnable = null;

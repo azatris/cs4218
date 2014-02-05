@@ -11,6 +11,10 @@ public class CdTool extends ATool implements ICdTool {
 
 	public CdTool(String[] arguments) {
 		super(arguments);
+		if (args.length == 0 || !args[0].equals("cd")) {
+			setStatusCode(127);
+			
+		}
 	}
 	
 	@Override
