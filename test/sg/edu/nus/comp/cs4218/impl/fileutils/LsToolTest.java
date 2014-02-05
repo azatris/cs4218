@@ -15,8 +15,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import sg.edu.nus.comp.cs4218.impl.extended1.GrepTool;
-
 public class LsToolTest {
 	private transient LsTool lsTool;
 	private LsTool lsToolForExecute;

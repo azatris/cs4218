@@ -127,7 +127,7 @@ public class CopyTool extends ATool implements ICopyTool {
 			copy(
 					new File(concatenateDirectory(workingDir.getAbsolutePath(), args[1])), 
 					new File(concatenateDirectory(workingDir.getAbsolutePath(), args[2])));
-			return "";
+			return null;
 		}else{
 			setStatusCode(1);
 			return "Error: Should have two directory";
