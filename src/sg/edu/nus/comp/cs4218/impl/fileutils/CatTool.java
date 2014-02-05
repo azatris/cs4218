@@ -12,10 +12,6 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class CatTool extends ATool implements ICatTool {
 
-	public CatTool() {
-		super(null);
-	}
-	
 	public CatTool(String[] arguments) {
 		super(arguments);
 	}
