@@ -1,4 +1,4 @@
-package sg.edu.nus.comp.cs4218.impl.fileutils;
+package sg.edu.nus.comp.cs4218.impl.extended1;
 
 import java.io.File;
 import java.io.FileInputStream;
