@@ -9,12 +9,12 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class LsTool extends ATool implements ILsTool {
 
-	public LsTool(String[] args) {
-		super(args);
-	}
-	
-	public LsTool() {
-		super(null);
+	public LsTool(String[] arguments) {
+		super(arguments);
+		if (args.length == 0 || !args[0].equals("ls")) {
+			setStatusCode(127);
+			
+		}
 	}
 	
 	/**

@@ -22,6 +22,10 @@ public class GrepTool extends ATool implements IGrepTool {
 
 	public GrepTool(String[] arguments) {
 		super(arguments);
+		if (args.length == 0 || !args[0].equals("grep")) {
+			setStatusCode(127);
+			
+		}
 	}
 
 	/**
@@ -267,7 +271,7 @@ public class GrepTool extends ATool implements IGrepTool {
 	@Override
 	public String execute(File workingDir, String stdin) {
 		// using catTool to call the file reading method
-		CatTool catTool = new CatTool();
+		CatTool catTool = new CatTool(new String[]{"cat"});
 		
 		
 		String returnable = null;
@@ -282,18 +286,18 @@ public class GrepTool extends ATool implements IGrepTool {
 				input = catTool.getStringForFile(new File(args[4]));	
 			}
 			switch (argument) {
-			case "-A":
-				returnable = getMatchingLinesWithTrailingContext(num, pattern, input);
-				break;
-			case "-B":
-				returnable = getMatchingLinesWithLeadingContext(num, pattern, input);
-				break;
-			case "-C":
-				returnable = getMatchingLinesWithOutputContext(num, pattern, input);
-				break;
-			default:
-				setStatusCode(127);
-				break;
+				case "-A":
+					returnable = getMatchingLinesWithTrailingContext(num, pattern, input);
+					break;
+				case "-B":
+					returnable = getMatchingLinesWithLeadingContext(num, pattern, input);
+					break;
+				case "-C":
+					returnable = getMatchingLinesWithOutputContext(num, pattern, input);
+					break;
+				default:
+					setStatusCode(127);
+					break;
 			}
 		} else if (args.length == 4) {
 			String argument = args[1];
@@ -305,18 +309,18 @@ public class GrepTool extends ATool implements IGrepTool {
 				input = catTool.getStringForFile(new File(args[3]));	
 			}
 			switch (argument) {
-			case "-c":
-				returnable = Integer.toString(getCountOfMatchingLines(pattern, input));
-				break;
-			case "-o":
-				returnable = getMatchingLinesOnlyMatchingPart(pattern, input);
-				break;
-			case "-v":
-				returnable = getNonMatchingLines(pattern, input);
-				break;
-			default:
-				setStatusCode(127);
-				break;
+				case "-c":
+					returnable = Integer.toString(getCountOfMatchingLines(pattern, input));
+					break;
+				case "-o":
+					returnable = getMatchingLinesOnlyMatchingPart(pattern, input);
+					break;
+				case "-v":
+					returnable = getNonMatchingLines(pattern, input);
+					break;
+				default:
+					setStatusCode(127);
+					break;
 			}
 		} else if (args.length == 3) {
 			String pattern = args[1];

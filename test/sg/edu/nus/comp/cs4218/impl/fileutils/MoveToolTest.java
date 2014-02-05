@@ -23,7 +23,7 @@ public class MoveToolTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		moveTool = new MoveTool();
+		
 	}
 
 	@After
@@ -71,6 +71,7 @@ public class MoveToolTest {
 	//Testing boolean move(File from, File to)
 	@Test
 	public void renameFileToExistFileTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File from = File.createTempFile("from","movetmp");
 //		System.out.println(from.getParent());
 		File to = Files.createTempFile(
@@ -94,6 +95,7 @@ public class MoveToolTest {
 	}
 	
 	public void renameFileToNonExistFileTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File from = File.createTempFile("from","movetmp");
 		File to = File.createTempFile("to","movetmp", new File(from.getParent()));
 		String fromStr = writeRandomStringTo(from);
@@ -112,6 +114,7 @@ public class MoveToolTest {
 	
 	@Test
 	public void renameFileToItselfTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File from = File.createTempFile("from","movetmp");
 		writeRandomStringTo(from);
 
@@ -125,6 +128,7 @@ public class MoveToolTest {
 	
 	@Test
 	public void moveFileToFileInDifferentDirTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File from = File.createTempFile("from","movetmp");
 //		System.out.println(from.getParent());
 		File to = Files.createTempFile(
@@ -149,6 +153,7 @@ public class MoveToolTest {
 	
 	@Test
 	public void moveFileToDifferentDirTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File from = File.createTempFile("from","movetmp");
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
 		String fromStr = writeRandomStringTo(from);
@@ -170,6 +175,7 @@ public class MoveToolTest {
 	
 	@Test
 	public void moveFileToNonExistDirTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File from = File.createTempFile("from","movetmp");
 //		System.out.println(from.getParent());
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
@@ -189,6 +195,7 @@ public class MoveToolTest {
 	
 	@Test
 	public void moveFileToNullTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File from = File.createTempFile("from","movetmp");
 		writeRandomStringTo(from);
 		
@@ -202,6 +209,7 @@ public class MoveToolTest {
 	
 	@Test
 	public void moveNonExistFileTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File from = File.createTempFile("from","movetmp");
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
 		writeRandomStringTo(from);
@@ -217,6 +225,7 @@ public class MoveToolTest {
 	
 	@Test
 	public void moveDirTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File from = Files.createTempDirectory("fromdirmovetmp").toFile();
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
 		
@@ -232,6 +241,7 @@ public class MoveToolTest {
 	
 	@Test
 	public void moveNonExistDirTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File from = Files.createTempDirectory("fromdirmovetmp").toFile();
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
 		
@@ -246,6 +256,7 @@ public class MoveToolTest {
 	
 	@Test
 	public void moveNullTest() throws IOException {
+		moveTool = new MoveTool(null);
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
 		
 		assertTrue(to.exists());

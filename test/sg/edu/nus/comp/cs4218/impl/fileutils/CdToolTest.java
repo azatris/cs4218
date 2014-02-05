@@ -17,7 +17,6 @@ public class CdToolTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		cdTool = new CdTool();
 	}
 
 	@After
@@ -29,12 +28,14 @@ public class CdToolTest {
 	
 	@Test
 	public void changeToEmptyStringTest(){
+		cdTool = new CdTool(null);
 		assertNull(cdTool.changeDirectory(""));
 		assertTrue(cdTool.getStatusCode() != 0);
 	}
 	
 	@Test
 	public void changeToFileTest() throws IOException {
+		cdTool = new CdTool(null);
 		File fileToCd = File.createTempFile("exists", "cdtmp");
 		
 		assertTrue(fileToCd.exists());
@@ -46,6 +47,7 @@ public class CdToolTest {
 	
 	@Test
 	public void changeToNonExistingFileTest() throws IOException {
+		cdTool = new CdTool(null);
 		File fileToCd = File.createTempFile("nonExists", "cdtmp");
 		
 		fileToCd.delete();
@@ -56,6 +58,7 @@ public class CdToolTest {
 	
 	@Test
 	public void changeToDirectoryTest() throws IOException {
+		cdTool = new CdTool(null);
 		File dirToCd = Files.createTempDirectory("cdtmpfolder").toFile();
 		
 		assertTrue(dirToCd.exists());
@@ -67,6 +70,7 @@ public class CdToolTest {
 	
 	@Test
 	public void changeToNonExistingDirectoryTest() throws IOException {
+		cdTool = new CdTool(null);
 		File dirToCd = Files.createTempDirectory("cdtmpfolder").toFile();
 		dirToCd.delete();
 		assertFalse(dirToCd.exists());
@@ -76,8 +80,16 @@ public class CdToolTest {
 	
 	@Test
 	public void changeToNullDirectoryTest() {
+		cdTool = new CdTool(null);
 		assertNull(cdTool.changeDirectory(null));
 		assertTrue(cdTool.getStatusCode() != 0);
+	}
+	
+	/* Test String execute(File workingDir, String stdin) */
+	// Test Home
+	@Test
+	public void cdHomeTest() {
+		
 	}
 
 }

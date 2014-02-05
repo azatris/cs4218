@@ -17,7 +17,7 @@ public class DeleteToolTest {
 
 	@Before
 	public void setUp() throws Exception {
-		deleteTool = new DeleteTool();
+		
 	}
 
 	@After
@@ -28,6 +28,7 @@ public class DeleteToolTest {
 	// Testing boolean delete(File toDelete)
 	@Test
 	public void deletFileTest() throws IOException {
+		deleteTool = new DeleteTool(null);
 		String filePathStr = File.createTempFile("exists", "deltmp").getAbsolutePath();
 		File fileToDelete = new File(filePathStr);
 		
@@ -39,6 +40,7 @@ public class DeleteToolTest {
 	
 	@Test
 	public void deleteDirectoryWithFilesTest() throws IOException {
+		deleteTool = new DeleteTool(null);
 		String dirPath = File.createTempFile("exists", "deltmp").getParent();
 		File dirToDelete = new File(dirPath);
 		
@@ -49,6 +51,7 @@ public class DeleteToolTest {
 	
 	@Test
 	public void deleteDirectoryWithoutFilesTest() throws IOException {
+		deleteTool = new DeleteTool(null);
 		File emptyDir = Files.createTempDirectory("deltmpfolder").toFile();
 		
 		assertTrue(emptyDir.isDirectory());
@@ -59,6 +62,7 @@ public class DeleteToolTest {
 	
 	@Test
 	public void deleteNonExistingFileTest() throws IOException {
+		deleteTool = new DeleteTool(null);
 		String filePathStr = File.createTempFile("nonExists", "deltmp").getAbsolutePath();
 		File fileToDelete = new File(filePathStr);
 		
@@ -70,6 +74,7 @@ public class DeleteToolTest {
 	
 	@Test
 	public void deleteNonExistingDirectoryTest() throws IOException {
+		deleteTool = new DeleteTool(null);
 		File nonExistingDir = Files.createTempDirectory("deltmpfolder").toFile();
 		nonExistingDir.delete();
 		assertFalse(nonExistingDir.exists());
@@ -79,6 +84,7 @@ public class DeleteToolTest {
 	
 	@Test
 	public void deleteNullDirectoryTest() {
+		deleteTool = new DeleteTool(null);
 		assertFalse(deleteTool.delete(null));
 		assertFalse(deleteTool.getStatusCode() == 0);
 	}
