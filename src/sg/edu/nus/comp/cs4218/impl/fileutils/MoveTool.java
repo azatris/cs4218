@@ -14,10 +14,6 @@ public class MoveTool extends ATool implements IMoveTool {
 		super(arguments);
 	}
 	
-	public MoveTool(String[] arguments) {
-		super(arguments);
-	}
-	
 	@Override
 	public boolean move(File fromFile, File toFile) {
 		File from = fromFile;

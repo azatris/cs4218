@@ -11,9 +11,6 @@ public class EchoTool extends ATool implements IEchoTool {
 		super(arguments);
 	}
 	
-	public EchoTool(String[] arguments) {
-		super(arguments);
-	}
 	
 	@Override
 	public String echo(String toEcho) {

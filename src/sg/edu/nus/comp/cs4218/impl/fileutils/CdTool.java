@@ -11,10 +11,6 @@ public class CdTool extends ATool implements ICdTool {
 		super(arguments);
 	}
 	
-	public CdTool(String[] arguments) {
-		super(arguments);
-	}
-	
 	@Override
 	public File changeDirectory(String newDirectory) {
 		if (newDirectory != null){
