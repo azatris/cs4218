@@ -59,7 +59,6 @@ public class CdTool extends ATool implements ICdTool {
 				newWorkingDir.append(File.separator);
 			}		
 		}
-		System.out.println(newWorkingDir.toString());
 		return newWorkingDir.toString();
 	}
 	
@@ -68,6 +67,7 @@ public class CdTool extends ATool implements ICdTool {
 		if (args.length==1){
 			File newDir = changeDirectory(System.getProperty( "user.home" ));
 			if (newDir != null){
+				System.out.println(newDir.getAbsolutePath());
 				return newDir.getAbsolutePath();
 			}
 			return null;

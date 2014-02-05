@@ -83,7 +83,6 @@ public class CatTool extends ATool implements ICatTool {
 				newWorkingDir.append(File.separator);
 			}		
 		}
-		System.out.println(newWorkingDir.toString());
 		return newWorkingDir.toString();
 	}
 	

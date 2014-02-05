@@ -21,8 +21,7 @@ import sg.edu.nus.comp.cs4218.impl.fileutils.PWDTool;
  */
 public class Shell implements IShell {
 
-	private static final int ZERO=0;
-        private static final int ONE=1;
+		private static final int ONE=1;
         private static final int TWO=2;
         private static final int THREE=3;
         File workingDirectory = new File(System.getProperty("user.dir"));
@@ -66,7 +65,7 @@ public class Shell implements IShell {
         /**
          *  
          * @param argument
-         * @retur
+         * @return
          */
         public String[] getCommandArray(final String argument){
                 // Something could go wrong
@@ -93,8 +92,8 @@ public class Shell implements IShell {
        
         /**
          * The parser if a pattern and grep is the next running iTool
-         * @param hasPattern A string array of lenght 3 with command and maybe option it there is any
-         * as first paramenter, The pattern as is second and the filename as the third paramenter.
+         * @param hasPattern A string array of length 3 with command and maybe option it there is any
+         * as first parameter, The pattern as is second and the filename as the third paramenter.
          * @return A argument array ready to process by grep.
          */
         public String[] patternForGrep(final String[] hasPattern){
@@ -158,7 +157,7 @@ public class Shell implements IShell {
                         break;
                 case "Parsing failed":
                         newCommand = null;
-	                        System.out.println("Wrong parsing");
+	                    System.out.println("Wrong parsing");
                 default:
                         // wrong input
                         newCommand = null;
@@ -243,26 +242,34 @@ public class Shell implements IShell {
                 }
                 
                 //Get Error Message based on Status Code (http://tldp.org/LDP/abs/html/exitcodes.html#EXITCODESREF)
-                private String getErrorMessage(final int statusCode){
-                	String errorMessage = null;
+                private String getMessage(final int statusCode, final String executionResult){
+                	String message = null;
                 	switch(statusCode){
+                	case 0:
+                		message = executionResult;
+                		break;
                 	case 1:
-                		errorMessage = "General Error Detected";
+                		message = "General Error Detected";
                 		break;
                 	case 2:
-                		errorMessage = "Missing Keyword or Command";
+                		message = "Missing Keyword or Command";
+                		break;
+                	case 55:
+                		//55 is our team special defined code to notify the shell to change workingDirectory
+                		workingDirectory = new File(executionResult);
+                		message = executionResult;
                 		break;
                 	case 126:
-                		errorMessage = "Command invoked cannot execute";
+                		message = "Command invoked cannot execute";
                 		break;
                 	case 127:
-                		errorMessage = "Command not found";
+                		message = "Command not found";
                 		break;
                 	default:
-                		errorMessage = "Error Detected";
+                		message = "Error Detected";
                 		break;
                 	}
-                	return errorMessage;              	
+                	return message;              	
                 }
         
                 @Override
@@ -270,12 +277,9 @@ public class Shell implements IShell {
                         // TODO Auto-generated method stub
                         if(executionTool != null){
                                 final String executionResult = executionTool.execute(workingDirectory, standardIn);
-                                if(executionTool.getStatusCode() == ZERO){
-                                        out.println(executionResult); //print the result to the screen
-                                }
-                                else{
-                                        String errorMessage = getErrorMessage(executionTool.getStatusCode());
-                                        out.println(errorMessage);
+                                if(executionResult != null){
+                                	String message = getMessage(executionTool.getStatusCode(), executionResult);
+                                    out.println(message);            
                                 }
                         }
                         else{
@@ -283,4 +287,5 @@ public class Shell implements IShell {
                         }
                 }
         }
+               
 }

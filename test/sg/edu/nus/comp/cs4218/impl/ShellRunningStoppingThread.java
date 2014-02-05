@@ -31,7 +31,7 @@ public class ShellRunningStoppingThread {
 	//Test running an ITool
 	@Test
 	public void testRunningAnITool(){
-		final ITool tool = new PWDTool(null);
+		final ITool tool = new PWDTool(new String[]{});
 		shell.execute(tool);
 	}
 	
@@ -45,7 +45,7 @@ public class ShellRunningStoppingThread {
 	//Test stopping a running Thread
 	@Test
 	public void testStoppingARunningThread() {
-		final ITool tool = new PWDTool(null);
+		final ITool tool = new PWDTool(new String[]{});
 		shell.stop(shell.execute(tool));
 	}
 }

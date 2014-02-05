@@ -216,8 +216,20 @@ public class CatToolTest {
 		String dummyFileName = "file1.txt";
 		String[] args = {"cat", "~/" + dummyFileName};
 		catTool = new CatTool(args);
-		File fileToRead = new File(System.getProperty("user.home") + "/" + dummyFileName);
-		System.out.println(System.getProperty("user.home") + "/" + dummyFileName);
+		catTool.execute(workingDirectory, null);
+		assertTrue(catTool.getStatusCode() != 0);
+	}
+	
+	// Test cat file in child directory "cat folder/file1"
+	@Test
+	public void catFileInChildDirTest() {
+		String dummyFileName = "file1.txt";
+		String dummyFolderName = "folder1";
+		String[] args = {"cat", dummyFolderName + "/" + dummyFileName};
+		catTool = new CatTool(args);
+		File childDirectory = new File(dummyFolderName);
+	    childDirectory.mkdir();
+		File fileToRead = new File(workingDirectory + "/" + dummyFolderName + "/" + dummyFileName);
 		try {
 			String str = writeRandomStringTo(fileToRead);
 			String result = catTool.execute(workingDirectory, null);
@@ -227,12 +239,8 @@ public class CatToolTest {
 			e.printStackTrace();
 		}
 		fileToRead.delete();
-	}
-	
-	// Test cat Two file in child directory "cat folder/file1"
-	@Test
-	public void catTwoFilesInChildDirTest() {
-		
+		childDirectory.delete();
+
 	}
 	
 	// Test cat no arguments "cat"
