@@ -1,13 +1,10 @@
 package sg.edu.nus.comp.cs4218.impl;
 
 import java.io.*;
-import java.util.concurrent.*;
-
 import sg.edu.nus.comp.cs4218.ITool;
 import sg.edu.nus.comp.cs4218.IShell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
 import sg.edu.nus.comp.cs4218.impl.extended1.GrepTool;
-import sg.edu.nus.comp.cs4218.impl.fileutils.PWDTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CdTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CopyTool;
@@ -133,7 +130,7 @@ public class Shell implements IShell {
                 String tool = arguments[0];
                 switch(tool){
                 case "grep":
-                        newCommand =new GrepTool(arguments);
+                        newCommand = new GrepTool(arguments);
                         break;
                 case  "cat":
                         newCommand = new CatTool(arguments);
@@ -157,7 +154,7 @@ public class Shell implements IShell {
                         newCommand = new MoveTool(arguments);
                         break;
                 case "pwd":
-                        newCommand = new PWDTool(arguments);
+                        newCommand = new PWDTool();
                         break;
                 case "Parsing failed":
                         newCommand = null;
@@ -265,7 +262,7 @@ public class Shell implements IShell {
                 		errorMessage = "Error Detected";
                 		break;
                 	}
-                	return errorMessage + '\n';              	
+                	return errorMessage;              	
                 }
         
                 @Override

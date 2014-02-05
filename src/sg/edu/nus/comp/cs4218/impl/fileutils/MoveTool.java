@@ -15,7 +15,9 @@ public class MoveTool extends ATool implements IMoveTool {
 	}
 
 	@Override
-	public boolean move(File from, File to) {
+	public boolean move(File fromFile, File toFile) {
+		File from = fromFile;
+		File to = toFile;
 		if (from == null || !from.exists() || from.isDirectory() || to == null){
 			setStatusCode(1);
 			return false;
