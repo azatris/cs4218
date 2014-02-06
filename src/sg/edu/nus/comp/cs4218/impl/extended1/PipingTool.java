@@ -19,6 +19,11 @@ public class PipingTool implements IPipingTool {
 
 	@Override
 	public String execute(File workingDir, String stdin) {
+		if(arguments.length<TWO){
+			setStatusCode(143);
+			return "";
+		}
+		
 		String result = pipe(arguments[ZERO], arguments[ONE]);
 
 		for(int loopValue=TWO; loopValue<arguments.length && statuscode==ZERO; loopValue++){
@@ -34,10 +39,13 @@ public class PipingTool implements IPipingTool {
 	}
 	@Override
 	public String pipe(ITool from, ITool to) {
+		if(from == null || to == null){
+			setStatusCode(210);
+			return "";
+		}
 		String result = from.execute(workingDir, null);
 		int statusCodeFrom = from.getStatusCode();
 		int statusCodeTo=ZERO;
-		System.out.println(result);
 		if(statusCodeFrom!=ZERO){
 			result ="";
 			setStatusCode(statusCodeFrom);
@@ -56,6 +64,10 @@ public class PipingTool implements IPipingTool {
 
 	@Override
 	public String pipe(String stdout, ITool to) {
+		if(to == null){
+			setStatusCode(210);
+			return "";
+		}
 		String result =to.execute(workingDir, stdout);
 		int statusCodeTo = to.getStatusCode();
 		if(statusCodeTo!=ZERO){
@@ -65,7 +77,7 @@ public class PipingTool implements IPipingTool {
 		return result;
 	}
 	
-	private void setStatusCode(int value){		
+	private void setStatusCode(int value){
 		if(value != 55){
 			statuscode =value;
 		}

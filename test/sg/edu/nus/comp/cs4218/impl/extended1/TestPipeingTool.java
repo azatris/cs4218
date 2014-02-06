@@ -1,6 +1,6 @@
 package sg.edu.nus.comp.cs4218.impl.extended1;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,25 +58,103 @@ public class TestPipeingTool {
 	@Before
 	public void setup(){
 	}
+	
 	@Test
-	public void cattest(){
+	public void canPipeTwoITools(){
 		String[] empty = new String[] {"cat", "-"};
 		ITool cat = new CatTool(empty);
 		ITool[] set = new ITool[2];
 		String[] a = new String[] {"echo", "pipe.properties"};
 		ITool echo = new EchoTool(a);
 		set[1]=cat;
-		String[] tmp = new String[] {"grep","hallo","-"};
-		ITool grep = new GrepTool(tmp);
 		set[0]=echo;
 		pipe = new PipingTool(set);
-		System.out.println("echo\n" + echo.execute(new File(System.getProperty("user.dir")),null));
-		System.out.println("cat\n" + cat.execute(new File(System.getProperty("user.dir")),"pipe.properties"));
-		String LSD = pipe.pipe(set[0], set[1]);
-		System.out.println("result\n" + LSD);
-		assertEquals("hej", "", "asd");	
+		String actual = pipe.pipe(set[0], set[1]);
+		assertEquals("Pipeing failed", "pipe.properties", actual);
+		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
 	
+	@Test
+	public void canPipeOneElement(){
+		String[] empty = new String[] {"cat", "-"};
+		ITool cat = new CatTool(empty);
+		ITool[] set = new ITool[1];
+		set[0]=cat;
+		pipe = new PipingTool(set);
+		String result= "Hallo world";
+		String actual = pipe.pipe(result, set[0]);
+		assertEquals("Pipeing failed", result, actual);	
+		assertEquals("Statuscode", 0, pipe.getStatusCode());
+	}
 	
+	@Test
+	public void excecuteWithTwoTools(){
+		String[] empty = new String[] {"cat", "-"};
+		ITool cat = new CatTool(empty);
+		ITool[] set = new ITool[2];
+		String[] a = new String[] {"echo", "pipe.properties"};
+		ITool echo = new EchoTool(a);
+		set[1]=cat;
+		set[0]=echo;
+		pipe = new PipingTool(set);
+		String actual = pipe.execute(pipe.workingDir, null);
+		assertEquals("Pipeing failed", "pipe.properties", actual);
+		assertEquals("Statuscode", 0, pipe.getStatusCode());
+	}
 	
+	@Test
+	public void excecuteWithThreeTools(){
+		String[] empty = new String[] {"cat", "-"};
+		ITool cat = new CatTool(empty);
+		ITool[] set = new ITool[3];
+		String[] a = new String[] {"echo", "pipe.properties"};
+		ITool echo = new EchoTool(a);
+		set[2]=cat;
+		set[1]=cat;
+		set[0]=echo;
+		pipe = new PipingTool(set);
+		String actual = pipe.execute(pipe.workingDir, null);
+		assertEquals("Pipeing failed", "pipe.properties", actual);
+		assertEquals("Statuscode", 0, pipe.getStatusCode());
+	}
+	
+	@Test 
+	public void passingOfsatusCode(){
+		String[] empty = new String[] {"cat", "-"};
+		ITool cat = new CatTool(empty);
+		ITool[] set = new ITool[3];
+		String[] a = new String[] {"echo", null};
+		ITool echo = new EchoTool(a);
+		set[2]=cat;
+		set[1]=cat;
+		set[0]=echo;
+		pipe = new PipingTool(set);
+		String actual = pipe.execute(pipe.workingDir, null);
+		assertEquals("Pipeing failed", "", actual);
+		assertTrue("Statuscode", 0 !=pipe.getStatusCode());
+	}
+	
+	@Test 
+	public void FailOnOneITools(){
+		String[] a = new String[] {"echo", null};
+		ITool echo = new EchoTool(a);
+		ITool[] set = new ITool[1];
+		set[0]=echo;
+		pipe = new PipingTool(set);
+		String actual = pipe.execute(pipe.workingDir, null);
+		assertEquals("Pipeing failed", "", actual);
+		assertTrue("Statuscode", 0 !=pipe.getStatusCode());
+	}
+	
+	@Test 
+	public void NullinITools(){
+		ITool[] set = new ITool[2];
+		set[0]=null;
+		set[1]=null;
+		pipe = new PipingTool(set);
+		String actual = pipe.execute(pipe.workingDir, null);
+		assertEquals("Pipeing failed", "", actual);
+		assertTrue("Statuscode", 0 !=pipe.getStatusCode());
+	}
+		
 }
