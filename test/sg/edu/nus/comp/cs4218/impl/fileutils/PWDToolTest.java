@@ -27,9 +27,8 @@ public class PWDToolTest {
 	
 	@Test
 	public void getStringForDirectoryTest() throws IOException {
-		pwdtool = new PWDTool(null);
-		//Test expected behavior
-		//Create a tmp-file and get (existing) parent directory
+		String[] test = new String[] {"pwd"};
+		pwdtool = new PWDTool(test);
 		String existsDirString = File.createTempFile("exists", "tmp").getParent();
 		File existsDir = new File(existsDirString);
 		String dirString = pwdtool.getStringForDirectory(existsDir);
@@ -40,9 +39,8 @@ public class PWDToolTest {
 
 	@Test
 	public void getStringForNonExistingDirectoryTest() throws IOException { 
-		pwdtool = new PWDTool(null);
-		//Test error-handling 1
-		//Reference non-existing file
+		String[] test = new String[] {"pwd"};
+		pwdtool = new PWDTool(test);
 		File notExistsDir = new File("notexists");
         pwdtool.getStringForDirectory(notExistsDir);
 		assertNotEquals(pwdtool.getStatusCode(), 0);
@@ -51,11 +49,42 @@ public class PWDToolTest {
 
 	@Test
 	public void getStringForNullDirectoryTest() throws IOException { 
-		pwdtool = new PWDTool(null);
-		//Test error-handling 2
+		String[] test = new String[] {"pwd"};
+		pwdtool = new PWDTool(test);
 		pwdtool.getStringForDirectory(null);
 		assertNotEquals(pwdtool.getStatusCode(), 0);
-		
 	}
-
+	
+	@Test
+	public void getStringPWDNullinConstructor() throws IOException { 
+		pwdtool = new PWDTool(null);
+		String existsDirString = File.createTempFile("exists", "tmp").getParent();
+		File existsDir = new File(existsDirString);
+		String dirString = pwdtool.getStringForDirectory(existsDir);
+		assertTrue(dirString.equals(existsDirString));
+		assertEquals(pwdtool.getStatusCode(), 127);
+	}
+	
+	@Test 
+	public void executeWrongInput() throws IOException{
+	String[] test = new String[] {"asd"};
+	pwdtool = new PWDTool(test);
+	
+	String existsDirString = File.createTempFile("exists", "tmp").getParent();
+	File existsDir = new File(existsDirString);
+	String dirString = pwdtool.execute(existsDir, null);
+	assertTrue(dirString.equals(existsDirString));
+	assertEquals(pwdtool.getStatusCode(), 127);
+	}
+	
+	@Test 
+	public void executeToManyArgs() throws IOException{
+	String[] test = new String[] {"pwd" , "Hallo"};
+	pwdtool = new PWDTool(test);
+	String existsDirString = File.createTempFile("exists", "tmp").getParent();
+	File existsDir = new File(existsDirString);
+	String dirString = pwdtool.execute(existsDir, null);
+	assertTrue("Not right dir", dirString.equals("Error: PWD command wrong"));
+	assertEquals("Not right statuscode ", pwdtool.getStatusCode(), 1);
+	}
 }
