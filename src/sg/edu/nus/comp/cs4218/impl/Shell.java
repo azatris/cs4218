@@ -22,7 +22,7 @@ import sg.edu.nus.comp.cs4218.impl.fileutils.WrongParsingTool;
  * shell can be implemented in Java
  */
 public class Shell implements IShell {
-
+		private static final int ZERO =0;
 		private static final int ONE=1;
         private static final int TWO=2;
         private static final int THREE=3;
@@ -99,7 +99,7 @@ public class Shell implements IShell {
          * @return A argument array ready to process by grep.
          */
         public String[] patternForGrep(final String[] hasPattern){
-                final String commandAndOption = hasPattern[0];
+                final String commandAndOption = hasPattern[ZERO];
                 final String pattern=hasPattern[ONE];
                 final String file = hasPattern[TWO];
                 final String[] firstPart = commandAndOption.split(" ");
@@ -159,7 +159,6 @@ public class Shell implements IShell {
                         break;
                 case "Parsing failed":
                         newCommand = new WrongParsingTool(arguments);
-	                    System.out.println("Wrong parsing");
                 default:
                         newCommand = null;
                 }
