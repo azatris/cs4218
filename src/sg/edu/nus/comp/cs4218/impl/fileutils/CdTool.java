@@ -68,8 +68,10 @@ public class CdTool extends ATool implements ICdTool {
 		File newDir = null;
 		if (args.length==1){
 			newDir = changeDirectory(System.getProperty( "user.dir" ));
-		}else if(args.length >= 2){		
-			if (Paths.get(args[1]).isAbsolute()){
+		}else if(args.length >= 2){	
+			if (args[1].equals("~")){
+				newDir = changeDirectory(System.getProperty( "user.dir" ));
+			}else if (Paths.get(args[1]).isAbsolute()){
 				newDir = changeDirectory(args[1]);
 			}else{
 				newDir = changeDirectory(concatenateDirectory(workingDir.getAbsolutePath(), args[1]));
@@ -77,6 +79,7 @@ public class CdTool extends ATool implements ICdTool {
 		}
 		
 		if (newDir != null){
+			workingDir = newDir;
 			return newDir.getAbsolutePath();
 		}else{
 			return workingDir.toString();

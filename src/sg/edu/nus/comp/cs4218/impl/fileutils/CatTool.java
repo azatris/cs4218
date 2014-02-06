@@ -93,8 +93,9 @@ public class CatTool extends ATool implements ICatTool {
 		if (args.length < 2){
 			setStatusCode(1);
 			return "Error: Not enough arguments\n";
-		}else if (args[1]=="-") // as long as args[1]="-", not considering the rest
+		}else if (args[1].equals("-")) // as long as args[1]="-", not considering the rest
 		{
+			setStatusCode(0);
 			return stdin;
 		}else{
 			for (int i=1; i<args.length; i++){
@@ -112,6 +113,4 @@ public class CatTool extends ATool implements ICatTool {
 		}
 		return stringBuilder.toString();
 	}
-
 }
-

@@ -14,6 +14,7 @@ import sg.edu.nus.comp.cs4218.fileutils.ICdTool;
 
 public class CdToolTest {
 	private ICdTool cdTool;
+	private File workingDir = null;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -27,15 +28,17 @@ public class CdToolTest {
 	/* Testing File changeDirectory(String newDirectory)*/
 	@Test
 	public void changeToEmptyStringTest(){
-		cdTool = new CdTool(null);
+		String args[] = {"cd", ""};
+		cdTool = new CdTool(args);
 		assertNull(cdTool.changeDirectory(""));
 		assertTrue(cdTool.getStatusCode() != 0);
 	}
 	
 	@Test
 	public void changeToFileTest() throws IOException {
-		cdTool = new CdTool(null);
 		File fileToCd = File.createTempFile("exists", "cdtmp");
+		String args[] = {"cd", fileToCd.getAbsolutePath()};
+		cdTool = new CdTool(args);
 		
 		assertTrue(fileToCd.exists());
 		assertNull(cdTool.changeDirectory(fileToCd.getAbsolutePath()));
@@ -46,8 +49,9 @@ public class CdToolTest {
 	
 	@Test
 	public void changeToNonExistingFileTest() throws IOException {
-		cdTool = new CdTool(null);
 		File fileToCd = File.createTempFile("nonExists", "cdtmp");
+		String args[] = {"cd", fileToCd.getAbsolutePath()};
+		cdTool = new CdTool(args);
 		
 		fileToCd.delete();
 		assertFalse(fileToCd.exists());
@@ -57,20 +61,23 @@ public class CdToolTest {
 	
 	@Test
 	public void changeToDirectoryTest() throws IOException {
-		cdTool = new CdTool(null);
 		File dirToCd = Files.createTempDirectory("cdtmpfolder").toFile();
+		String args[] = {"cd", dirToCd.getAbsolutePath()};
+		cdTool = new CdTool(args);
 		
 		assertTrue(dirToCd.exists());
 		assertEquals(dirToCd, cdTool.changeDirectory(dirToCd.getAbsolutePath()));
-		assertEquals(0, cdTool.getStatusCode());
+		assertEquals(55, cdTool.getStatusCode());
 		
 		dirToCd.delete();
 	}
 	
 	@Test
 	public void changeToNonExistingDirectoryTest() throws IOException {
-		cdTool = new CdTool(null);
 		File dirToCd = Files.createTempDirectory("cdtmpfolder").toFile();
+		String args[] = {"cd", dirToCd.getAbsolutePath()};
+		cdTool = new CdTool(args);
+		
 		dirToCd.delete();
 		assertFalse(dirToCd.exists());
 		assertNull(cdTool.changeDirectory(dirToCd.getAbsolutePath()));
@@ -79,16 +86,82 @@ public class CdToolTest {
 	
 	@Test
 	public void changeToNullDirectoryTest() {
-		cdTool = new CdTool(null);
+		String args[] = {"cd", null};
+		cdTool = new CdTool(args);
 		assertNull(cdTool.changeDirectory(null));
 		assertTrue(cdTool.getStatusCode() != 0);
 	}
 	
 	/* Test String execute(File workingDir, String stdin) */
-	// Test Home
+	// Test Home ~
 	@Test
 	public void cdHomeTest() {
+		workingDir = new File(System.getProperty("user.dir"));
+		String[] args = {"cd", "~"};
+		cdTool = new CdTool(args);
 		
+		assertTrue(System.getProperty("user.dir").equals(cdTool.execute(workingDir, null)));
+		assertEquals(55, cdTool.getStatusCode());
+	}
+	
+	// Test absolute file path
+	@Test
+	public void cdAbsolutePathFileTest() throws IOException {
+		workingDir = new File(System.getProperty("user.dir"));
+		File fileToCd = File.createTempFile("file", "cdtmp"); 
+		String[] args = {"cd", fileToCd.getAbsolutePath()};
+		cdTool = new CdTool(args);
+		
+		assertTrue(workingDir.getAbsolutePath().equals(cdTool.execute(workingDir, null)));
+		assertTrue(cdTool.getStatusCode() != 55);
+		fileToCd.delete();
+	}
+	
+	// Test absolute folder path
+	@Test
+	public void cdAbsolutePathFolderTest() throws IOException {
+		workingDir = new File(System.getProperty("user.dir"));
+		File folderToCd = Files.createTempDirectory("cdtmpfolder").toFile(); 
+		String[] args = {"cd", folderToCd.getAbsolutePath()};
+		cdTool = new CdTool(args);
+		
+		assertTrue(folderToCd.getAbsolutePath().equals(cdTool.execute(workingDir, null)));
+		assertEquals(55, cdTool.getStatusCode());
+		folderToCd.delete();
+	}
+	
+	// Test parent folder
+	@Test
+	public void cdParentFolderTest() {
+		workingDir = new File(System.getProperty("user.dir"));
+		String parentPath = workingDir.getParent();
+		String[] args = {"cd", ".."};
+		cdTool = new CdTool(args);
+		
+		assertTrue(parentPath.equals(cdTool.execute(workingDir, null)));
+		assertEquals(55, cdTool.getStatusCode());
 	}
 
+	@Test
+	public void cdChildFolderTest() throws IOException {
+		workingDir = new File(System.getProperty("user.dir"));
+		File folderToCd = Files.createTempDirectory(workingDir.toPath(), "cdtmpfolder").toFile(); 
+		String[] args = {"cd", folderToCd.getName()};
+		cdTool = new CdTool(args);
+		
+		assertTrue(folderToCd.getAbsolutePath().equals(cdTool.execute(workingDir, null)));
+		assertEquals(55, cdTool.getStatusCode());
+		folderToCd.delete();
+	}
+	
+	// Test "cd" go back to user.dir
+	@Test
+	public void cdNullTest() {
+		workingDir = new File(System.getProperty("user.dir"));
+		String[] args = {"cd"};
+		cdTool = new CdTool(args);
+		
+		assertTrue(System.getProperty("user.dir").equals(cdTool.execute(workingDir, null)));
+		assertEquals(55, cdTool.getStatusCode());
+	}
 }
