@@ -73,37 +73,55 @@ public class LsToolTest {
 	
 	@Test
 	public void testExecuteArguments0ReturnsNull() {
-		
+		lsToolForExecute = new LsTool(new String[]{});
+		String stringForFiles = lsToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNull(stringForFiles);
 	}
 	
 	@Test
 	public void testExecuteArguments0StatusCode() {
-		
+		lsToolForExecute = new LsTool(new String[]{});
+		lsToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
 	@Test
 	public void testExecuteArguments1() {
-		
+		lsToolForExecute = new LsTool(new String[]{"ls"});
+		String stringForFiles = lsToolForExecute.execute(Paths.get(PARENTFOLDER).toFile(), null);
+		assertTrue("The correct files/folders were not printed",
+				stringForFiles.contains(CHILDFOLDER + File.separator) &&
+				stringForFiles.contains(FILE));
 	}
 	
 	@Test
 	public void testExecuteArguments2() {
-		
+		lsToolForExecute = new LsTool(new String[]{"ls", PARENTFOLDER});
+		String stringForFiles = lsToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertTrue("The correct files/folders were not printed",
+				stringForFiles.contains(CHILDFOLDER + File.separator) &&
+				stringForFiles.contains(FILE));
 	}
 	
 	@Test
-	public void testExecuteArgumentsMoreThan2() {
-		
+	public void testExecuteArgumentsMoreThan2StatusCode() {
+		lsToolForExecute = new LsTool(new String[]{"ls", PARENTFOLDER, "dummyArgument"});
+		lsToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
 	@Test
 	public void testExecuteWithIncorrectTool() {
-
+		lsToolForExecute = new LsTool(new String[]{"cat", PARENTFOLDER});
+		lsToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
 	@Test
 	public void testExecuteWithInvalidTool() {
-
+		lsToolForExecute = new LsTool(new String[]{"dog", PARENTFOLDER});
+		lsToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
 }
