@@ -34,7 +34,7 @@ public class CatToolTest {
 		StringBuilder strBuilder = new StringBuilder();
 		Random random = new Random();		
 		int size = random.nextInt(512);
-		char[] chars = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*()-_+=}{][;:'\"?><,./\\\n".toCharArray();
+		char[] chars = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*()-_+=}{] [;:'\"?><,./\\\n".toCharArray();
 		for (int i = 0; i < size; i++) {
 			char c = chars[random.nextInt(chars.length)];
 			strBuilder.append(c);

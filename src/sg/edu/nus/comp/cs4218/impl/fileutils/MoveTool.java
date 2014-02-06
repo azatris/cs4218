@@ -81,7 +81,7 @@ public class MoveTool extends ATool implements IMoveTool {
 	
 	@Override
 	public String execute(File workingDir, String stdin) {
-		if (args.length==2) {
+		if (args.length==3) {
 			String fromStr = null;
 			String toStr = null;
 			if (Paths.get(args[1]).isAbsolute()){
