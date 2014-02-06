@@ -151,9 +151,7 @@ public class ShellParse {
 	public void patternSpacePipeSpace() {
 		String[] twoA = new String[]{"ls"};
 		String[] twoB = new String[]{"cat","txt.s"};
-		String[] twoc = new String[]{null};
-		ITool[] args = new ITool[]{new LsTool(twoA), new CatTool(twoB)
-			, new GrepTool(twoc)};
+		ITool[] args = new ITool[]{new LsTool(twoA), new CatTool(twoB)};
 		PipingTool actual = new PipingTool(args);
 		String input = prop.getProperty("patternSpacePipeSpace");
 		PipingTool result = (PipingTool) shell.parse(input);
