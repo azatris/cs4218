@@ -9,7 +9,8 @@ import sg.edu.nus.comp.cs4218.fileutils.IPwdTool;
 public class PWDTool extends ATool implements IPwdTool{
 	public PWDTool(String[] arguments) {
 		super(arguments);
-		if (args.length == 0 || !args[0].equals("pwd")) {
+		
+		if (args == null || args.length == 0 || !args[0].equals("pwd")) {
 			setStatusCode(127);
 		}
 	}

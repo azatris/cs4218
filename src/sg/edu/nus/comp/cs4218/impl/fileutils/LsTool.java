@@ -11,7 +11,7 @@ public class LsTool extends ATool implements ILsTool {
 
 	public LsTool(String[] arguments) {
 		super(arguments);
-		if (args.length == 0 || !args[0].equals("ls")) {
+		if (args == null || args.length == 0 || !args[0].equals("ls")) {
 			setStatusCode(127);
 			
 		}
