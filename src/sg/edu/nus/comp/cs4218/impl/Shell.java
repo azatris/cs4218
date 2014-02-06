@@ -1,6 +1,7 @@
 package sg.edu.nus.comp.cs4218.impl;
 
 import java.io.*;
+
 import sg.edu.nus.comp.cs4218.ITool;
 import sg.edu.nus.comp.cs4218.IShell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
@@ -13,6 +14,7 @@ import sg.edu.nus.comp.cs4218.impl.fileutils.EchoTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.LsTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.MoveTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.PWDTool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.WrongParsingTool;
 
 /**
  * The Shell is used to interpret and execute user's
@@ -156,10 +158,9 @@ public class Shell implements IShell {
                         newCommand = new PWDTool(arguments);
                         break;
                 case "Parsing failed":
-                        newCommand = null;
+                        newCommand = new WrongParsingTool(arguments);
 	                    System.out.println("Wrong parsing");
                 default:
-                        // wrong input
                         newCommand = null;
                 }
                 return newCommand;
@@ -259,12 +260,17 @@ public class Shell implements IShell {
                 		workingDirectory = new File(executionResult);
                 		message = executionResult;
                 		break;
+                	case 98:
+                		message = "Parsing Failed";
+                		break;
                 	case 126:
                 		message = "Command invoked cannot execute";
                 		break;
                 	case 127:
                 		message = "Command not found";
                 		break;
+                	case 210:
+                		message = "A command was null";
                 	default:
                 		message = "Error Detected";
                 		break;
