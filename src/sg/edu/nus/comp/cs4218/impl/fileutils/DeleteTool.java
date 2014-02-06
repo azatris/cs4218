@@ -1,6 +1,7 @@
 package sg.edu.nus.comp.cs4218.impl.fileutils;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -11,12 +12,11 @@ public class DeleteTool extends ATool implements IDeleteTool {
 
 	public DeleteTool(String[] arguments) {
 		super(arguments);
-		if (args.length == 0 || !args[0].equals("rm")) {
+		if (args.length == 0 || !args[0].equals("delete")) {
 			setStatusCode(127);
-			
 		}
 	}
-	
+
 	@Override
 	public boolean delete(File toDelete) {
 		if(toDelete != null && toDelete.delete()){
@@ -67,7 +67,13 @@ public class DeleteTool extends ATool implements IDeleteTool {
 		}else{
 			StringBuilder returnMsg = new StringBuilder();
 			for (int i=1; i<args.length; i++){
-				if (!delete(new File(concatenateDirectory(workingDir.getAbsolutePath(), args[i])))){
+				String filePath = null;
+				if (Paths.get(args[i]).isAbsolute()){
+					filePath = args[i];
+				}else{
+					filePath = concatenateDirectory(workingDir.getAbsolutePath(), args[i]);
+				}
+				if (!delete(new File(filePath))){
 					returnMsg.append("Error: Cannot delete " + args[i]);
 				}
 			}

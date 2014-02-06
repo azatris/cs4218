@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -16,9 +17,8 @@ public class CopyTool extends ATool implements ICopyTool {
 
 	public CopyTool(String[] arguments) {
 		super(arguments);
-		if (args.length == 0 || !args[0].equals("cp")) {
+		if (args.length == 0 || !args[0].equals("copy")) {
 			setStatusCode(127);
-			
 		}
 	}
 	
@@ -124,13 +124,27 @@ public class CopyTool extends ATool implements ICopyTool {
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length == 3){
-			copy(
-					new File(concatenateDirectory(workingDir.getAbsolutePath(), args[1])), 
-					new File(concatenateDirectory(workingDir.getAbsolutePath(), args[2])));
+			String fromStr = null;
+			String toStr = null;
+			if (Paths.get(args[1]).isAbsolute()){
+				fromStr = args[1];
+			}else{
+				fromStr = concatenateDirectory(workingDir.getAbsolutePath(), args[1]);
+			}
+			
+			if (Paths.get(args[2]).isAbsolute()){
+				toStr = args[2];
+			}else{
+				toStr = concatenateDirectory(workingDir.getAbsolutePath(), args[2]);
+			}
+			
+			if ( !copy(new File(fromStr), new File(toStr)) ) {
+				return "Copy unsuccessfully\n";
+			}
 			return null;
 		}else{
 			setStatusCode(1);
-			return "Error: Should have two directory";
+			return "Error: Should have two directory\n";
 		}
 	}
 

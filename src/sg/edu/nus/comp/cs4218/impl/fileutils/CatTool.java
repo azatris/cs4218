@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -97,7 +98,12 @@ public class CatTool extends ATool implements ICatTool {
 			return stdin;
 		}else{
 			for (int i=1; i<args.length; i++){
-				String strForFile = getStringForFile(new File(concatenateDirectory(workingDir.getAbsolutePath(), args[i])));
+				String strForFile = null;
+				if (Paths.get(args[i]).isAbsolute()){
+					strForFile = getStringForFile(new File(args[i]));
+				}else{
+					strForFile = getStringForFile(new File(concatenateDirectory(workingDir.getAbsolutePath(), args[i])));
+				}
 				if (strForFile == null){ 
 					strForFile = "cat: " + args[i] +": No such file or directory\n";
 				}

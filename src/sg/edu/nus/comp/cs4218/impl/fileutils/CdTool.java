@@ -1,6 +1,7 @@
 package sg.edu.nus.comp.cs4218.impl.fileutils;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -13,7 +14,6 @@ public class CdTool extends ATool implements ICdTool {
 		super(arguments);
 		if (args.length == 0 || !args[0].equals("cd")) {
 			setStatusCode(127);
-			
 		}
 	}
 	
@@ -28,7 +28,7 @@ public class CdTool extends ATool implements ICdTool {
 			}
 		}
 		setStatusCode(1);
-		System.err.println("Error: No such file or directory");
+//		System.err.println("Error: No such file or directory");
 		return null;
 	}
 	
@@ -59,28 +59,27 @@ public class CdTool extends ATool implements ICdTool {
 				newWorkingDir.append(File.separator);
 			}		
 		}
+		System.out.println(newWorkingDir.toString());
 		return newWorkingDir.toString();
 	}
 	
 	@Override
 	public String execute(File workingDir, String stdin) {
+		File newDir = null;
 		if (args.length==1){
-			File newDir = changeDirectory(System.getProperty( "user.home" ));
-			if (newDir != null){
-				System.out.println(newDir.getAbsolutePath());
-				return newDir.getAbsolutePath();
+			newDir = changeDirectory(System.getProperty( "user.dir" ));
+		}else if(args.length >= 2){		
+			if (Paths.get(args[1]).isAbsolute()){
+				newDir = changeDirectory(args[1]);
+			}else{
+				newDir = changeDirectory(concatenateDirectory(workingDir.getAbsolutePath(), args[1]));
 			}
-			return null;
-		}else if(args.length >= 2){
-			File newDir = changeDirectory(concatenateDirectory(workingDir.getAbsolutePath(), args[1]));
-			if (newDir != null){
-				return newDir.getAbsolutePath();
-			}
-			return null;
-		}else
-		{
-			setStatusCode(1);
-			return "cd: No command";
+		}
+		
+		if (newDir != null){
+			return newDir.getAbsolutePath();
+		}else{
+			return workingDir.toString();
 		}
 	}
 }

@@ -3,6 +3,7 @@ package sg.edu.nus.comp.cs4218.impl.fileutils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Stack;
@@ -14,9 +15,8 @@ public class MoveTool extends ATool implements IMoveTool {
 
 	public MoveTool(String[] arguments) {
 		super(arguments);
-		if (args.length == 0 || !args[0].equals("mv")) {
+		if (args.length == 0 || !args[0].equals("move")) {
 			setStatusCode(127);
-			
 		}
 	}
 	
@@ -82,14 +82,24 @@ public class MoveTool extends ATool implements IMoveTool {
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length==2) {
-			boolean result = move(
-					new File(concatenateDirectory(workingDir.getAbsolutePath(), args[1])), 
-					new File(concatenateDirectory(workingDir.getAbsolutePath(), args[2])));
-			if (result){
-				return null;
+			String fromStr = null;
+			String toStr = null;
+			if (Paths.get(args[1]).isAbsolute()){
+				fromStr = args[1];
 			}else{
-				return "Error: Cannot move file.";
+				fromStr = concatenateDirectory(workingDir.getAbsolutePath(), args[1]);
 			}
+			
+			if (Paths.get(args[2]).isAbsolute()){
+				toStr = args[2];
+			}else{
+				toStr = concatenateDirectory(workingDir.getAbsolutePath(), args[2]);
+			}
+			
+			if ( !move(new File(fromStr), new File(toStr)) ) {
+				return "Move unsuccessfully\n";
+			}
+			return null;
 		}else{
 			return "Error: Should have two arguments.";
 		}
