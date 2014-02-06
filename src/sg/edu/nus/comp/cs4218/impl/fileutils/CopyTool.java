@@ -29,7 +29,7 @@ public class CopyTool extends ATool implements ICopyTool {
 		if (from!=null && from.isFile()){
 			if (to == null){
 				setStatusCode(1);
-				System.err.println("Error: Destination is null");
+//				System.err.println("Error: Destination is null");
 				return false;
 			}else if (!to.exists()){
 				try {
@@ -85,7 +85,7 @@ public class CopyTool extends ATool implements ICopyTool {
 			return true;
 		}else{
 			setStatusCode(1);
-			System.err.println("Error: Source is null");
+//			System.err.println("Error: Source is null");
 			return false;
 		}
 	}
@@ -117,7 +117,7 @@ public class CopyTool extends ATool implements ICopyTool {
 				newWorkingDir.append(File.separator);
 			}		
 		}
-		System.out.println(newWorkingDir.toString());
+//		System.out.println(newWorkingDir.toString());
 		return newWorkingDir.toString();
 	}
 	
