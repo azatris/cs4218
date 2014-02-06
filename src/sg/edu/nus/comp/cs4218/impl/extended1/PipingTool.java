@@ -65,8 +65,10 @@ public class PipingTool implements IPipingTool {
 		return result;
 	}
 	
-	private void setStatusCode(int value){
-		statuscode =value;
+	private void setStatusCode(int value){		
+		if(value != 55){
+			statuscode =value;
+		}
 	}
 
 	private File getWorkingdir(){
