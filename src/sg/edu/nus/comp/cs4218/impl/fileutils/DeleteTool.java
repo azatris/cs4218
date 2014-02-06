@@ -66,6 +66,7 @@ public class DeleteTool extends ATool implements IDeleteTool {
 			return "Error: Cannot find working directory";
 		}else{
 			StringBuilder returnMsg = new StringBuilder();
+			int status = 0;
 			for (int i=1; i<args.length; i++){
 				String filePath = null;
 				if (Paths.get(args[i]).isAbsolute()){
@@ -74,8 +75,12 @@ public class DeleteTool extends ATool implements IDeleteTool {
 					filePath = concatenateDirectory(workingDir.getAbsolutePath(), args[i]);
 				}
 				if (!delete(new File(filePath))){
+					status = 1;
 					returnMsg.append("Error: Cannot delete " + args[i]);
 				}
+			}
+			if (status == 1) {
+				setStatusCode(1);
 			}
 			if (returnMsg.toString().length() > 0){
 				return returnMsg.toString();

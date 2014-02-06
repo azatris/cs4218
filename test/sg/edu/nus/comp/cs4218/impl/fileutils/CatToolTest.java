@@ -151,7 +151,7 @@ public class CatToolTest {
 	@Test
 	public void catOneFileInCurDirWithDotInPathTest() {
 		String dummyFileName = "file1.txt";
-		String[] args = {"cat", "./" + dummyFileName};
+		String[] args = {"cat", "." + File.separator + dummyFileName};
 		catTool = new CatTool(args);
 		File fileToRead = new File(dummyFileName);
 		try {
@@ -196,9 +196,9 @@ public class CatToolTest {
 	@Test
 	public void catFileInParentDirTest() {
 		String dummyFileName = "file1.txt";
-		String[] args = {"cat", "../" + dummyFileName};
+		String[] args = {"cat", ".." + File.separator + dummyFileName};
 		catTool = new CatTool(args);
-		File fileToRead = new File(workingDirectory.getParentFile() + "/" + dummyFileName);
+		File fileToRead = new File(workingDirectory.getParentFile() + File.separator + dummyFileName);
 		try {
 			String str = writeRandomStringTo(fileToRead);
 			String result = catTool.execute(workingDirectory, null);
@@ -214,7 +214,7 @@ public class CatToolTest {
 	@Test
 	public void catFileInHomeDirTest() {
 		String dummyFileName = "file1.txt";
-		String[] args = {"cat", "~/" + dummyFileName};
+		String[] args = {"cat", "~" + File.separator + dummyFileName};
 		catTool = new CatTool(args);
 		catTool.execute(workingDirectory, null);
 		assertTrue(catTool.getStatusCode() != 0);
@@ -225,11 +225,11 @@ public class CatToolTest {
 	public void catFileInChildDirTest() {
 		String dummyFileName = "file1.txt";
 		String dummyFolderName = "folder1";
-		String[] args = {"cat", dummyFolderName + "/" + dummyFileName};
+		String[] args = {"cat", dummyFolderName + File.separator + dummyFileName};
 		catTool = new CatTool(args);
 		File childDirectory = new File(dummyFolderName);
 	    childDirectory.mkdir();
-		File fileToRead = new File(workingDirectory + "/" + dummyFolderName + "/" + dummyFileName);
+		File fileToRead = new File(workingDirectory + File.separator + dummyFolderName + File.separator + dummyFileName);
 		try {
 			String str = writeRandomStringTo(fileToRead);
 			String result = catTool.execute(workingDirectory, null);
