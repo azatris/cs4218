@@ -35,9 +35,13 @@ public class CopyToolTest {
 		StringBuilder strBuilder = new StringBuilder();
 		Random random = new Random();		
 		int size = random.nextInt(512);
-		char[] chars = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*()-_+=}{][;:'\"?><,./\\\n".toCharArray();
+		String chars = "abcdefghijklmnopqrstuvwxyz"
+				+ "1234567890"
+				+ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+				+ "~!@#$%^&*()-_+=}{] [;:'\"?><,./"
+				+ "\\\n\r\t";
 		for (int i = 0; i < size; i++) {
-			char c = chars[random.nextInt(chars.length)];
+			char c = chars.charAt(random.nextInt(chars.length()));
 			strBuilder.append(c);
 		}
 		String str = strBuilder.toString();

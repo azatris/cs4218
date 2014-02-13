@@ -14,8 +14,13 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 public class MoveTool extends ATool implements IMoveTool {
 
 	public MoveTool(String[] arguments) {
+
 	super(arguments);
 	if (args.length == 0 || !args[0].equals("move")) {
+=======
+		super(arguments);
+		if (args == null || args.length == 0 || !args[0].equals("move")) {
+>>>>>>> 8367ab659ebcbe72e2b87029bdbb98bf2fa77896
 			setStatusCode(127);
 		}
 	}
@@ -81,7 +86,7 @@ public class MoveTool extends ATool implements IMoveTool {
 	
 	@Override
 	public String execute(File workingDir, String stdin) {
-		if (args.length==2) {
+		if (args.length==3) {
 			String fromStr = null;
 			String toStr = null;
 			if (Paths.get(args[1]).isAbsolute()){
