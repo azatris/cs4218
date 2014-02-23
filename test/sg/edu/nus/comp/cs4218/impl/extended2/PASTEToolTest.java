@@ -13,7 +13,7 @@ public class PASTEToolTest {
 	
 	@Before
 	public void before() {
-		pasteTool = new PASTETool(null);
+		pasteTool = new PASTETool(new String[]{"paste"});
 	}
 
 	@After
@@ -22,21 +22,27 @@ public class PASTEToolTest {
 	}
 	
 	
-	//Test pasteSerial method 
+	/**
+	 * Test pasteSerial method
+	 * @CORRECTED 
+	 */
 	@Test
 	public void pasteSerialTest() {
 		String[] input = {"1","2","3","4","5","6"};
-		String output = "1 2 3 4 5 6 \n";
+		String output = "1\t2\t3\t4\t5\t6\t\n";
 		assertEquals(output, pasteTool.pasteSerial(input));
 	}
 	
 	
 	
-	//Test pasteUseDelimiter method 
+	/**
+	 * Test pasteUseDelimiter method
+	 * @CORRECTED 
+	 */
 	@Test
 	public void pasteUseDelimiterTest(){
 		String[] input = {"1","2","3","4","5","6"};
-		String output = "1|2|3|4|5|6|";
+		String output = "1\n2\n3\n4\n5\n6\n";
 		assertEquals(output, pasteTool.pasteUseDelimiter("|",input));		
 	}
 	
