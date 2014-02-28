@@ -197,7 +197,6 @@ public class Shell implements IShell {
 
 	@Override
 	public void stop(Runnable toolExecution) {
-		//TODO Implement
 		final Thread runningThread = (Thread)toolExecution;
 		if (runningThread != null){
 			if(runningThread.isAlive()){
