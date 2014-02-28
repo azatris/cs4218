@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import sg.edu.nus.comp.cs4218.extended2.IPasteTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
@@ -22,13 +25,16 @@ public class PASTETool extends ATool implements IPasteTool {
 	@Override
 	public String pasteSerial(String[] input) {
 		StringBuilder stringBuilder = new StringBuilder();
-		for (String word : input) {
-			stringBuilder.append(word);
-			
+		for (String line : input) {
+			stringBuilder.append(line);
 			// If not end of file, add tab.
-			if (!(word.equals("\n") || word.equals("\r")))
+			if (!(line.equals("\n") || line.equals("\r"))) {
 				stringBuilder.append('\t');
+			} else {
+				stringBuilder.deleteCharAt(stringBuilder.length() - 2);
+			}
 		}
+		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 		stringBuilder.append('\n');
 		
 		return stringBuilder.toString();
@@ -39,28 +45,27 @@ public class PASTETool extends ATool implements IPasteTool {
 		ArrayList<String> output = new ArrayList<>();
 		
 		int filesDone = 0;
+		int delimLength = delim.length();
 		int fileLength = -1;
 		int currentDelimIndex = 0;	
-		int delimLength = delim.length();
 		
 		for (int i = 0; i < input.length; i++) {
-			String word = input[i];
-			
-			if ((word.equals("\n") || word.equals("\r"))) {
-				if (filesDone == 0) {
+			String line = input[i];
+			if ((line.equals("\n") || line.equals("\r"))) {
+				if (fileLength == -1)
 					fileLength = i;
-				}
-				
 				filesDone++;
-				continue;
-			}
-		
-			if (filesDone == 0) {
-				output.add(i, word);
+				currentDelimIndex = 0;
+			} else if (filesDone == 0) {
+				output.add(line);
 			} else {
-				int newIndex = i - filesDone*(fileLength + 1);
-				output.add(newIndex, output.get(newIndex) + delim.charAt(currentDelimIndex) + input[i]);
-				currentDelimIndex = (currentDelimIndex + 1) % delimLength;
+				if (delimLength == 0) {
+					setStatusCode(127);
+				} else {
+					int newIndex = i - filesDone*(fileLength + 1);
+					output.set(newIndex, output.get(newIndex) + delim.charAt(currentDelimIndex) + line);
+					currentDelimIndex = (currentDelimIndex + 1) % delimLength;
+				}	
 			}
 
 		}
@@ -95,104 +100,66 @@ public class PASTETool extends ATool implements IPasteTool {
 		
 		if (args.length < 2) {
 			setStatusCode(127);
-		} else if (args.length == 2) {
-			String argument = args[1];
-			switch (argument) {
-			case "-help":
-				returnable = getHelp();
-				break;
-			case "-":
-				if (stdin != null) {
-					returnable = pasteUseDelimiter("\t", stdin.split("\\r?\\n"));
-				} else {
-					setStatusCode(127);	
-				}
-				break;
-			case "-C":
-				returnable = getMatchingLinesWithOutputContext(num, pattern, input);
-				break;
-			default:
-				setStatusCode(127);
-				break;
-		}
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		if (args.length == 5) {
-			String argument = args[1];
-			int num = Integer.parseInt(args[2]);
-			String pattern = args[3];
-			String input;
-			if (stdin != null) {
-				input = stdin;
-			} else {
-				input = catTool.getStringForFile(new File(args[4]));	
-			}
-			switch (argument) {
-				case "-A":
-					returnable = getMatchingLinesWithTrailingContext(num, pattern, input);
-					break;
-				case "-B":
-					returnable = getMatchingLinesWithLeadingContext(num, pattern, input);
-					break;
-				case "-C":
-					returnable = getMatchingLinesWithOutputContext(num, pattern, input);
-					break;
-				default:
-					setStatusCode(127);
-					break;
-			}
-		} else if (args.length == 4) {
-			String argument = args[1];
-			String pattern = args[2];
-			String input;
-			if (stdin != null) {
-				input = stdin;
-			} else {
-				input = catTool.getStringForFile(new File(args[3]));	
-			}
-			switch (argument) {
-				case "-c":
-					returnable = Integer.toString(getCountOfMatchingLines(pattern, input));
-					break;
-				case "-o":
-					returnable = getMatchingLinesOnlyMatchingPart(pattern, input);
-					break;
-				case "-v":
-					returnable = getNonMatchingLines(pattern, input);
-					break;
-				default:
-					setStatusCode(127);
-					break;
-			}
-		} else if (args.length == 3) {
-			String pattern = args[1];
-			String input;
-			if (stdin != null) {
-				input = stdin;
-			} else {
-				input = catTool.getStringForFile(new File(args[2]));	
-			}
-			returnable = getOnlyMatchingLines(pattern, input);
-		} else if (args.length == 2) {
-			if (args[1].equals("help")) {
-				returnable = getHelp();
-			}
+		} else if (args.length == 2 && args[1].equals("-help")) {
+			returnable = getHelp();
 		} else {
-			setStatusCode(127);                                                                                                                                                                               
-		}		
-		return returnable;
-		return null;
-	}
+			// put all arguments into one string
+			String flag = args[1];
+			StringBuilder builder = new StringBuilder();
+			for(String s : args) {
+			    builder.append(s);
+			    builder.append(' ');
+			}
+			String arguments = builder.toString().trim();
+			
+			// extract the filenames from the arguments
+			String mode = "default";
+			Pattern filesPattern = Pattern.compile("(?<=(^paste(( -d \\S{0,10})|( -s))?)) ((?<!-)\\S)+( ((?<!-)\\S)+)*( -)?");
+			Matcher matcher = filesPattern.matcher(arguments);
+			if (flag.equals("-s")) {
+				mode = "s";
+				matcher.find();
+			} else if (flag.equals("-d")) {
+				mode = "d";
+				matcher.find();
+			}
+			matcher.find();
+			
+			// storing filenames in an array
+			String[] fileNames = matcher.group(0).trim().split(" ");
+			
+			ArrayList<String> input = new ArrayList<>();
+			for (String fileName : fileNames) {
+				if (fileName.equals("-")) {
+					input.addAll(new ArrayList<String>(Arrays.asList(stdin.split("\n"))));
+				} else {
+					String fileContent = catTool.getStringForFile(new File(fileName));
+					fileContent = fileContent.trim(); // for removing trailing newline
+					input.addAll(new ArrayList<String>(Arrays.asList(fileContent.split("\n"))));
+				}
+				input.add("\n");
+			}
+			input.remove(input.size() - 1);
+			
+			String[] inputAsArray = input.toArray(new String[input.size()]);
+			
+			switch (mode) {
+				case "default":
+					returnable = pasteUseDelimiter("\t", inputAsArray);
+					break;
+				case "s":
+					returnable = pasteSerial(inputAsArray);
+					break;
+				case "d":
+					returnable = pasteUseDelimiter(args[2], inputAsArray);
+					break;
+				default:
+					setStatusCode(127);
+					break;
+			}
+			
+		}
 
+		return returnable;
+	}
 }
