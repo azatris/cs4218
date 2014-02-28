@@ -6,6 +6,8 @@ import sg.edu.nus.comp.cs4218.ITool;
 import sg.edu.nus.comp.cs4218.IShell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
 import sg.edu.nus.comp.cs4218.impl.extended1.GrepTool;
+import sg.edu.nus.comp.cs4218.impl.extended2.UniqTool;
+import sg.edu.nus.comp.cs4218.impl.extended2.WcTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CdTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CopyTool;
@@ -157,6 +159,24 @@ public class Shell implements IShell {
 		case "pwd":
 			newCommand = new PWDTool(arguments);
 			break;
+		case "wc":
+			newCommand = new WcTool(arguments);
+			break;
+		case "uniq":
+			newCommand = new UniqTool(arguments);
+			break;
+//		case "cut":
+//			newCommand = new CutTool(arguments);
+//			break;
+//		case "paste":
+//			newCommand = new PasteTool(arguments);
+//			break;
+//		case "sort":
+//			newCommand = new SortTool(arguments);
+//			break;
+//		case "comm":
+//			newCommand = new CommTool(arguments);
+//			break;
 		case "Parsing failed":
 			newCommand = new WrongParsingTool(arguments);
 			System.out.println("Wrong parsing");
@@ -222,8 +242,7 @@ public class Shell implements IShell {
 					executingThread = (Thread)shell.execute(parseResult); //run the thread
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				out.print("IO Exception Caught\n");
 			}
 		}
 		while(true);
@@ -265,6 +284,9 @@ public class Shell implements IShell {
 			case 2:
 				message = "Missing Keyword or Command";
 				break;
+			case 3:
+				message = "No Such File or Directory";
+				break;
 			case 55:
 				//55 is our team special defined code to notify the shell to change workingDirectory
 				workingDirectory = new File(executionResult);
@@ -297,8 +319,8 @@ public class Shell implements IShell {
 			//check whether there is any tool to be executed here
 			if(executionTool != null){
 				final String executionResult = executionTool.execute(workingDirectory, standardIn);
-				if(executionResult != null){
-					String message = getMessage(executionTool.getStatusCode(), executionResult);
+				String message = getMessage(executionTool.getStatusCode(), executionResult);
+				if(message != null){
 					out.println(message);            
 				}
 			}

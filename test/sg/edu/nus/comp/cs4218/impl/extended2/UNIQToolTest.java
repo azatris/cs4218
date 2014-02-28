@@ -15,7 +15,8 @@ public class UNIQToolTest {
 	private IUniqTool uniqTool;
 	@Before
 	public void before() {
-		uniqTool = new UNIQTool(null);
+		String[] args = {"uniq"};
+		uniqTool = new UniqTool(args);
 	}
 
 	@After
@@ -25,12 +26,15 @@ public class UNIQToolTest {
 	
 	
 	//test getUnique method
+	/**
+	 * @Corrected assertEquals("",uniqTool.getUnique(false, input4)); suppose to be assertEquals(input4,uniqTool.getUnique(false, input4));
+	 */
 	@Test
 	public void getUniqueTest() {
 		String input1 = "ab cd ef";
 		String input4 = " AB   cd ef";
 		assertEquals(input1,uniqTool.getUnique(true, input1));
-		assertEquals("",uniqTool.getUnique(false, input4));
+		assertEquals(input4,uniqTool.getUnique(false, input4));
 		assertEquals(input4,uniqTool.getUnique(true, input4));
 	}
 	
@@ -50,12 +54,15 @@ public class UNIQToolTest {
 	}
 	
 	//test getUniqueSkipNum method for out of range
+	/**
+	 * @Corrected assertEquals("",uniqTool.getUniqueSkipNum(false, input2)); suppose to be assertEquals(input2,uniqTool.getUniqueSkipNum(false, input2));
+	 */
 	@Test
 	public void getUniqueSkipNumInvalidRangeTest(){
 		String input1 = "a b c d e";
 		String input2 = "b  b c d e";
 		assertEquals(input1,uniqTool.getUniqueSkipNum(100,true, input1));
-		assertEquals("",uniqTool.getUniqueSkipNum(100,false, input2));
+		assertEquals(input2,uniqTool.getUniqueSkipNum(100,false, input2));
 	}
 	
 	//test getUniqueSkipNum method for null

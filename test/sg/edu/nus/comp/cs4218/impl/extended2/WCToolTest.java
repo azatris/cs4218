@@ -14,7 +14,8 @@ public class WCToolTest {
 
 	@Before
 	public void before() {
-		wcTool = new WCTool(null);
+		String[] args = {"wc"};
+		wcTool = new WcTool(args);
 	}
 
 	@After
@@ -50,6 +51,7 @@ public class WCToolTest {
 
 		String input = "\n Test 4 3 \n"; 
 		assertEquals("3", wcTool.getWordCount(input));
+		
 	}
 
 	//test getWordCountTest for null string
@@ -63,8 +65,8 @@ public class WCToolTest {
 	//Test getNewLineCount with string with newline
 	@Test
 	public void getNewLineCountTest() {
-		String input = "Test this\n\r"; // with new line character
-		assertEquals("2", wcTool.getNewLineCount(input));
+		String input = "Test this\n\n\n"; // with new line character
+		assertEquals("3", wcTool.getNewLineCount(input));
 	}
 
 	//Test getNewLineCount with null string
