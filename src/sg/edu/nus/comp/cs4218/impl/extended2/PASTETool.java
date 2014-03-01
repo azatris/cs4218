@@ -22,6 +22,11 @@ public class PASTETool extends ATool implements IPasteTool {
 		}
 	}
 
+	/**
+	 * Is called using -s flag.
+	 * @param input all files' data separated by newlines
+	 * @return final output
+	 */
 	@Override
 	public String pasteSerial(String[] input) {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -40,6 +45,12 @@ public class PASTETool extends ATool implements IPasteTool {
 		return stringBuilder.toString();
 	}
 
+	/**
+	 * Is called using -d flag, no flag defaults to "-d \t".
+	 * @param delim one or more delimiters for separating files' data in output into columns
+	 * @param input all files' data separated by newlines
+	 * @return final output
+	 */
 	@Override
 	public String pasteUseDelimiter(String delim, String[] input) {
 		ArrayList<String> output = new ArrayList<>();
@@ -79,6 +90,10 @@ public class PASTETool extends ATool implements IPasteTool {
 		return stringBuilder.toString();
 	}
 
+	/**
+	 * Prints general information about the usage of the tool.
+	 * @return help text
+	 */
 	@Override
 	public String getHelp() {
 		Properties prop = new Properties();
@@ -90,6 +105,13 @@ public class PASTETool extends ATool implements IPasteTool {
 		return prop.getProperty("pasteHelp");
 	}
 
+	/**
+	 * The general go-to method for using the tool that calls
+	 * the suitable submethods.
+	 * @param workingDir current working directory
+	 * @param stdin optional standard input from e.g. pipe tool
+	 * @return output
+	 */
 	@Override
 	// assumes files are separated by \n or \r
 	public String execute(File workingDir, String stdin) {
