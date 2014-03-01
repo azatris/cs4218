@@ -1,10 +1,15 @@
 package sg.edu.nus.comp.cs4218.impl.extended2;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import sg.edu.nus.comp.cs4218.extended2.ISortTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
@@ -49,7 +54,7 @@ public class SORTTool extends ATool implements ISortTool {
 
 	@Override
 	public String checkIfSorted(String input) {
-		String firstUnsortedLine = null;
+		String firstUnsortedLine = "";
 		
 		// using catTool to call the file reading method
 		CatTool catTool = new CatTool(new String[]{"cat"});
@@ -66,7 +71,7 @@ public class SORTTool extends ATool implements ISortTool {
 			if (lastLine.compareTo(currentLine) <= 0) {
 				lastLine = currentLine;
 			} else {
-				firstUnsortedLine = "sort: " + input + ":" + lineNumber + " disorder: " + currentLine;
+				firstUnsortedLine = "sort: " + input + ":" + lineNumber + " disorder: " + currentLine + "\n";
 				break;
 			}
 			lineNumber++;
@@ -76,16 +81,76 @@ public class SORTTool extends ATool implements ISortTool {
 		return firstUnsortedLine;
 	}
 
+	/**
+	 * Prints general information about the usage of the tool.
+	 * @return help text
+	 */
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileInputStream("config.properties"));
+		} catch (IOException e) {
+			e.printStackTrace();			
+		}
+		return prop.getProperty("sortHelp");
 	}
 
 	@Override
 	public String execute(File workingDir, String stdin) {
-		// TODO Auto-generated method stub
-		return null;
+		// using catTool to call the file reading method
+		CatTool catTool = new CatTool(new String[]{"cat"});
+		
+		String returnable = null;
+		
+		if (args.length < 2) {
+			setStatusCode(127);
+		} else if (args.length == 2 && args[1].equals("-help")) {
+			returnable = getHelp();
+		} else {
+			// put all arguments into one string
+			StringBuilder builder = new StringBuilder();
+			for (String s : args) {
+				builder.append(s);
+				builder.append(' ');
+			}
+			String arguments = builder.toString().trim();
+			
+			// extract the filenames from the arguments
+			Pattern filesPattern = Pattern.compile("(?<=(^sort( -c)?)) ((?<!-)\\S)+( ((?<!-)\\S)+)*( -)?");
+			Matcher matcher = filesPattern.matcher(arguments);
+			boolean cFlag = args[1].equals("-c");
+			if (cFlag) {
+				matcher.find();
+			}
+			matcher.find();
+			
+			// storing filenames in an array
+			String[] fileNames = matcher.group(0).trim().split(" ");
+			
+			StringBuilder input = new StringBuilder();
+			for (String fileName : fileNames) {
+				if (fileName.equals("-")) {
+					input.append(stdin);
+				} else {
+					String fileContent = catTool.getStringForFile(new File(fileName));
+					fileContent = fileContent.trim(); // for removing trailing newline
+					input.append(fileContent);
+				}
+				input.append('\n');
+			}
+			input.deleteCharAt(input.length() - 1);
+			
+			String concatenatedInput = input.toString();
+
+			if (cFlag) {
+				returnable = checkIfSorted(concatenatedInput);
+			} else {
+				returnable = sortFile(concatenatedInput);
+			}
+		}
+
+		return returnable;
 	}
 
 }

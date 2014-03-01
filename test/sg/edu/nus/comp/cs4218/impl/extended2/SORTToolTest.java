@@ -73,7 +73,10 @@ public class SORTToolTest {
 		assertEquals(result, "aaa\nbbb\nfff\nggg\nzzz\n");
 	}
 
-	//test checkIfSorted method on sorted file
+	/**
+	 * test checkIfSorted method on sorted file
+	 * @CORRECTED
+	 */
 	@Test
 	public void checkIfSortedTestForUnsortedFile() {
 		String result = sortTool.checkIfSorted("unSortFile.txt");
