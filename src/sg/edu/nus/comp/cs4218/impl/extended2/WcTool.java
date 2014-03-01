@@ -27,18 +27,15 @@ public class WcTool extends ATool implements IWcTool{
 	 * @param the name of the file
 	 * @return the content of the file
 	 */
-	public String readFile(String filename){
+	public static String readFile(String filename){
 		try {
 			FileInputStream inputStream = new FileInputStream(filename);
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 			StringBuilder builder = new StringBuilder();
-			String line = br.readLine();
-			while(line != null){
-				builder.append(line);
-				line = br.readLine();
-				if(line != null){
-					builder.append(System.getProperty("line.separator"));
-				}
+			int currentChar = br.read();
+			while(currentChar != -1){
+				builder.append((char)currentChar);
+				currentChar = br.read();
 			}
 			br.close();
 
@@ -55,7 +52,7 @@ public class WcTool extends ATool implements IWcTool{
 	 * @param the given filename
 	 * @return true if the file exists
 	 */
-	private boolean checkFileExistence(String filename){
+	public static boolean checkFileExistence(String filename){
 		if(new File(filename).exists()){
 			return true;
 		}
@@ -63,11 +60,6 @@ public class WcTool extends ATool implements IWcTool{
 			return false;
 		}
 	}
-
-	/**
-	 * 
-	 */
-	
 
 	@Override
 	public String execute(File workingDir, String stdin) {
@@ -149,6 +141,9 @@ public class WcTool extends ATool implements IWcTool{
 
 	}
 
+	/**
+	 * Count the number of character in the given input
+	 */
 	@Override
 	public String getCharacterCount(String input) {
 		int count = 0;
@@ -161,6 +156,9 @@ public class WcTool extends ATool implements IWcTool{
 		return Integer.toString(count);	
 	}
 
+	/**
+	 * Count the number of words in the given input
+	 */
 	@Override
 	public String getWordCount(String input) {
 		int count = 0;
@@ -174,19 +172,23 @@ public class WcTool extends ATool implements IWcTool{
 		return Integer.toString(count);
 	}
 
+	/**
+	 * Count the number of new line in the given input
+	 */
 	@Override
 	public String getNewLineCount(String input) {
 		int count = 0;
-		if(input!=null){
-			String[] token = input.split("(\\n)|(\\r)|(\\n\\r)");
-			count = token.length;
-		}
-		else{
-			setStatusCode(1);
+		for(int i=0; i< input.length(); i++){
+			if(input.charAt(i) == '\n'){
+				count++;
+			}
 		}
 		return Integer.toString(count);
 	}
 
+	/**
+	 * Get the corresponding help explanation
+	 */
 	@Override
 	public String getHelp() {
 		String help = "Command Format - wc [OPTIONS] [FILE]\n"

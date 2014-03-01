@@ -2,6 +2,12 @@ package sg.edu.nus.comp.cs4218.impl.extended2;
 
 import static org.junit.Assert.*;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +42,7 @@ public class WCToolTest {
 		String input = "Test this\n"; 
 		assertEquals("10", wcTool.getCharacterCount(input));
 	}
-	
+
 	//test getCharacterCount method with empty string
 	@Test
 	public void getCharacterCountEmptyStringTest() {
@@ -51,7 +57,7 @@ public class WCToolTest {
 
 		String input = "\n Test 4 3 \n"; 
 		assertEquals("3", wcTool.getWordCount(input));
-		
+
 	}
 
 	//test getWordCountTest for null string
@@ -74,5 +80,63 @@ public class WCToolTest {
 	public void getNewLineCountForNullTest() {
 		String input = null;
 		assertEquals("0", wcTool.getWordCount(input));
+	}
+
+	//Add additional test cases
+	//Test reading File
+	@Test
+	public void readFileTest() {
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummy file";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+			assertEquals(fileContent, WcTool.readFile(tempFileName));
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	//Check whether an existing file is considered as exist
+	@Test
+	public void checkFileExistenceForExistingFile(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummy file";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+			assertTrue(WcTool.checkFileExistence(tempFileName));
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	//Check whether a non-existing file is considered as not exist
+	@Test
+	public void checkFileExistenceForNonExistingFile(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummy file";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+			tempFile.delete();
+			assertFalse(WcTool.checkFileExistence(tempFileName));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

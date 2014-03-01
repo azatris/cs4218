@@ -41,18 +41,15 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * @param the name of the file
 	 * @return the content of the file
 	 */
-	public String readFile(String filename){
+	public static String readFile(String filename){
 		try {
 			FileInputStream inputStream = new FileInputStream(filename);
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 			StringBuilder builder = new StringBuilder();
-			String line = br.readLine();
-			while(line != null){
-				builder.append(line);
-				line = br.readLine();
-				if(line != null){
-					builder.append(System.getProperty("line.separator"));
-				}
+			int currentChar = br.read();
+			while(currentChar != -1){
+				builder.append((char)currentChar);
+				currentChar = br.read();
 			}
 			br.close();
 
