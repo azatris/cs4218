@@ -24,15 +24,16 @@ public class SORTTool extends ATool implements ISortTool {
 		}
 	}
 
+	/**
+	 * Sorts files alphabetically
+	 * @param input concatenated string of files to be sorted
+	 * @return sorted concatenated string
+	 */
 	@Override
 	public String sortFile(String input) {
-		// using catTool to call the file reading method
-		CatTool catTool = new CatTool(new String[]{"cat"});
-		String sortableString = catTool.getStringForFile(new File(input));
-		
 		// putting all of the rows in an array
 		ArrayList<String> sortList = new ArrayList<>();
-		Scanner scanner = new Scanner(sortableString);
+		Scanner scanner = new Scanner(input);
 		String currentLine;
 		while (scanner.hasNextLine()) {
 			currentLine = scanner.nextLine();
@@ -52,17 +53,21 @@ public class SORTTool extends ATool implements ISortTool {
 		return stringBuilder.toString();
 	}
 
+	/**
+	 * Checks whether a particular file is sorted,
+	 * if not points out the first occurrence of disorder.
+	 * @param input name of file to be sorted
+	 * @return empty if sorted, else the disorder occurrence
+	 */
 	@Override
 	public String checkIfSorted(String input) {
 		String firstUnsortedLine = "";
 		
-		// using catTool to call the file reading method
 		CatTool catTool = new CatTool(new String[]{"cat"});
-		String sortableString = catTool.getStringForFile(new File(input));
-		
-		
+		String fileData = catTool.getStringForFile(new File(input));
+
 		// finding the first unsorted line, if it exists
-		Scanner scanner = new Scanner(sortableString);
+		Scanner scanner = new Scanner(fileData);
 		String currentLine;
 		String lastLine = "";
 		int lineNumber = 1;
@@ -96,6 +101,13 @@ public class SORTTool extends ATool implements ISortTool {
 		return prop.getProperty("sortHelp");
 	}
 
+	/**
+	 * The general go-to method for using the tool that calls
+	 * the suitable submethods.
+	 * @param workingDir current working directory
+	 * @param stdin optional standard input from e.g. pipe tool
+	 * @return output
+	 */
 	@Override
 	public String execute(File workingDir, String stdin) {
 		// using catTool to call the file reading method
@@ -107,6 +119,16 @@ public class SORTTool extends ATool implements ISortTool {
 			setStatusCode(127);
 		} else if (args.length == 2 && args[1].equals("-help")) {
 			returnable = getHelp();
+		} else if (args[1].equals("-c")) {
+			if (args.length == 3) {
+				if (args[2].equals("-")) {
+					setStatusCode(127);
+				} else {
+					returnable = checkIfSorted(args[2]);
+				}
+			} else {
+				setStatusCode(127);
+			}
 		} else {
 			// put all arguments into one string
 			StringBuilder builder = new StringBuilder();
@@ -119,10 +141,6 @@ public class SORTTool extends ATool implements ISortTool {
 			// extract the filenames from the arguments
 			Pattern filesPattern = Pattern.compile("(?<=(^sort( -c)?)) ((?<!-)\\S)+( ((?<!-)\\S)+)*( -)?");
 			Matcher matcher = filesPattern.matcher(arguments);
-			boolean cFlag = args[1].equals("-c");
-			if (cFlag) {
-				matcher.find();
-			}
 			matcher.find();
 			
 			// storing filenames in an array
@@ -143,11 +161,7 @@ public class SORTTool extends ATool implements ISortTool {
 			
 			String concatenatedInput = input.toString();
 
-			if (cFlag) {
-				returnable = checkIfSorted(concatenatedInput);
-			} else {
-				returnable = sortFile(concatenatedInput);
-			}
+			returnable = sortFile(concatenatedInput);
 		}
 
 		return returnable;
