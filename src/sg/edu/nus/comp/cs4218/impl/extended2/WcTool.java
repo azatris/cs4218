@@ -104,14 +104,21 @@ public class WcTool extends ATool implements IWcTool{
 				if(checkFileExistence(filename)){
 					String input = readFile(filename);
 					for(int i = 1; i < args.length - 1; i++){
-						if(args[i].equals("-m")){
-							characterCount = getCharacterCount(input);
+						if(args[i].equals("-m")||args[i].equals("-w")||args[i].equals("-l")){
+							if(args[i].equals("-m")){
+								characterCount = getCharacterCount(input);
+							}
+							if(args[i].equals("-w")){
+								wordCount = getWordCount(input);
+							}
+							if(args[i].equals("-l")){
+								newLineCount = getNewLineCount(input);
+							}
 						}
-						if(args[i].equals("-w")){
-							wordCount = getWordCount(input);
-						}
-						if(args[i].equals("-l")){
-							newLineCount = getNewLineCount(input);
+						else{
+							System.err.println("Illegal Option");
+							setStatusCode(2);
+							return null;
 						}
 					}
 				}
@@ -131,10 +138,10 @@ public class WcTool extends ATool implements IWcTool{
 		if(characterCount != null){
 			output.append("   " + "Character: "+ characterCount);
 		}
-		if(characterCount != null){
+		if(wordCount != null){
 			output.append("   " + "Word: "+ wordCount);
 		}
-		if(characterCount != null){
+		if(newLineCount != null){
 			output.append("   " + "New Line: "+ newLineCount);
 		}
 		return output.toString();

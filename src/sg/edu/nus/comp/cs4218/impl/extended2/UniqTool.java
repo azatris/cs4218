@@ -27,7 +27,7 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * @param the given filename
 	 * @return true if the file exists
 	 */
-	private boolean checkFileExistence(String filename){
+	public static boolean checkFileExistence(String filename){
 		if(new File(filename).exists()){
 			return true;
 		}
@@ -115,28 +115,48 @@ public class UniqTool extends ATool implements IUniqTool{
 			int offSet = 0;
 
 			for(int i = 1; i < args.length - 1; i++){
-				if(args[i].equals("-i")){
-					checkCase = false;
-				}
-				if(args[i].equals("-f")){
-					if(i != args.length-1){
-						try{
-							offSet = Integer.parseInt(args[i+1]);
-							skipChar = true;
+				if(args[i].equals("-i")||args[i].equals("-f")){
+					if(args[i].equals("-i")){
+						checkCase = false;
+					}
+					if(args[i].equals("-f")){
+						if(i != args.length-1){
+							try{
+								offSet = Integer.parseInt(args[i+1]);
+								skipChar = true;
+							}
+							catch(NumberFormatException e){
+								setStatusCode(2);
+								System.err.print("-f needs to be followed with an int value");
+								return null;
+							}
 						}
-						catch(NumberFormatException e){
+						else{
 							setStatusCode(2);
-							System.err.print("-f needs to be followed with an int value");
+							System.err.print("-f needs to be followed with skip number");
 							return null;
 						}
 					}
-					else{
+				}
+				else{
+					//if it is not option -i, -f, we can consider this argument is illegal if it is integer and followed by -f
+					try{
+						Integer.parseInt(args[i]);
+						if(!(args[i-1].equals("-f"))){
+							setStatusCode(2);
+							System.err.println("Illegal Option");
+							return null;
+						}
+					}
+					catch(NumberFormatException e){
 						setStatusCode(2);
-						System.err.print("-f needs to be followed with skip number");
+						System.err.println("Illegal Option");
 						return null;
 					}
 				}
+
 			}
+
 
 			String input = null;
 			String filename = args[args.length-1];
@@ -207,9 +227,15 @@ public class UniqTool extends ATool implements IUniqTool{
 				//Check similarity with previous line
 				if(!currentLineConsideringCase.equals(prev)){
 					output.append(currentLine);
-					//Add line separator if this is not the last line
+					//Add line separator if this is not the last line 
 					if(i != line.length-1){
 						output.append(lineSeparator);
+					}
+					else{
+						//add line separator if the original input ends with new line
+						if(input.endsWith(lineSeparator)){
+							output.append(lineSeparator);
+						}
 					}
 				}
 				prev = currentLineConsideringCase;
@@ -258,7 +284,7 @@ public class UniqTool extends ATool implements IUniqTool{
 				//Set the offset
 				if(NUM <= 0){
 					setStatusCode(1);
-					System.out.println("Invalid Skip Number, Skip Number must be greater or equal to 0");
+					System.err.println("Invalid Skip Number, Skip Number must be greater or equal to 0");
 					return null;
 				}
 				else{
@@ -271,12 +297,18 @@ public class UniqTool extends ATool implements IUniqTool{
 				//Check similarity with previous line
 				if(!offSetCurrentLine.equals(offSetPrev)){
 					output.append(currentLine);
+					//Add line separator if this is not the last line
+					if(i != line.length-1){
+						output.append(lineSeparator);
+					}
+					else{
+						//add line separator if the original input ends with new line
+						if(input.endsWith(lineSeparator)){
+							output.append(lineSeparator);
+						}
+					}
 				}
 
-				//Add line separator if this is not the last line
-				if(i != line.length-1){
-					output.append(lineSeparator);
-				}
 				prev = currentLineConsideringCase;
 			}
 			return output.toString();

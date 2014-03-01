@@ -88,7 +88,7 @@ public class WCToolTest {
 	public void readFileTest() {
 		try {
 			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummy file";
+			String tempFileName = "dummyfile";
 			File tempFile = new File(tempFileName);
 			String fileContent = "This is just a dummy file content \n The End\n";
 			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
@@ -107,7 +107,7 @@ public class WCToolTest {
 	public void checkFileExistenceForExistingFile(){
 		try {
 			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummy file";
+			String tempFileName = "dummyfile";
 			File tempFile = new File(tempFileName);
 			String fileContent = "This is just a dummy file content \n The End\n";
 			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
@@ -126,7 +126,7 @@ public class WCToolTest {
 	public void checkFileExistenceForNonExistingFile(){
 		try {
 			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummy file";
+			String tempFileName = "dummyfile";
 			File tempFile = new File(tempFileName);
 			String fileContent = "This is just a dummy file content \n The End\n";
 			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
@@ -134,6 +134,130 @@ public class WCToolTest {
 			out.close();
 			tempFile.delete();
 			assertFalse(WcTool.checkFileExistence(tempFileName));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command
+	@Test
+	public void executionTest(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			WcTool tempWcTool = new WcTool(new String[]{"wc",tempFileName});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedCharCount = tempWcTool.getCharacterCount(fileContent);
+			String expectedWordCount = tempWcTool.getWordCount(fileContent);
+			String expectedNewLineCount = tempWcTool.getNewLineCount(fileContent);
+			String expectedResult = "   Character: " + expectedCharCount + "   Word: " + expectedWordCount + "   New Line: " + expectedNewLineCount;
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempWcTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command with M option
+	@Test
+	public void executionTestWithMOption(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			WcTool tempWcTool = new WcTool(new String[]{"wc","-m",tempFileName});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedCharCount = tempWcTool.getCharacterCount(fileContent);
+			String expectedResult = "   Character: " + expectedCharCount;
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempWcTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command with W option
+	@Test
+	public void executionTestWithWOption(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			WcTool tempWcTool = new WcTool(new String[]{"wc","-w",tempFileName});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedWordCount = tempWcTool.getWordCount(fileContent);
+			String expectedResult = "   Word: " + expectedWordCount;
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempWcTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command with L option
+	@Test
+	public void executionTestWithLOption(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			WcTool tempWcTool = new WcTool(new String[]{"wc","-l",tempFileName});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedNewLineCount = tempWcTool.getNewLineCount(fileContent);
+			String expectedResult = "   New Line: " + expectedNewLineCount;
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempWcTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command with illegal option
+	@Test
+	public void executionTestWithIllegalOption(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			WcTool tempWcTool = new WcTool(new String[]{"wc","-z",tempFileName}); //-z is illegal option
+			tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+			assertNotEquals(0, tempWcTool.getStatusCode());
+			tempFile.delete();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

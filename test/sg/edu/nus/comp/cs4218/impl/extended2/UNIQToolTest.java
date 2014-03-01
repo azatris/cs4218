@@ -86,7 +86,7 @@ public class UNIQToolTest {
 			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
 			out.writeBytes(fileContent);
 			out.close();
-			assertEquals(fileContent, WcTool.readFile(tempFileName));
+			assertEquals(fileContent, UniqTool.readFile(tempFileName));
 			tempFile.delete();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -105,7 +105,7 @@ public class UNIQToolTest {
 			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
 			out.writeBytes(fileContent);
 			out.close();
-			assertTrue(WcTool.checkFileExistence(tempFileName));
+			assertTrue(UniqTool.checkFileExistence(tempFileName));
 			tempFile.delete();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -125,7 +125,191 @@ public class UNIQToolTest {
 			out.writeBytes(fileContent);
 			out.close();
 			tempFile.delete();
-			assertFalse(WcTool.checkFileExistence(tempFileName));
+			assertFalse(UniqTool.checkFileExistence(tempFileName));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command
+	@Test
+	public void executionTest(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "a dummy file content \na dummy file content \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			UniqTool tempUniqTool = new UniqTool(new String[]{"uniq",tempFileName});
+			String executionResult = tempUniqTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedResult = "a dummy file content \n The End\n";
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempUniqTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command ignoring case
+	@Test
+	public void executionTestIgnoringCase(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "A DUMMY FILE CONTENT\na dummy file content\n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			UniqTool tempUniqTool = new UniqTool(new String[]{"uniq","-i",tempFileName});
+			String executionResult = tempUniqTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedResult = "A DUMMY FILE CONTENT\n The End\n";
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempUniqTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command skipping 1 token
+	@Test
+	public void executionTestSkipping1Token(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "a dummy file content \nnot dummy file content \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			UniqTool tempUniqTool = new UniqTool(new String[]{"uniq","-f","1",tempFileName});
+			String executionResult = tempUniqTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedResult = "a dummy file content \n The End\n";
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempUniqTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command skipping 1 token ignoring case
+	@Test
+	public void executionTestSkipping1TokenIgnoringCase(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "a dummy file content \nNOT DUMMY FILE CONTENT \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			UniqTool tempUniqTool = new UniqTool(new String[]{"uniq","-i","-f","1",tempFileName});
+			String executionResult = tempUniqTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedResult = "a dummy file content \n The End\n";
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempUniqTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command with illegal option
+	@Test
+	public void executionTestIllegalOption(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "a dummy file content \nNOT DUMMY FILE CONTENT \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			UniqTool tempUniqTool = new UniqTool(new String[]{"uniq","-z",tempFileName}); //-z is illegal option here
+			tempUniqTool.execute(new File(System.getProperty("user.dir")), null);
+			assertNotEquals(0, tempUniqTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command with 0 skip number (illegal)
+	@Test
+	public void executionTestIllegal0SkipNumber(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "a dummy file content \nNOT DUMMY FILE CONTENT \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			UniqTool tempUniqTool = new UniqTool(new String[]{"uniq","-f","0",tempFileName}); //-z is illegal option here
+			tempUniqTool.execute(new File(System.getProperty("user.dir")), null);
+			assertNotEquals(0, tempUniqTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command with negative skip number (illegal)
+	@Test
+	public void executionTestIllegalNegativeSkipNumber(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "a dummy file content \nNOT DUMMY FILE CONTENT \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			UniqTool tempUniqTool = new UniqTool(new String[]{"uniq","-f","-1",tempFileName}); //-z is illegal option here
+			tempUniqTool.execute(new File(System.getProperty("user.dir")), null);
+			assertNotEquals(0, tempUniqTool.getStatusCode());
+			tempFile.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Test executing a simple command with Non-Integer skip number (illegal)
+	@Test
+	public void executionTestIllegalNonIntegerSkipNumber(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			File tempFile = new File(tempFileName);
+			String fileContent = "a dummy file content \nNOT DUMMY FILE CONTENT \n The End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+
+			UniqTool tempUniqTool = new UniqTool(new String[]{"uniq","-f","10a00",tempFileName}); //-z is illegal option here
+			tempUniqTool.execute(new File(System.getProperty("user.dir")), null);
+			assertNotEquals(0, tempUniqTool.getStatusCode());
+			tempFile.delete();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
