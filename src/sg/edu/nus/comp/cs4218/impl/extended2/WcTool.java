@@ -11,6 +11,10 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class WcTool extends ATool implements IWcTool{
 
+	/**
+	 * Constructor taking the arguments
+	 * @param arguments (args[0] is the command name)
+	 */
 	public WcTool(String[] arguments) {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("wc")) {
@@ -18,6 +22,11 @@ public class WcTool extends ATool implements IWcTool{
 		}
 	}
 
+	/**
+	 * Helper method to open a stream to a file and read its content
+	 * @param the name of the file
+	 * @return the content of the file
+	 */
 	public String readFile(String filename){
 		try {
 			FileInputStream inputStream = new FileInputStream(filename);
@@ -41,6 +50,11 @@ public class WcTool extends ATool implements IWcTool{
 		return null;
 	}
 
+	/**
+	 * Helper method to check whether the given filename exists in the system
+	 * @param the given filename
+	 * @return true if the file exists
+	 */
 	private boolean checkFileExistence(String filename){
 		if(new File(filename).exists()){
 			return true;
@@ -49,6 +63,11 @@ public class WcTool extends ATool implements IWcTool{
 			return false;
 		}
 	}
+
+	/**
+	 * 
+	 */
+	
 
 	@Override
 	public String execute(File workingDir, String stdin) {

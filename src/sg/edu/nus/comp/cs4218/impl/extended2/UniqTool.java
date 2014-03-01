@@ -11,6 +11,10 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class UniqTool extends ATool implements IUniqTool{
 
+	/**
+	 * Constructor taking the arguments
+	 * @param arguments (args[0] is the command name)
+	 */
 	public UniqTool(String[] arguments) {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("uniq")) {
@@ -18,6 +22,11 @@ public class UniqTool extends ATool implements IUniqTool{
 		}
 	}
 
+	/**
+	 * Helper method to check whether the given filename exists in the system
+	 * @param the given filename
+	 * @return true if the file exists
+	 */
 	private boolean checkFileExistence(String filename){
 		if(new File(filename).exists()){
 			return true;
@@ -27,6 +36,11 @@ public class UniqTool extends ATool implements IUniqTool{
 		}
 	}
 
+	/**
+	 * Helper method to open a stream to a file and read its content
+	 * @param the name of the file
+	 * @return the content of the file
+	 */
 	public String readFile(String filename){
 		try {
 			FileInputStream inputStream = new FileInputStream(filename);
@@ -48,6 +62,29 @@ public class UniqTool extends ATool implements IUniqTool{
 			System.err.print("IO Exception caught");
 		}
 		return null;
+	}
+
+	private String skipFields(String line, int NUM){
+		if(line == null || line.equals("")){
+			return "";
+		}
+		else{
+			int skipCount = 0;
+			//normalize the counting, in case the first character is the null
+			if((line.charAt(0) == ' ')||(line.charAt(0) == '\t')){
+				skipCount--;
+			}
+			for(int i = 0; i < line.length()-1; i++){
+				if(((line.charAt(i) == ' ')||(line.charAt(i) == '\t'))&&((line.charAt(i+1) != ' ')||(line.charAt(i+1) != '\t'))){
+					skipCount++;
+				}
+				if(skipCount == NUM){
+					return line.substring(i+1);
+				}
+			}
+			//return empty string when the NUM > skipCount (number of tokens available in this line)
+			return "";
+		}
 	}
 
 	@Override
@@ -91,11 +128,13 @@ public class UniqTool extends ATool implements IUniqTool{
 							skipChar = true;
 						}
 						catch(NumberFormatException e){
+							setStatusCode(2);
 							System.err.print("-f needs to be followed with an int value");
 							return null;
 						}
 					}
 					else{
+						setStatusCode(2);
 						System.err.print("-f needs to be followed with skip number");
 						return null;
 					}
@@ -134,10 +173,27 @@ public class UniqTool extends ATool implements IUniqTool{
 		return output;
 	}
 
-	@Override
+	/**Check the given input, and eliminate any duplicate line
+	 * @param	checkCase	false if ignore checking the case
+	 * @param	input	the input to be checked
+	 * @return	the unique line
+	 */
 	public String getUnique(boolean checkCase, String input) {
 		if(input != null){
-			String[] line = input.split("(\\n)|(\\r)|(\\n\\r)|(\\r\\n)");
+			String[] line = null;
+			String lineSeparator = ""; //determine the line separator for the input (different OS different line separator)
+			if(input.contains("\r\n")){
+				lineSeparator = "\r\n";
+				line = input.split("\\r\\n");
+			}
+			else if(input.contains("\n")){
+				lineSeparator = "\n";
+				line = input.split("\\n");
+			}
+			else{
+				line = input.split("\\n");
+			}
+
 			String currentLine = null;
 			String currentLineConsideringCase = null;
 			String prev = null;
@@ -156,7 +212,7 @@ public class UniqTool extends ATool implements IUniqTool{
 					output.append(currentLine);
 					//Add line separator if this is not the last line
 					if(i != line.length-1){
-						output.append(System.getProperty("line.separator"));
+						output.append(lineSeparator);
 					}
 				}
 				prev = currentLineConsideringCase;
@@ -168,10 +224,26 @@ public class UniqTool extends ATool implements IUniqTool{
 		}
 	}
 
-	@Override
+	/**Check the given input, and eliminate any duplicate line (considering skipping some tokens)
+	 * @param	checkCase	false if ignore checking the case
+	 * @param	input	the input to be checked
+	 * @return	the unique line
+	 */
 	public String getUniqueSkipNum(int NUM, boolean checkCase, String input) {
 		if(input != null){
-			String[] line = input.split("(\\n)|(\\r)|(\\n\\r)|(\\r\\n)");
+			String[] line = null;
+			String lineSeparator = ""; //determine the line separator for the input (different OS different line separator)
+			if(input.contains("\r\n")){
+				lineSeparator = "\r\n";
+				line = input.split("\\r\\n");
+			}
+			else if(input.contains("\n")){
+				lineSeparator = "\n";
+				line = input.split("\\n");
+			}
+			else{
+				line = input.split("\\n");
+			}
 			String currentLine = null;
 			String currentLineConsideringCase = null;
 			String prev = null;
@@ -188,23 +260,14 @@ public class UniqTool extends ATool implements IUniqTool{
 				String offSetPrev = prev;
 				//Set the offset
 				if(NUM <= 0){
-					System.out.println("Invalid Skip Number");
+					setStatusCode(1);
+					System.out.println("Invalid Skip Number, Skip Number must be greater or equal to 0");
 					return null;
 				}
 				else{
-					if(currentLine.length() >= NUM){
-						offSetCurrentLine = currentLineConsideringCase.substring(NUM-1);
-					}
-					else{
-						offSetCurrentLine = "";
-					}
+					offSetCurrentLine = skipFields(currentLineConsideringCase, NUM);
 					if(prev != null){
-						if(prev.length() >= NUM){
-							offSetPrev = prev.substring(NUM-1);
-						}
-						else{
-							offSetPrev = "";
-						}
+						offSetPrev = skipFields(prev,NUM);
 					}
 				}
 
@@ -212,10 +275,10 @@ public class UniqTool extends ATool implements IUniqTool{
 				if(!offSetCurrentLine.equals(offSetPrev)){
 					output.append(currentLine);
 				}
-				
+
 				//Add line separator if this is not the last line
 				if(i != line.length-1){
-					output.append(System.getProperty("line.separator"));
+					output.append(lineSeparator);
 				}
 				prev = currentLineConsideringCase;
 			}
