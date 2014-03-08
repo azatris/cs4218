@@ -78,13 +78,13 @@ public class CatTool extends ATool implements ICatTool {
 		}
 		StringBuilder newWorkingDir = new StringBuilder();
 		if (System.getProperty("os.name").toLowerCase().indexOf("mac") > 0){
-			newWorkingDir.append(separator);
+			newWorkingDir.append(File.separator);
 		}
 		for (int i = 0; i<buildNewAbsDir.size(); i++){
 			newWorkingDir.append(buildNewAbsDir.get(i));
-			if ( i != 0 ){
-				newWorkingDir.append(separator);
-			}		
+			//if ( i != 0 ){
+				newWorkingDir.append(File.separator);
+			//}		
 		}
 		return newWorkingDir.toString();
 	}
@@ -106,6 +106,7 @@ public class CatTool extends ATool implements ICatTool {
 					strForFile = getStringForFile(new File(args[i]));
 				}else{
 					strForFile = getStringForFile(new File(concatenateDirectory(workingDir.getAbsolutePath(), args[i])));
+					System.out.println(concatenateDirectory(workingDir.getAbsolutePath(), args[i]));
 				}
 				if (strForFile == null){ 
 					strForFile = "cat: " + args[i] +": No such file or directory\n";
