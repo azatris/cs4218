@@ -29,7 +29,7 @@ import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
 public class CutTool extends ATool implements ICutTool {
     public CutTool(String[] args) {
 		super(args);
-		if (args.length < 4 || !args[0].equals("cut")) {
+		if (!args[0].equals("cut")) {
 			setStatusCode(127);
 		}
 	}
@@ -44,6 +44,10 @@ public class CutTool extends ATool implements ICutTool {
 		String returnvalue = "" ;
 		CatTool catTool = new CatTool(new String[]{"cat"});
 		int filePosistion = 3;
+		if(args.length<4){
+			setStatusCode(127);
+			return "";
+		}
 		if(args.length == 6){
 			if(args[3].equalsIgnoreCase(DELIM)){
 				filePosistion = 5;
@@ -72,15 +76,6 @@ public class CutTool extends ATool implements ICutTool {
 		return returnvalue;
 	}
 
-	@Override
-	public int getStatusCode() {
-		return statusCode;
-	}
-
-	@Override
-	public void setStatusCode(int asd) {
-		statusCode=asd;
-	}
 
 
 	@Override
@@ -114,7 +109,7 @@ public class CutTool extends ATool implements ICutTool {
 				output[blockToKeep]= true;
 			}
 		}
-		if(statusCode == 0){
+		if(getStatusCode() == 0){
 			return output;
 		}
 		return new boolean[inputLenght+1];
