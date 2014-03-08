@@ -9,6 +9,7 @@ public class PipingTool implements IPipingTool {
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
 	private static final int TWO = 2;
+	private static final int FIFTYFIVE =55;
 	ITool[] arguments;
 	File workingDir;
 	int statuscode=ZERO;
@@ -46,13 +47,22 @@ public class PipingTool implements IPipingTool {
 		String result = from.execute(workingDir, null);
 		int statusCodeFrom = from.getStatusCode();
 		int statusCodeTo=ZERO;
+		if (statusCodeFrom==FIFTYFIVE){
+			statusCodeFrom=ZERO;
+			result = "";
+		}
 		if(statusCodeFrom!=ZERO){
 			result ="";
 			setStatusCode(statusCodeFrom);
 			statusCodeTo=statusCodeFrom;
 		} else if(statusCodeFrom==ZERO) {
+			setStatusCode(ZERO);
 			result = to.execute(workingDir, result);
 			statusCodeTo = to.getStatusCode();
+		} 
+		if (statusCodeTo==FIFTYFIVE){
+			statusCodeTo=ZERO;
+			result = "";
 		}
 		if(statusCodeTo!=ZERO){
 			result="";
@@ -70,6 +80,10 @@ public class PipingTool implements IPipingTool {
 		}
 		String result =to.execute(workingDir, stdout);
 		int statusCodeTo = to.getStatusCode();
+		if (statusCodeTo==FIFTYFIVE){
+			statusCodeTo=ZERO;
+			result="";
+		}
 		if(statusCodeTo!=ZERO){
 			result="";
 			setStatusCode(statusCodeTo);
