@@ -1,7 +1,9 @@
 package sg.edu.nus.comp.cs4218.common;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,6 +14,12 @@ import java.util.Random;
 import java.util.Stack;
 
 public class Common {
+	/**
+	 * Generate absolute path from two inputs
+	 * @param curAbsDir - absolute working directory
+	 * @param newRelDir - relative directory
+	 * @return Absolute path of the file
+	 */
 	public static String concatenateDirectory(String curAbsDir, String newRelDir){
 		String separator = File.separator;
 		if(File.separator.equals("\\")){
@@ -42,6 +50,12 @@ public class Common {
 		return newWorkingDir.toString();
 	}
 	
+	/**
+	 * Write random string (char set defined in function) with random length (between 0 to 512) to file
+	 * @param toWrite
+	 * @return
+	 * @throws IOException
+	 */
 	public static String writeRandomStringTo(File toWrite) throws IOException{
 		// generate random string as file contents
 		StringBuilder strBuilder = new StringBuilder();
@@ -66,14 +80,13 @@ public class Common {
 	}
 	
 	/**
-	 * Read file char by char, because reading line by line cannot be used when file separator is different on different platforms.
+	 * Read file char by char because it is sometimes needed to keep original newline char regardless of platforms
 	 * @param toRead
 	 * @return content of the file
 	 * @throws IOException
 	 */
-	public static String readFile(File toRead) throws IOException{
+	public static String readFileByChar(File toRead) throws IOException{
 		FileReader fileReader = new FileReader(toRead);
-
 		String fileContents = "";
 		int i ;
 		while((i = fileReader.read()) != -1){
@@ -81,7 +94,36 @@ public class Common {
 			fileContents = fileContents + ch; 
 		}
 		fileReader.close();
-
 		return fileContents;
+	}
+	
+	/**
+	 * Read file line by line and insert platform independent newline characters
+	 * @param toRead
+	 * @return content of the file
+	 */
+	public static String readFileByLine(File toRead){
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(toRead));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		StringBuilder fileContents = new StringBuilder();
+		String line;
+		try {
+			while((line=reader.readLine()) != null){
+				fileContents.append(line);
+				fileContents.append(System.lineSeparator());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fileContents.toString();
 	}
 }

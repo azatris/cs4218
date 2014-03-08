@@ -46,7 +46,7 @@ public class MoveToolTest {
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		assertTrue(to.exists());
-		assertEquals(fromStr, Common.readFile(to));
+		assertEquals(fromStr, Common.readFileByChar(to));
 
 		to.delete();
 	}
@@ -65,7 +65,7 @@ public class MoveToolTest {
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		assertTrue(to.exists());
-		assertEquals(fromStr, Common.readFile(to));
+		assertEquals(fromStr, Common.readFileByChar(to));
 
 		to.delete();
 	}
@@ -105,7 +105,7 @@ public class MoveToolTest {
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		assertTrue(to.exists());
-		assertEquals(fromStr, Common.readFile(to));
+		assertEquals(fromStr, Common.readFileByChar(to));
 
 		to.delete();	
 	}
@@ -128,7 +128,7 @@ public class MoveToolTest {
 		File movedFile = new File(to.getAbsolutePath()+File.separator+from.getName());
 		assertEquals(
 				fromStr, 
-				Common.readFile(movedFile)
+				Common.readFileByChar(movedFile)
 				);
 		movedFile.delete();
 		to.delete();
@@ -149,7 +149,7 @@ public class MoveToolTest {
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		assertTrue(to.exists());
-		assertEquals(fromStr, Common.readFile(to));
+		assertEquals(fromStr, Common.readFileByChar(to));
 		
 		File movedFile = new File(to.getAbsolutePath()+File.separator+from.getName());
 		movedFile.delete();
