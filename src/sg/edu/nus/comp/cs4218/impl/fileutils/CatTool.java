@@ -77,11 +77,13 @@ public class CatTool extends ATool implements ICatTool {
 			}
 		}
 		StringBuilder newWorkingDir = new StringBuilder();
-		newWorkingDir.append(File.separator);
+		if (System.getProperty("os.name").toLowerCase().indexOf("mac") > 0){
+			newWorkingDir.append(separator);
+		}
 		for (int i = 0; i<buildNewAbsDir.size(); i++){
 			newWorkingDir.append(buildNewAbsDir.get(i));
 			if ( i != 0 ){
-				newWorkingDir.append(File.separator);
+				newWorkingDir.append(separator);
 			}		
 		}
 		return newWorkingDir.toString();
