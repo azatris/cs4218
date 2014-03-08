@@ -25,6 +25,31 @@ public class IntegrationTestingTwoOrMorePipes {
 	File workingDirectory = new File(System.getProperty("user.dir"));
 
 	@Test
+	public void TestSortAndUniqAndWcAndCat(){
+		try {
+			String tempFileName = "dummy file";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content\nA separtor for uniq\nThis is just a dummy file content\nThe End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+			SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
+			UniqTool uniqTool = new UniqTool(new String[]{"uniq","-"});
+			WcTool wcTool = new WcTool(new String[]{"wc","-"});
+			CatTool catTool = new CatTool(new String[]{"cat","-"});
+			ITool[] toolCollections = {sortTool,uniqTool,wcTool,catTool};
+			PipingTool pipingTool = new PipingTool(toolCollections);
+			String result = pipingTool.execute(workingDirectory,null);
+			String expectedResult = "   Character: 42   Word: 9   New Line: 2";
+			assertEquals(expectedResult,result);
+			assertEquals(0,pipingTool.getStatusCode());
+			tempFile.delete();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
 	public void TestUniqAndWcAndCat(){
 		try {
 			String tempFileName = "dummy file";
@@ -62,6 +87,31 @@ public class IntegrationTestingTwoOrMorePipes {
 			SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
 			CatTool catTool = new CatTool(new String[]{"cat","-"});
 			ITool[] toolCollections = {uniqTool,sortTool,catTool};
+			PipingTool pipingTool = new PipingTool(toolCollections);
+			String result = pipingTool.execute(workingDirectory,null);
+			String expectedResult = "The End\nThis is just a dummy file content\n";
+			assertEquals(expectedResult,result);
+			assertEquals(0,pipingTool.getStatusCode());
+			tempFile.delete();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void TestSortAndUniqAndCat(){
+		try {
+			String tempFileName = "dummy file";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content\nA separtor for uniq\nThis is just a dummy file content\nThe End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+			SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
+			UniqTool uniqTool = new UniqTool(new String[]{"uniq","-"});
+			CatTool catTool = new CatTool(new String[]{"cat","-"});
+			ITool[] toolCollections = {sortTool,uniqTool,catTool};
 			PipingTool pipingTool = new PipingTool(toolCollections);
 			String result = pipingTool.execute(workingDirectory,null);
 			String expectedResult = "The End\nThis is just a dummy file content\n";
@@ -156,6 +206,103 @@ public class IntegrationTestingTwoOrMorePipes {
 			e.printStackTrace();
 		}
 	}
+	
+	//This doesn't work yet
+	@Test
+	public void TestUniqAndSortAndCut(){
+		try {
+			String tempFileName = "dummy file";
+			File tempFile = new File(tempFileName);
+			String fileContent = "This is just a dummy file content\nThis is just a dummy file content\nThe End\n";
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+			out.writeBytes(fileContent);
+			out.close();
+			UniqTool uniqTool = new UniqTool(new String[]{"uniq",tempFileName});
+			SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
+//			CutTool cutTool = new CutTool(new String[]{"cut","-c","1-2",-});
+//			ITool[] toolCollections = {uniqTool,sortTool,cutTool};
+//			PipingTool pipingTool = new PipingTool(toolCollections);
+//			String result = pipingTool.execute(workingDirectory,null);
+//			String expectedResult = "e End\nThis is just a dummy file content\n";
+//			assertEquals(expectedResult,result);
+//			assertEquals(0,pipingTool.getStatusCode());
+			tempFile.delete();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//This doesn't work yet
+	@Test
+	public void TestCommAndSortAndUniq(){
+		try {
+			//temp file 1
+			String tempFileName1 = "dummyfile1";
+			File tempFile1 = new File(tempFileName1);
+			String fileContent1 = "This is just a dummy file content\nThe End\n";
+			DataOutputStream out1 = new DataOutputStream(new FileOutputStream(tempFile1));
+			out1.writeBytes(fileContent1);
+			out1.close();
+			//temp file 2
+			String tempFileName2 = "dummyfile2";
+			File tempFile2 = new File(tempFileName2);
+			String fileContent2 = "This is just another dummy file content\nThis is just a dummy file content\nThe End\n";
+			DataOutputStream out2 = new DataOutputStream(new FileOutputStream(tempFile2));
+			out2.writeBytes(fileContent2);
+			out2.close();
+//			CommTool commTool = new CommTool(new String[]{"comm",tempFileName1,tempFileName2});
+//			SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
+//			PASTETool uniqTool = new PASTETool(new String[]{"uniq","-"});
+//			ITool[] toolCollections = {commTool,sortTool,uniqTool};
+//			PipingTool pipingTool = new PipingTool(toolCollections);
+//			String result = pipingTool.execute(workingDirectory,null);
+//			String expectedResult = "The End\nThis is just a dummy file content\n";
+//			assertEquals(expectedResult,result);
+//			assertEquals(0,pipingTool.getStatusCode());
+			tempFile1.delete();
+			tempFile2.delete();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//This doesn't work yet
+	@Test
+	public void TestCommAndCutAndSort(){
+		try {
+			//temp file 1
+			String tempFileName1 = "dummyfile1";
+			File tempFile1 = new File(tempFileName1);
+			String fileContent1 = "This is just a dummy file content\nThe End\n";
+			DataOutputStream out1 = new DataOutputStream(new FileOutputStream(tempFile1));
+			out1.writeBytes(fileContent1);
+			out1.close();
+			//temp file 2
+			String tempFileName2 = "dummyfile2";
+			File tempFile2 = new File(tempFileName2);
+			String fileContent2 = "This is just another dummy file content\nThis is just a dummy file content\nThe End\n";
+			DataOutputStream out2 = new DataOutputStream(new FileOutputStream(tempFile2));
+			out2.writeBytes(fileContent2);
+			out2.close();
+//			CommTool commTool = new CommTool(new String[]{"comm",tempFileName1,tempFileName2});
+//			CutTool cutTool = new CutTool(new String[]{"cut","-"});
+//			SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
+//			ITool[] toolCollections = {commTool,cutTool,sortTool};
+//			PipingTool pipingTool = new PipingTool(toolCollections);
+//			String result = pipingTool.execute(workingDirectory,null);
+//			String expectedResult = "The End\nThis is just a dummy file content\n";
+//			assertEquals(expectedResult,result);
+//			assertEquals(0,pipingTool.getStatusCode());
+			tempFile1.delete();
+			tempFile2.delete();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Test
 	public void PasteAndSortAndCat(){
 		try {
