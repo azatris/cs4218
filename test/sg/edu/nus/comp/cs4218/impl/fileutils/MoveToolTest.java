@@ -16,6 +16,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sg.edu.nus.comp.cs4218.common.Common;
 import sg.edu.nus.comp.cs4218.fileutils.IMoveTool;
 
 public class MoveToolTest {
@@ -28,29 +29,6 @@ public class MoveToolTest {
 	@After
 	public void tearDown() throws Exception {
 		moveTool = null;
-	}
-	
-	public String writeRandomStringTo(File toWrite) throws IOException{
-		// generate random string as file contents
-		StringBuilder strBuilder = new StringBuilder();
-		Random random = new Random();		
-		int size = random.nextInt(512);
-		String chars = "abcdefghijklmnopqrstuvwxyz"
-				+ "1234567890"
-				+ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-				+ "~!@#$%^&*()-_+=}{] [;:'\"?><,./"
-				+ "\\\n\r\t";
-		for (int i = 0; i < size; i++) {
-			char c = chars.charAt(random.nextInt(chars.length()));
-			strBuilder.append(c);
-		}
-		String str = strBuilder.toString();
-
-		Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(toWrite), "utf-8"));
-		writer.write(str);
-		writer.close();
-		
-		return str;
 	}
 
 	public String readFile(File toRead) throws IOException{
@@ -79,8 +57,8 @@ public class MoveToolTest {
 		String[] args = {"move", from.getAbsolutePath(), to.getAbsolutePath()};
 		moveTool = new MoveTool(args);
 		
-		String fromStr = writeRandomStringTo(from);
-		String toStr = writeRandomStringTo(to);
+		String fromStr = Common.writeRandomStringTo(from);
+		String toStr = Common.writeRandomStringTo(to);
 
 		assertFalse(fromStr.equals(toStr)); // It does have very small possibility that fromStr=toStr
 		assertTrue(from.exists());
@@ -97,7 +75,7 @@ public class MoveToolTest {
 	public void renameFileToNonExistFileTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
 		File to = File.createTempFile("to","movetmp", new File(from.getParent()));
-		String fromStr = writeRandomStringTo(from);
+		String fromStr = Common.writeRandomStringTo(from);
 		String[] args = {"move", from.getAbsolutePath(), to.getAbsolutePath()};
 		moveTool = new MoveTool(args);
 		
@@ -116,7 +94,7 @@ public class MoveToolTest {
 	@Test
 	public void renameFileToItselfTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		String[] args = {"move", from.getAbsolutePath(), from.getAbsolutePath()};
 		moveTool = new MoveTool(args);
 		
@@ -136,8 +114,8 @@ public class MoveToolTest {
 				"to", 
 				"movetmp"
 				).toFile();
-		String fromStr = writeRandomStringTo(from);
-		String toStr = writeRandomStringTo(to);
+		String fromStr = Common.writeRandomStringTo(from);
+		String toStr = Common.writeRandomStringTo(to);
 		String[] args = {"move", from.getAbsolutePath(), to.getAbsolutePath()};
 		moveTool = new MoveTool(args);
 		
@@ -157,7 +135,7 @@ public class MoveToolTest {
 	public void moveFileToDifferentDirTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
-		String fromStr = writeRandomStringTo(from);
+		String fromStr = Common.writeRandomStringTo(from);
 		String[] args = {"move", from.getAbsolutePath(), to.getAbsolutePath()};
 		moveTool = new MoveTool(args);
 		
@@ -181,7 +159,7 @@ public class MoveToolTest {
 	public void moveFileToNonExistDirTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
-		String fromStr = writeRandomStringTo(from);
+		String fromStr = Common.writeRandomStringTo(from);
 		String[] args = {"move", from.getAbsolutePath(), to.getAbsolutePath()};
 		moveTool = new MoveTool(args);
 		
@@ -202,7 +180,7 @@ public class MoveToolTest {
 	@Test
 	public void moveFileToNullTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		String[] args = {"move", from.getAbsolutePath(), null};
 		moveTool = new MoveTool(args);
 		
@@ -218,7 +196,7 @@ public class MoveToolTest {
 	public void moveNonExistFileTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		String[] args = {"move", from.getAbsolutePath(), to.getAbsolutePath()};
 		moveTool = new MoveTool(args);
 		
@@ -284,9 +262,9 @@ public class MoveToolTest {
 	public void moveFileInCurDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","movetmp", workingDir);
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		File to = File.createTempFile("tofile","movetmp", workingDir);
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(to);
 		String[] args = {"move", from.getName(), to.getName()};
 		moveTool = new MoveTool(args);
 
@@ -302,9 +280,9 @@ public class MoveToolTest {
 	public void moveFileInParentDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","movetmp", workingDir.getParentFile());
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		File to = File.createTempFile("tofile","movetmp", workingDir.getParentFile());
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(to);
 		String[] args = {
 				"move",
 				".." + File.separator + from.getName(), 
@@ -326,9 +304,9 @@ public class MoveToolTest {
 		File fromChild = Files.createTempDirectory(workingDir.toPath(), "fromChild").toFile();
 		File toChild = Files.createTempDirectory(workingDir.toPath(), "toChild").toFile();
 		File from = File.createTempFile("from","movetmp", fromChild);
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		File to = File.createTempFile("tofile","movetmp", toChild);
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(to);
 
 		String[] args = {
 				"move", 
@@ -351,9 +329,9 @@ public class MoveToolTest {
 	public void moveAbsPathTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","movetmp");
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		File to = File.createTempFile("tofile","movetmp");
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(to);
 
 		String[] args = {
 				"move", 
@@ -373,7 +351,7 @@ public class MoveToolTest {
 	public void moveNoToDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","movetmp");
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 
 		String[] args = {
 				"move", 

@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Stack;
 
+import sg.edu.nus.comp.cs4218.common.Common;
 import sg.edu.nus.comp.cs4218.fileutils.ICdTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
@@ -28,38 +29,7 @@ public class CdTool extends ATool implements ICdTool {
 			}
 		}
 		setStatusCode(1);
-//		System.err.println("Error: No such file or directory");
 		return null;
-	}
-	
-	public String concatenateDirectory(String curAbsDir, String newRelDir){
-		String separator = File.separator;
-		if(File.separator.equals("\\")){
-			separator =("\\\\");
-		}
-
-		Stack<String> buildNewAbsDir = new Stack<String>();
-		buildNewAbsDir.addAll(Arrays.asList(curAbsDir.split(separator)));
-		
-		for(String str: Arrays.asList(newRelDir.split(separator))){
-			if (!str.equals("")){
-				if (str.equals("..")){ // parent directory
-					buildNewAbsDir.pop();
-				}else if ((str.equals("."))){ // current directory
-				}else{ // child directory
-					buildNewAbsDir.push(str);
-				}
-			}
-		}
-		StringBuilder newWorkingDir = new StringBuilder();
-		if (System.getProperty("os.name").toLowerCase().indexOf("mac") > 0){
-			newWorkingDir.append(File.separator);
-		}
-		for (int i = 0; i<buildNewAbsDir.size(); i++){
-			newWorkingDir.append(buildNewAbsDir.get(i));
-				newWorkingDir.append(File.separator);
-		}
-		return newWorkingDir.toString();
 	}
 	
 	@Override
@@ -73,7 +43,7 @@ public class CdTool extends ATool implements ICdTool {
 			}else if (Paths.get(args[1]).isAbsolute()){
 				newDir = changeDirectory(args[1]);
 			}else{
-				newDir = changeDirectory(concatenateDirectory(workingDir.getAbsolutePath(), args[1]));
+				newDir = changeDirectory(Common.concatenateDirectory(workingDir.getAbsolutePath(), args[1]));
 			}
 		}
 		

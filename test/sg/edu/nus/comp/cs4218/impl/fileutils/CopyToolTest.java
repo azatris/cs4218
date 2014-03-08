@@ -16,6 +16,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sg.edu.nus.comp.cs4218.common.Common;
 import sg.edu.nus.comp.cs4218.fileutils.ICopyTool;
 
 public class CopyToolTest {
@@ -28,29 +29,6 @@ public class CopyToolTest {
 	@After
 	public void tearDown() throws Exception {
 		copyTool = null;
-	}
-
-	public String writeRandomStringTo(File toWrite) throws IOException{
-		// generate random string as file contents
-		StringBuilder strBuilder = new StringBuilder();
-		Random random = new Random();		
-		int size = random.nextInt(512);
-		String chars = "abcdefghijklmnopqrstuvwxyz"
-				+ "1234567890"
-				+ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-				+ "~!@#$%^&*()-_+=}{] [;:'\"?><,./"
-				+ "\\\n\r\t";
-		for (int i = 0; i < size; i++) {
-			char c = chars.charAt(random.nextInt(chars.length()));
-			strBuilder.append(c);
-		}
-		String str = strBuilder.toString();
-
-		Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(toWrite), "utf-8"));
-		writer.write(str);
-		writer.close();
-
-		return str;
 	}
 
 	public String readFile(File toRead) throws IOException{
@@ -74,8 +52,8 @@ public class CopyToolTest {
 		File to = File.createTempFile("tofile","copytmp");
 		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
 		copyTool = new CopyTool(args);
-		String fromStr = writeRandomStringTo(from);
-		String toStr = writeRandomStringTo(to);
+		String fromStr = Common.writeRandomStringTo(from);
+		String toStr = Common.writeRandomStringTo(to);
 
 		assertFalse(fromStr.equals(toStr)); // It does have very small possibility that fromStr=toStr
 		assertTrue(from.exists());
@@ -91,7 +69,7 @@ public class CopyToolTest {
 	@Test
 	public void copyFileToNonExistFileTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
-		String fromStr = writeRandomStringTo(from);
+		String fromStr = Common.writeRandomStringTo(from);
 		File to = File.createTempFile("tofile","copytmp");
 		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
 		copyTool = new CopyTool(args);
@@ -111,7 +89,7 @@ public class CopyToolTest {
 	public void copyFileToExistDirTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
 		File to = Files.createTempDirectory("tocopytmp").toFile();
-		String fromStr = writeRandomStringTo(from);
+		String fromStr = Common.writeRandomStringTo(from);
 		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
 		copyTool = new CopyTool(args);
 
@@ -129,7 +107,7 @@ public class CopyToolTest {
 	@Test
 	public void copyFileToNonExistDirTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
-		String fromStr = writeRandomStringTo(from);
+		String fromStr = Common.writeRandomStringTo(from);
 		File to = Files.createTempDirectory("tononexistcopytmp").toFile();
 		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
 		copyTool = new CopyTool(args);
@@ -148,7 +126,7 @@ public class CopyToolTest {
 	@Test
 	public void copyFileToNullDirTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		String[] args = {"copy", from.getAbsolutePath()};
 		copyTool = new CopyTool(args);
 
@@ -163,8 +141,8 @@ public class CopyToolTest {
 	public void copyNonExistFileTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
 		File to = File.createTempFile("tofile","copytmp");
-		writeRandomStringTo(from);
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(from);
+		Common.writeRandomStringTo(to);
 		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
 		copyTool = new CopyTool(args);
 
@@ -181,7 +159,7 @@ public class CopyToolTest {
 	public void copyExistDirTest() throws IOException {
 		File from = Files.createTempDirectory("fromFoldercopytmp").toFile();
 		File to = File.createTempFile("tofile","copytmp");
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(to);
 		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
 		copyTool = new CopyTool(args);
 
@@ -198,7 +176,7 @@ public class CopyToolTest {
 	public void copyNonExistDirTest() throws IOException {
 		File from = Files.createTempDirectory("fromFoldercopytmp").toFile();
 		File to = File.createTempFile("tofile","copytmp");
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(to);
 		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
 		copyTool = new CopyTool(args);
 
@@ -225,13 +203,13 @@ public class CopyToolTest {
 	public void copyFileInCurDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","copytmp", workingDir);
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		File to = File.createTempFile("tofile","copytmp", workingDir);
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(to);
 		String[] args = {"copy", from.getName(), to.getName()};
 		copyTool = new CopyTool(args);
 
-		assertNull(copyTool.execute(workingDir, null));
+		assertEquals("", copyTool.execute(workingDir, ""));
 		assertEquals(0, copyTool.getStatusCode());
 
 		from.delete();
@@ -243,9 +221,9 @@ public class CopyToolTest {
 	public void copyFileInParentDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","copytmp", workingDir.getParentFile());
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		File to = File.createTempFile("tofile","copytmp", workingDir.getParentFile());
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(to);
 		String[] args = {
 				"copy",
 				".." + File.separator + from.getName(), 
@@ -253,7 +231,7 @@ public class CopyToolTest {
 		};
 		copyTool = new CopyTool(args);
 
-		assertNull(copyTool.execute(workingDir, null));
+		assertEquals("", copyTool.execute(workingDir, ""));
 		assertEquals(0, copyTool.getStatusCode());
 
 		from.delete();
@@ -267,9 +245,9 @@ public class CopyToolTest {
 		File fromChild = Files.createTempDirectory(workingDir.toPath(), "fromChild").toFile();
 		File toChild = Files.createTempDirectory(workingDir.toPath(), "toChild").toFile();
 		File from = File.createTempFile("from","copytmp", fromChild);
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		File to = File.createTempFile("tofile","copytmp", toChild);
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(to);
 
 		String[] args = {
 				"copy", 
@@ -278,7 +256,7 @@ public class CopyToolTest {
 		};
 		copyTool = new CopyTool(args);
 
-		assertNull(copyTool.execute(workingDir, null));
+		assertEquals("", copyTool.execute(workingDir, ""));
 		assertEquals(0, copyTool.getStatusCode());
 
 		from.delete();
@@ -292,9 +270,9 @@ public class CopyToolTest {
 	public void copyAbsPathTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","copytmp");
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		File to = File.createTempFile("tofile","copytmp");
-		writeRandomStringTo(to);
+		Common.writeRandomStringTo(to);
 
 		String[] args = {
 				"copy", 
@@ -303,7 +281,7 @@ public class CopyToolTest {
 		};
 		copyTool = new CopyTool(args);
 
-		assertNull(copyTool.execute(workingDir, null));
+		assertEquals("", copyTool.execute(workingDir, ""));
 		assertEquals(0, copyTool.getStatusCode());
 
 		from.delete();
@@ -314,7 +292,7 @@ public class CopyToolTest {
 	public void copyNoToDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","copytmp");
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 
 		String[] args = {
 				"copy", 
@@ -332,7 +310,7 @@ public class CopyToolTest {
 	public void copyToTwoDestiantionTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","copytmp");
-		writeRandomStringTo(from);
+		Common.writeRandomStringTo(from);
 		File to1 = File.createTempFile("tofile","copytmp");
 		File to2 = File.createTempFile("tofile","copytmp");
 

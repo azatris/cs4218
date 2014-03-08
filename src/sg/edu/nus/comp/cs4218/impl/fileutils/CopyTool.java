@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Stack;
 
+import sg.edu.nus.comp.cs4218.common.Common;
 import sg.edu.nus.comp.cs4218.fileutils.ICopyTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
@@ -29,7 +30,6 @@ public class CopyTool extends ATool implements ICopyTool {
 		if (from!=null && from.isFile()){
 			if (to == null){
 				setStatusCode(1);
-//				System.err.println("Error: Destination is null");
 				return false;
 			}else if (!to.exists()){
 				try {
@@ -90,36 +90,6 @@ public class CopyTool extends ATool implements ICopyTool {
 		}
 	}
 	
-	public String concatenateDirectory(String curAbsDir, String newRelDir){
-		String separator = File.separator;
-		if(File.separator.equals("\\")){
-			separator =("\\\\");
-		}
-
-		Stack<String> buildNewAbsDir = new Stack<String>();
-		buildNewAbsDir.addAll(Arrays.asList(curAbsDir.split(separator)));
-		
-		for(String str: Arrays.asList(newRelDir.split(separator))){
-			if (!str.equals("")){
-				if (str.equals("..")){ // parent directory
-					buildNewAbsDir.pop();
-				}else if ((str.equals("."))){ // current directory
-				}else{ // child directory
-					buildNewAbsDir.push(str);
-				}
-			}
-		}
-		StringBuilder newWorkingDir = new StringBuilder();
-		if (System.getProperty("os.name").toLowerCase().indexOf("mac") > 0){
-			newWorkingDir.append(File.separator);
-		}
-		for (int i = 0; i<buildNewAbsDir.size(); i++){
-			newWorkingDir.append(buildNewAbsDir.get(i));
-				newWorkingDir.append(File.separator);
-		}
-		return newWorkingDir.toString();
-	}
-	
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length == 3){
@@ -128,23 +98,21 @@ public class CopyTool extends ATool implements ICopyTool {
 			if (Paths.get(args[1]).isAbsolute()){
 				fromStr = args[1];
 			}else{
-				fromStr = concatenateDirectory(workingDir.getAbsolutePath(), args[1]);
+				fromStr = Common.concatenateDirectory(workingDir.getAbsolutePath(), args[1]);
 			}
 			
 			if (Paths.get(args[2]).isAbsolute()){
 				toStr = args[2];
 			}else{
-				toStr = concatenateDirectory(workingDir.getAbsolutePath(), args[2]);
+				toStr = Common.concatenateDirectory(workingDir.getAbsolutePath(), args[2]);
 			}
 			
 			if ( !copy(new File(fromStr), new File(toStr)) ) {
-				return "Copy unsuccessfully\n";
 			}
-			return null;
 		}else{
 			setStatusCode(1);
-			return "Error: Should have two directory\n";
 		}
+		return "";
 	}
 
 }

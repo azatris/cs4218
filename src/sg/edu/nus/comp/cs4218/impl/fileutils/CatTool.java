@@ -5,9 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Stack;
 
+import sg.edu.nus.comp.cs4218.common.Common;
 import sg.edu.nus.comp.cs4218.fileutils.ICatTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
@@ -56,37 +55,7 @@ public class CatTool extends ATool implements ICatTool {
 		}
 		return fileContents;
 	}
-	
-	public String concatenateDirectory(String curAbsDir, String newRelDir){
-		String separator = File.separator;
-		if(File.separator.equals("\\")){
-			separator =("\\\\");
-		}
 
-		Stack<String> buildNewAbsDir = new Stack<String>();
-		buildNewAbsDir.addAll(Arrays.asList(curAbsDir.split(separator)));
-		
-		for(String str: Arrays.asList(newRelDir.split(separator))){
-			if (!str.equals("")){
-				if (str.equals("..")){ // parent directory
-					buildNewAbsDir.pop();
-				}else if ((str.equals("."))){ // current directory
-				}else{ // child directory
-					buildNewAbsDir.push(str);
-				}
-			}
-		}
-		StringBuilder newWorkingDir = new StringBuilder();
-		if (System.getProperty("os.name").toLowerCase().indexOf("mac") > 0){
-			newWorkingDir.append(File.separator);
-		}
-		for (int i = 0; i<buildNewAbsDir.size(); i++){
-			newWorkingDir.append(buildNewAbsDir.get(i));
-				newWorkingDir.append(File.separator);
-		}
-		return newWorkingDir.toString();
-	}
-	
 	@Override
 	public String execute(File workingDir, String stdin) {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -103,8 +72,8 @@ public class CatTool extends ATool implements ICatTool {
 				if (Paths.get(args[i]).isAbsolute()){
 					strForFile = getStringForFile(new File(args[i]));
 				}else{
-					strForFile = getStringForFile(new File(concatenateDirectory(workingDir.getAbsolutePath(), args[i])));
-					System.out.println(concatenateDirectory(workingDir.getAbsolutePath(), args[i]));
+					strForFile = getStringForFile(new File(Common.concatenateDirectory(workingDir.getAbsolutePath(), args[i])));
+					System.out.println(Common.concatenateDirectory(workingDir.getAbsolutePath(), args[i]));
 				}
 				if (strForFile == null){ 
 					strForFile = "cat: " + args[i] +": No such file or directory\n";
