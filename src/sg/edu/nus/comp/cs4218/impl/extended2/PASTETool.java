@@ -148,21 +148,27 @@ public class PASTETool extends ATool implements IPasteTool {
 			matcher.find();
 			
 			// storing filenames in an array
-			String[] fileNames = matcher.group(0).trim().split(" ");
-			
 			ArrayList<String> input = new ArrayList<>();
-			for (String fileName : fileNames) {
-				if (fileName.equals("-")) {
-					input.addAll(new ArrayList<String>(Arrays.asList(stdin.split("\n"))));
-				} else {
-					String fileContent = catTool.getStringForFile(new File(fileName));
-					fileContent = fileContent.trim(); // for removing trailing newline
-					input.addAll(new ArrayList<String>(Arrays.asList(fileContent.split("\n"))));
+			try {
+				String[] fileNames = matcher.group(0).trim().split(" ");
+				
+				for (String fileName : fileNames) {
+					if (fileName.equals("-")) {
+						input.addAll(new ArrayList<String>(Arrays.asList(stdin.split("\n"))));
+					} else {
+						String fileContent = catTool.getStringForFile(new File(fileName));
+						fileContent = fileContent.trim(); // for removing trailing newline
+						input.addAll(new ArrayList<String>(Arrays.asList(fileContent.split("\n"))));
+					}
+					input.add("\n");
 				}
-				input.add("\n");
+				input.remove(input.size() - 1);
+			} catch (IllegalStateException e) {
+				setStatusCode(127);
+				mode = "error";
 			}
-			input.remove(input.size() - 1);
 			
+
 			String[] inputAsArray = input.toArray(new String[input.size()]);
 			
 			switch (mode) {

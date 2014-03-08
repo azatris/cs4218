@@ -190,6 +190,17 @@ public class SORTToolTest {
 	}
 	
 	/**
+	 * Tests the sort method with no arguments, should return error code.
+	 */
+	@Test
+	public void testSortNoArguments() {
+		sortToolForExecute = new SORTTool(new String[]{"sort"});
+		sortToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotNull("Sort with no arguments should return a not null error code.", sortToolForExecute.getStatusCode());
+	}
+	
+	
+	/**
 	 * Tests the default no-flag case of sort on multiple files with stdin
 	 * uses sortFile
 	 */
@@ -210,6 +221,16 @@ public class SORTToolTest {
 		sortToolForExecute = new SORTTool(new String[]{"sort", "-c", testDataFileName1, testDataFileName2, testDataFileName3});
 		sortToolForExecute.execute(Paths.get(".").toFile(), null);
 		assertNotEquals("Extra operand not allowed with -c.", 0, sortToolForExecute.getStatusCode());
+	}
+	
+	/**
+	 * Tests the sort with -c flag method with no arguments, should return error code.
+	 */
+	@Test
+	public void testCheckIfSortedNoArguments() {
+		sortToolForExecute = new SORTTool(new String[]{"sort", "-c"});
+		sortToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotNull("Sort with -c flag with no arguments should return a not null error code.", sortToolForExecute.getStatusCode());
 	}
 	
 	/**
