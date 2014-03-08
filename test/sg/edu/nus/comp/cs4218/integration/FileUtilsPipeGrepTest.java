@@ -63,6 +63,9 @@ public class FileUtilsPipeGrepTest {
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Tests cat tool with pipe and grep
+	 */
 	@Test
 	public void testCat() {
 		tool = new CatTool(new String[]{"cat", testDataFileName});
@@ -70,5 +73,85 @@ public class FileUtilsPipeGrepTest {
 		String result = pipeTool.execute(Paths.get(".").toFile(), null);
 		assertEquals("Cat pipe grep result incorrect", testData, result);
 	}
-
+	
+	/**
+	 * Tests cd tool with pipe and grep
+	 */
+	@Test
+	public void testCs() {
+		tool = new CdTool(new String[]{"cd", "."});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+		assertEquals("Cd pipe grep result incorrect", "", result);
+	}
+	
+	/**
+	 * Tests copy tool with pipe and grep
+	 * @throws IOException 
+	 */
+	@Test
+	public void testCopy() throws IOException {
+		String destFile = "copyToolDestinationFile.txt";
+		tool = new CopyTool(new String[]{"copy", testDataFileName, destFile});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+		Files.delete(Paths.get(destFile));
+		assertEquals("Copy pipe grep result incorrect", "", result);
+	}
+	
+//	/**
+//	 * Tests delete tool with pipe and grep
+//	 */
+//	@Test
+//	public void testDelete() {
+//		tool = new DeleteTool(new String[]{"rm", "somefile"});
+//		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+//		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+//		assertEquals("Delete pipe grep result incorrect", "", result);
+//	}
+	
+//	/**
+//	 * Tests echo tool with pipe and grep
+//	 */
+//	@Test
+//	public void testEcho() {
+//		tool = new EchoTool(new String[]{"echo", "abracadabra"});
+//		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+//		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+//		assertEquals("Echo pipe grep result incorrect", "", result);
+//	}
+	
+//	/**
+//	 * Tests ls tool with pipe and grep
+//	 */
+//	@Test
+//	public void testLs() {
+//		tool = new LsTool(new String[]{"ls"});
+//		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+//		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+//		assertEquals("Ls pipe grep result incorrect", "", result);
+//	}
+	
+//	/**
+//	 * Tests move tool with pipe and grep
+//	 */
+//	@Test
+//	public void testMove() {
+//		tool = new MoveTool(new String[]{"mv", "afile", "alocation"});
+//		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+//		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+//		assertEquals("Move pipe grep result incorrect", "", result);
+//	}
+	
+//	/**
+//	 * Tests pwd tool with pipe and grep
+//	 */
+//	@Test
+//	public void testPwd() {
+//		tool = new PWDTool(new String[]{"pwd"});
+//		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+//		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+//		assertEquals("Pwd pipe grep result incorrect", testData, result);
+//	}	
+	
 }

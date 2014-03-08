@@ -52,6 +52,20 @@ public class GrepTool extends ATool implements IGrepTool {
 	}
 
 	/**
+	 * Trims the trailing newline of a stringBuilder.
+	 * @param stringBuilder
+	 * @return output
+	 */
+	private String trimNewLine(StringBuilder stringBuilder) {
+		String output = stringBuilder.toString();
+		int len = output.length();
+		if (len > 0) {
+			output = output.substring(0, len - 1);
+		}
+		return output;
+	}
+	
+	/**
 	 * Flag-free grep.
 	 * @param pattern regular expression
 	 * @param input multiline string being matched
@@ -73,8 +87,8 @@ public class GrepTool extends ATool implements IGrepTool {
 			} 
 		}
 		scanner.close();
-		
-		return stringBuilder.toString();
+
+		return trimNewLine(stringBuilder);
 	}
 
 	/**
@@ -108,7 +122,7 @@ public class GrepTool extends ATool implements IGrepTool {
 		}
 		scanner.close();
 		
-		return stringBuilder.toString();
+		return trimNewLine(stringBuilder);
 	}
 
 	/**
@@ -150,7 +164,7 @@ public class GrepTool extends ATool implements IGrepTool {
 		}
 		scanner.close();
 		
-		return stringBuilder.toString();
+		return trimNewLine(stringBuilder);
 	}
 
 	/**
@@ -198,7 +212,7 @@ public class GrepTool extends ATool implements IGrepTool {
 		}
 		scanner.close();
 		
-		return stringBuilder.toString();
+		return trimNewLine(stringBuilder);
 	}
 
 	/**
@@ -224,7 +238,7 @@ public class GrepTool extends ATool implements IGrepTool {
 		}
 		scanner.close();
 		
-		return stringBuilder.toString();
+		return trimNewLine(stringBuilder);
 	}
 
 	/**
@@ -250,7 +264,7 @@ public class GrepTool extends ATool implements IGrepTool {
 		}
 		scanner.close();
 		
-		return stringBuilder.toString();
+		return trimNewLine(stringBuilder);
 	}
 
 	/**
