@@ -340,10 +340,14 @@ public class GrepTool extends ATool implements IGrepTool {
 		} else if (args.length == 3) {
 			String pattern = args[1];
 			String input;
-			if (stdin != null) {
+			String fileName = args[2];
+			if (fileName.equals("-")) {
+				if (stdin == null) {
+					return "";
+				}
 				input = stdin;
 			} else {
-				input = catTool.getStringForFile(new File(args[2]));	
+				input = catTool.getStringForFile(new File(fileName));	
 			}
 			returnable = getOnlyMatchingLines(pattern, input);
 		} else if (args.length == 2) {

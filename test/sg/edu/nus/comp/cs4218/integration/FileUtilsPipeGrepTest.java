@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
@@ -51,7 +53,10 @@ public class FileUtilsPipeGrepTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		Files.delete(Paths.get(testDataFileName));
+		Path testFile = Paths.get(testDataFileName);
+		if (testFile.toFile().exists()) {
+			Files.delete(Paths.get(testDataFileName));	
+		}
 	}
 
 	@Before
@@ -99,59 +104,84 @@ public class FileUtilsPipeGrepTest {
 		assertEquals("Copy pipe grep result incorrect", "", result);
 	}
 	
-//	/**
-//	 * Tests delete tool with pipe and grep
-//	 */
-//	@Test
-//	public void testDelete() {
-//		tool = new DeleteTool(new String[]{"rm", "somefile"});
-//		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
-//		String result = pipeTool.execute(Paths.get(".").toFile(), null);
-//		assertEquals("Delete pipe grep result incorrect", "", result);
-//	}
+	/**
+	 * Tests delete tool with pipe and grep
+	 */
+	@Test
+	public void testDelete() {
+		tool = new DeleteTool(new String[]{"delete", testDataFileName});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+		assertEquals("Delete pipe grep result incorrect", "", result);
+	}
 	
-//	/**
-//	 * Tests echo tool with pipe and grep
-//	 */
-//	@Test
-//	public void testEcho() {
-//		tool = new EchoTool(new String[]{"echo", "abracadabra"});
-//		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
-//		String result = pipeTool.execute(Paths.get(".").toFile(), null);
-//		assertEquals("Echo pipe grep result incorrect", "", result);
-//	}
+	/**
+	 * Tests echo tool with pipe and grep
+	 */
+	@Test
+	public void testEcho() {
+		tool = new EchoTool(new String[]{"echo", "abracadabra"});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+		assertEquals("Echo pipe grep result incorrect", "abracadabra", result);
+	}
 	
-//	/**
-//	 * Tests ls tool with pipe and grep
-//	 */
-//	@Test
-//	public void testLs() {
-//		tool = new LsTool(new String[]{"ls"});
-//		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
-//		String result = pipeTool.execute(Paths.get(".").toFile(), null);
-//		assertEquals("Ls pipe grep result incorrect", "", result);
-//	}
+	/**
+	 * Tests ls tool with pipe and grep
+	 * @throws IOException 
+	 */
+	@Test
+	public void testLs() throws IOException {		
+		final String PARENTFOLDER = "tempParentFolder";
+		final String CHILDFOLDER = "tempChildFolder";
+		final String FILE = "tempFile.txt";
+		final Path PATH = Paths.get(PARENTFOLDER + File.separator + CHILDFOLDER);
+		final Path PATHTOFILE = Paths.get(PARENTFOLDER + File.separator + FILE);
+		
+		tool = new LsTool(new String[]{"ls", PARENTFOLDER});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		
+        Files.createDirectories(PATH);
+        try {
+            Files.createFile(PATHTOFILE);
+        } catch (FileAlreadyExistsException e) {
+            System.err.println("File already exists: " + e.getMessage()); // NOPMD
+        }
+		
+		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+		
+        Files.delete(PATHTOFILE);
+        Files.delete(PATH);
+        Files.delete(Paths.get(PARENTFOLDER));
+        
+		assertTrue("Ls pipe grep result incorrect", 
+				result.contains(CHILDFOLDER + File.separator) &&
+				result.contains(FILE));
+	}
 	
-//	/**
-//	 * Tests move tool with pipe and grep
-//	 */
-//	@Test
-//	public void testMove() {
-//		tool = new MoveTool(new String[]{"mv", "afile", "alocation"});
-//		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
-//		String result = pipeTool.execute(Paths.get(".").toFile(), null);
-//		assertEquals("Move pipe grep result incorrect", "", result);
-//	}
+	/**
+	 * Tests move tool with pipe and grep
+	 * @throws IOException 
+	 */
+	@Test
+	public void testMove() throws IOException {
+		String destFile = "moveTestFile.txt";
+		tool = new MoveTool(new String[]{"move", testDataFileName, destFile});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+		Files.delete(Paths.get(destFile));
+		assertEquals("Move pipe grep result incorrect", "", result);
+	}
 	
-//	/**
-//	 * Tests pwd tool with pipe and grep
-//	 */
-//	@Test
-//	public void testPwd() {
-//		tool = new PWDTool(new String[]{"pwd"});
-//		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
-//		String result = pipeTool.execute(Paths.get(".").toFile(), null);
-//		assertEquals("Pwd pipe grep result incorrect", testData, result);
-//	}	
+	/**
+	 * Tests pwd tool with pipe and grep
+	 */
+	@Test
+	public void testPwd() {
+		tool = new PWDTool(new String[]{"pwd"});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+		assertEquals("Pwd pipe grep result incorrect", System.getProperty("user.dir"), result);
+	}	
 	
 }
