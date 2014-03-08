@@ -2,6 +2,7 @@ package sg.edu.nus.comp.cs4218.impl.extended2;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -91,6 +92,47 @@ public class CUTToolTest {
 		assertEquals(output1,cutTool.cutSpecifiedCharactersUseDelimiter(list1," ",input1));	
 	}
 
-	
+	@Test
+	public void cutExecuteInput(){
+		String [] args = new String[4];
+		args[0] = "cut";
+		args[1] = prop.getProperty("cutEarg1");
+		args[2] = prop.getProperty("cutEarg2");
+		args[3] = "-";
+		cutTool = new CutTool(args);
+		String output=cutTool.execute(new File("."), prop.getProperty("input"));
+		assertEquals("wrong output", prop.getProperty("output"), output);
+	}
+	@Test
+	public void cutExecuteBadInput(){
+		String [] args = new String[4];
+		args[0] = "cut";
+		args[1] = prop.getProperty("cutEBarg1");
+		args[2] = prop.getProperty("cutEBarg2");
+		args[3] = "-";
+		cutTool = new CutTool(args);
+		String output=cutTool.execute(new File("."), prop.getProperty("Binput"));
+		assertEquals("wrong output", prop.getProperty("Boutput"), output);
+		assertEquals("wrong statuscode", 127, cutTool.getStatusCode());
+	}
 
+	@Test
+	public void cutExecuteBad2Input(){
+		String [] args = new String[4];
+		args[0] = "cut";
+		args[1] = prop.getProperty("cutEB1arg1");
+		args[2] = prop.getProperty("cutEB1arg2");
+		args[3] = "-";
+		cutTool = new CutTool(args);
+		String output=cutTool.execute(new File("."), prop.getProperty("B1input"));
+		assertEquals("wrong output", prop.getProperty("B1output"), output);
+		assertEquals("wrong statuscode", 67, cutTool.getStatusCode());
+	}
+	
+	@Test
+	public void cutGetHelp(){
+		String oracel = prop.getProperty("cutHelp");
+		String output =cutTool.getHelp();
+		assertEquals("HELP MESSAGE WRONG",oracel, output);
+	}
 }
