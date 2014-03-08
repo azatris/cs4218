@@ -30,6 +30,7 @@ public class Shell implements IShell {
 	private static final int THREE=3;
 	File workingDirectory = new File(System.getProperty("user.dir"));
 	private static PrintStream out = System.out;
+	static Thread executingThread = null; //Thread responsible for executing the command
 
 	@Override
 	public ITool parse(final String commandline) {
@@ -226,8 +227,6 @@ public class Shell implements IShell {
 		ITool parseResult;
 		final BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
-		Thread executingThread = null; //Thread responsible for executing the command
-
 		do{
 			try {
 				commandLine = input.readLine(); //Get the command line
@@ -235,11 +234,14 @@ public class Shell implements IShell {
 						commandLine.equalsIgnoreCase("ctrl z")||
 						commandLine.equalsIgnoreCase("ctrlz")){
 					out.println("Stopping the running thread");
-					shell.stop(executingThread); //stop the execution when it reads ctrl-z
+					shell.stop(Shell.executingThread); //stop the execution when it reads ctrl-z
+				}
+				else if(commandLine.equalsIgnoreCase("exit")){
+					System.exit(0); //exit the shell
 				}
 				else{
 					parseResult = shell.parse(commandLine); //return the result of parsing
-					executingThread = (Thread)shell.execute(parseResult); //run the thread
+					Shell.executingThread = (Thread)shell.execute(parseResult); //run the thread
 				}
 			} catch (IOException e) {
 				out.print("IO Exception Caught\n");
@@ -309,7 +311,6 @@ public class Shell implements IShell {
 			}
 			return message;              	
 		}
-
 		
         /**
          * Run the execution tool and print the specific result to the shell

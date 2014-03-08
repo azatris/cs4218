@@ -315,5 +315,22 @@ public class UNIQToolTest {
 			e.printStackTrace();
 		}
 	}
+	
+	//Test get help
+	@Test
+	public void testGetHelp(){
+		String textOfHelp = "Command Format - uniq [OPTIONS] [FILE]\n"
+				+ "FILE - Name of the file, when no file is present (denoted by \"-\") use standard input\n"
+				+ "OPTIONS\n"
+				+ "f NUM : Skips NUM fields on each line before checking for uniqueness. Use a null\n"
+				+ "string for comparison if a line has fewer than n fields. Fields are sequences of\n"
+				+ "non-space non-tab characters that are separated from each other by at least one\n"
+				+ "space or tab.\n"
+				+ "-i : Ignore differences in case when comparing lines.\n"
+				+ "-help : Brief information about supported options";
+		String executionResult = uniqTool.getHelp();
+		assertEquals(textOfHelp,executionResult);
+		assertEquals(uniqTool.getStatusCode(),0);
+	}
 }
 

@@ -133,7 +133,7 @@ public class UniqTool extends ATool implements IUniqTool{
 						}
 						else{
 							setStatusCode(2);
-							System.err.print("-f needs to be followed with skip number");
+							System.err.println("-f needs to be followed with skip number");
 							return null;
 						}
 					}

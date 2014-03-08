@@ -263,4 +263,19 @@ public class WCToolTest {
 			e.printStackTrace();
 		}
 	}
+	
+	//Test get help
+	@Test
+	public void testGetHelp(){
+		String textOfHelp = "Command Format - wc [OPTIONS] [FILE]\n"
+				+ "FILE - Name of the file, when no file is present (denoted by \"-\") use standard input\n"
+				+ "OPTIONS\n"
+				+ "-m : Print only the character counts\n"
+				+ "-w : Print only the word counts\n"
+				+ "-l : Print only the newline counts\n"
+				+ "-help : Brief information about supported options";
+		String executionResult = wcTool.getHelp();
+		assertEquals(textOfHelp,executionResult);
+		assertEquals(wcTool.getStatusCode(),0);
+	}
 }
