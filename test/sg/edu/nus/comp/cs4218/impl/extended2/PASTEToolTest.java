@@ -146,6 +146,16 @@ public class PASTEToolTest {
 	}
 	
 	/**
+	 * Tests the default no-flag case of paste with no arguments
+	 */
+	@Test
+	public void testExecuteDefaultNoArguments() {
+		pasteToolForExecute = new PASTETool(new String[]{"paste"});
+		pasteToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotNull("Default case with no arguments does not return correct status code.", pasteToolForExecute.getStatusCode());
+	}
+	
+	/**
 	 * Tests the "single file at a time" case of paste
 	 * uses pasteSerial
 	 */
@@ -170,6 +180,16 @@ public class PASTEToolTest {
 	}
 	
 	/**
+	 * Tests the "single file at a time" case of paste with no arguments
+	 */
+	@Test
+	public void testExecuteSNoArguments() {
+		pasteToolForExecute = new PASTETool(new String[]{"paste", "-s"});
+		pasteToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotNull("Paste with -s flag does not return correct status code.", pasteToolForExecute.getStatusCode());
+	}
+	
+	/**
 	 * Tests the single delimiter case of paste
 	 * uses pasteUseDelimiter
 	 */
@@ -191,6 +211,16 @@ public class PASTEToolTest {
 		String correctResult = prop.getProperty("testExecuteDMultiple");
 		String result = pasteToolForExecute.execute(Paths.get(".").toFile(), null);
 		assertEquals("Multiple delimiter case result is incorrect.", correctResult, result);
+	}
+	
+	/**
+	 * Tests the multiple delimiters case of paste with no arguments
+	 */
+	@Test
+	public void testExecuteDNoArguments() {
+		pasteToolForExecute = new PASTETool(new String[]{"paste", "-d", ",./"});
+		pasteToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotNull("Paste with -d flag does not return correct status code.", pasteToolForExecute.getStatusCode());
 	}
 	
 
