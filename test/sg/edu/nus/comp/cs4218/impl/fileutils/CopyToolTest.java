@@ -97,10 +97,11 @@ public class CopyToolTest {
 		assertTrue(to.exists());
 		assertTrue(copyTool.copy(from, to));
 		assertEquals(0, copyTool.getStatusCode());
-		to = new File(to.getAbsolutePath() + File.separator +from.getName());
-		assertEquals(fromStr, readFile(to));
+		File toFile = new File(to.getAbsolutePath() + File.separator +from.getName());
+		assertEquals(fromStr, readFile(toFile));
 
 		from.delete();
+		toFile.delete();
 		to.delete();
 	}
 
@@ -118,7 +119,7 @@ public class CopyToolTest {
 		assertTrue(copyTool.copy(from, to));
 		assertEquals(0, copyTool.getStatusCode());
 		assertEquals(fromStr, readFile(to));
-
+		(new File(args[2] + File.separator + from.getName())).delete();
 		from.delete();
 		to.delete();
 	}
