@@ -6,6 +6,8 @@ import sg.edu.nus.comp.cs4218.ITool;
 import sg.edu.nus.comp.cs4218.IShell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
 import sg.edu.nus.comp.cs4218.impl.extended1.GrepTool;
+import sg.edu.nus.comp.cs4218.impl.extended2.PASTETool;
+import sg.edu.nus.comp.cs4218.impl.extended2.SORTTool;
 import sg.edu.nus.comp.cs4218.impl.extended2.UniqTool;
 import sg.edu.nus.comp.cs4218.impl.extended2.WcTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
@@ -121,8 +123,6 @@ public class Shell implements IShell {
 		return argumentArray;
 	}
 
-
-
 	/**
 	 *
 	 * @param arguments
@@ -169,12 +169,15 @@ public class Shell implements IShell {
 //		case "cut":
 //			newCommand = new CutTool(arguments);
 //			break;
-//		case "paste":
-//			newCommand = new PasteTool(arguments);
-//			break;
-//		case "sort":
-//			newCommand = new SortTool(arguments);
-//			break;
+		case "paste":
+			newCommand = new PASTETool(arguments);
+			for(String args: arguments){
+				System.out.println(args);
+			}
+			break;
+		case "sort":
+			newCommand = new SORTTool(arguments);
+			break;
 //		case "comm":
 //			newCommand = new CommTool(arguments);
 //			break;

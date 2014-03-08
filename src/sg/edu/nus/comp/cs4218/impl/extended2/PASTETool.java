@@ -41,7 +41,7 @@ public class PASTETool extends ATool implements IPasteTool {
 		}
 		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 		stringBuilder.append('\n');
-		
+
 		return stringBuilder.toString();
 	}
 
@@ -54,12 +54,12 @@ public class PASTETool extends ATool implements IPasteTool {
 	@Override
 	public String pasteUseDelimiter(String delim, String[] input) {
 		ArrayList<String> output = new ArrayList<>();
-		
+
 		int filesDone = 0;
 		int delimLength = delim.length();
 		int fileLength = -1;
 		int currentDelimIndex = 0;	
-		
+
 		for (int i = 0; i < input.length; i++) {
 			String line = input[i];
 			if ((line.equals("\n") || line.equals("\r"))) {
@@ -80,13 +80,13 @@ public class PASTETool extends ATool implements IPasteTool {
 			}
 
 		}
-		
+
 		StringBuilder stringBuilder = new StringBuilder();
 		for (String row : output) {
 			stringBuilder.append(row);
 			stringBuilder.append('\n');
 		}
-		
+
 		return stringBuilder.toString();
 	}
 
@@ -117,9 +117,9 @@ public class PASTETool extends ATool implements IPasteTool {
 	public String execute(File workingDir, String stdin) {
 		// using catTool to call the file reading method
 		CatTool catTool = new CatTool(new String[]{"cat"});
-		
+
 		String returnable = null;
-		
+
 		if (args.length < 2) {
 			setStatusCode(127);
 		} else if (args.length == 2 && args[1].equals("-help")) {
@@ -129,11 +129,11 @@ public class PASTETool extends ATool implements IPasteTool {
 			String flag = args[1];
 			StringBuilder builder = new StringBuilder();
 			for(String s : args) {
-			    builder.append(s);
-			    builder.append(' ');
+				builder.append(s);
+				builder.append(' ');
 			}
 			String arguments = builder.toString().trim();
-			
+
 			// extract the filenames from the arguments
 			String mode = "default";
 			Pattern filesPattern = Pattern.compile("(?<=(^paste(( -d \\S{0,10})|( -s))?)) ((?<!-)\\S)+( ((?<!-)\\S)+)*( -)?");
@@ -146,18 +146,20 @@ public class PASTETool extends ATool implements IPasteTool {
 				matcher.find();
 			}
 			matcher.find();
-			
+
 			// storing filenames in an array
 			ArrayList<String> input = new ArrayList<>();
 			try {
 				String[] fileNames = matcher.group(0).trim().split(" ");
-				
 				for (String fileName : fileNames) {
+					System.out.println(fileName);
 					if (fileName.equals("-")) {
 						input.addAll(new ArrayList<String>(Arrays.asList(stdin.split("\n"))));
 					} else {
 						String fileContent = catTool.getStringForFile(new File(fileName));
-						fileContent = fileContent.trim(); // for removing trailing newline
+						if(fileContent == null){
+							fileContent = fileContent.trim(); // for removing trailing newline
+						}
 						input.addAll(new ArrayList<String>(Arrays.asList(fileContent.split("\n"))));
 					}
 					input.add("\n");
@@ -167,25 +169,25 @@ public class PASTETool extends ATool implements IPasteTool {
 				setStatusCode(127);
 				mode = "error";
 			}
-			
+
 
 			String[] inputAsArray = input.toArray(new String[input.size()]);
-			
+
 			switch (mode) {
-				case "default":
-					returnable = pasteUseDelimiter("\t", inputAsArray);
-					break;
-				case "s":
-					returnable = pasteSerial(inputAsArray);
-					break;
-				case "d":
-					returnable = pasteUseDelimiter(args[2], inputAsArray);
-					break;
-				default:
-					setStatusCode(127);
-					break;
+			case "default":
+				returnable = pasteUseDelimiter("\t", inputAsArray);
+				break;
+			case "s":
+				returnable = pasteSerial(inputAsArray);
+				break;
+			case "d":
+				returnable = pasteUseDelimiter(args[2], inputAsArray);
+				break;
+			default:
+				setStatusCode(127);
+				break;
 			}
-			
+
 		}
 
 		return returnable;
