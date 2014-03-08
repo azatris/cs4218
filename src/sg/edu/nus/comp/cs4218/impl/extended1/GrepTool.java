@@ -280,7 +280,8 @@ public class GrepTool extends ATool implements IGrepTool {
 			int num = Integer.parseInt(args[2]);
 			String pattern = args[3];
 			String input;
-			if (stdin != null) {
+			String fileName = args[4];
+			if (fileName.equals("-")) {
 				input = stdin;
 			} else {
 				input = catTool.getStringForFile(new File(args[4]));	

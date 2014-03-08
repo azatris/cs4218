@@ -153,7 +153,7 @@ public class GrepToolTest {
 	public void testGetHelp() {
 		String correctResult = prop.getProperty("getHelpTest");
 		String result = grepTool.getHelp();
-		assertEquals("Help was printed correctly.", correctResult, result);
+		assertEquals("Help was not printed correctly.", correctResult, result);
 	}
 	
 	@Test
