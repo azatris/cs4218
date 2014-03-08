@@ -1,20 +1,15 @@
 package sg.edu.nus.comp.cs4218.impl.fileutils;
 
 import static org.junit.Assert.*;
-
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.nio.file.Files;
-import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sg.edu.nus.comp.cs4218.common.Common;
 import sg.edu.nus.comp.cs4218.fileutils.ICatTool;
 
 public class CatToolTest {
@@ -27,25 +22,6 @@ public class CatToolTest {
 	@After
 	public void tearDown() throws Exception {
 		catTool = null;
-	}
-	
-	public String writeRandomStringTo(File toWrite) throws IOException{
-		// generate random string as file contents
-		StringBuilder strBuilder = new StringBuilder();
-		Random random = new Random();		
-		int size = random.nextInt(512);
-		char[] chars = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*()-_+=}{] [;:'\"?><,./\\\n".toCharArray();
-		for (int i = 0; i < size; i++) {
-			char c = chars[random.nextInt(chars.length)];
-			strBuilder.append(c);
-		}
-		String str = strBuilder.toString();
-
-		Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(toWrite), "utf-8"));
-		writer.write(str);
-		writer.close();
-		
-		return str;
 	}
 	
 	//Testing String getStringForFile(File toRead)
@@ -65,7 +41,7 @@ public class CatToolTest {
 		File fileToRead = File.createTempFile("random", "cattmp");
 		String[] args = {"cat", fileToRead.getName()};
 		catTool = new CatTool(args);
-		String str = writeRandomStringTo(fileToRead);
+		String str = Common.writeRandomStringTo(fileToRead);
 		
 		assertEquals(str,catTool.getStringForFile(fileToRead));
 		assertEquals(0, catTool.getStatusCode());
@@ -137,7 +113,7 @@ public class CatToolTest {
 		catTool = new CatTool(args);
 		File fileToRead = new File(dummyFileName);
 		try {
-			String str = writeRandomStringTo(fileToRead);
+			String str = Common.writeRandomStringTo(fileToRead);
 			String result = catTool.execute(workingDirectory, null);
 			assertTrue(result.equals(str));
 			assertTrue(catTool.getStatusCode() == 0);
@@ -155,7 +131,7 @@ public class CatToolTest {
 		catTool = new CatTool(args);
 		File fileToRead = new File(dummyFileName);
 		try {
-			String str = writeRandomStringTo(fileToRead);
+			String str = Common.writeRandomStringTo(fileToRead);
 			String result = catTool.execute(workingDirectory, null);
 			assertTrue(result.equals(str));
 		} catch (IOException e) {
@@ -177,9 +153,9 @@ public class CatToolTest {
 		File fileToRead2 = new File(dummyFileName2);
 		File fileToRead3 = new File(dummyFileName3);
 		try {
-			String str1 = writeRandomStringTo(fileToRead1);
-			String str2 = writeRandomStringTo(fileToRead2);
-			String str3 = writeRandomStringTo(fileToRead3);
+			String str1 = Common.writeRandomStringTo(fileToRead1);
+			String str2 = Common.writeRandomStringTo(fileToRead2);
+			String str3 = Common.writeRandomStringTo(fileToRead3);
 			String concantenatedStr = str1 + str2 + str3;
 			String result = catTool.execute(workingDirectory, null);
 			assertTrue(result.equals(concantenatedStr));
@@ -200,7 +176,7 @@ public class CatToolTest {
 		catTool = new CatTool(args);
 		File fileToRead = new File(workingDirectory.getParentFile() + File.separator + dummyFileName);
 		try {
-			String str = writeRandomStringTo(fileToRead);
+			String str = Common.writeRandomStringTo(fileToRead);
 			String result = catTool.execute(workingDirectory, null);
 			assertTrue(result.equals(str));
 		} catch (IOException e) {
@@ -231,7 +207,7 @@ public class CatToolTest {
 	    childDirectory.mkdir();
 		File fileToRead = new File(workingDirectory + File.separator + dummyFolderName + File.separator + dummyFileName);
 		try {
-			String str = writeRandomStringTo(fileToRead);
+			String str = Common.writeRandomStringTo(fileToRead);
 			String result = catTool.execute(workingDirectory, null);
 			assertTrue(result.equals(str));
 		} catch (IOException e) {

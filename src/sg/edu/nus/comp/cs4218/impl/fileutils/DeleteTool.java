@@ -2,8 +2,6 @@ package sg.edu.nus.comp.cs4218.impl.fileutils;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Stack;
 
 import sg.edu.nus.comp.cs4218.common.Common;
 import sg.edu.nus.comp.cs4218.fileutils.IDeleteTool;

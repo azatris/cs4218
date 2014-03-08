@@ -6,6 +6,7 @@ import sg.edu.nus.comp.cs4218.ITool;
 import sg.edu.nus.comp.cs4218.IShell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
 import sg.edu.nus.comp.cs4218.impl.extended1.GrepTool;
+import sg.edu.nus.comp.cs4218.impl.extended2.CommTool;
 import sg.edu.nus.comp.cs4218.impl.extended2.PASTETool;
 import sg.edu.nus.comp.cs4218.impl.extended2.SORTTool;
 import sg.edu.nus.comp.cs4218.impl.extended2.UniqTool;
@@ -178,9 +179,9 @@ public class Shell implements IShell {
 		case "sort":
 			newCommand = new SORTTool(arguments);
 			break;
-//		case "comm":
-//			newCommand = new CommTool(arguments);
-//			break;
+		case "comm":
+			newCommand = new CommTool(arguments);
+			break;
 		case "Parsing failed":
 			newCommand = new WrongParsingTool(arguments);
 			System.out.println("Wrong parsing");

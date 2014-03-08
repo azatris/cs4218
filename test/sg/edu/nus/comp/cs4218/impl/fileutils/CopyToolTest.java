@@ -2,15 +2,9 @@ package sg.edu.nus.comp.cs4218.impl.fileutils;
 
 import static org.junit.Assert.*;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.nio.file.Files;
-import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,20 +25,6 @@ public class CopyToolTest {
 		copyTool = null;
 	}
 
-	public String readFile(File toRead) throws IOException{
-		FileReader fileReader = new FileReader(toRead);
-
-		String fileContents = "";
-		int i ;
-		while((i = fileReader.read()) != -1){
-			char ch = (char)i;
-			fileContents = fileContents + ch; 
-		}
-		fileReader.close();
-
-		return fileContents;
-	}
-
 	//Testing boolean copy(File from, File to)
 	@Test
 	public void copyFileToExistFileTest() throws IOException {
@@ -60,7 +40,7 @@ public class CopyToolTest {
 		assertTrue(to.exists());
 		assertTrue(copyTool.copy(from, to));
 		assertEquals(0, copyTool.getStatusCode());
-		assertEquals(fromStr, readFile(to));
+		assertEquals(fromStr, Common.readFile(to));
 
 		from.delete();
 		to.delete();
@@ -79,7 +59,7 @@ public class CopyToolTest {
 		assertTrue(from.exists());
 		assertTrue(copyTool.copy(from, to));
 		assertEquals(0, copyTool.getStatusCode());
-		assertEquals(fromStr, readFile(to));
+		assertEquals(fromStr, Common.readFile(to));
 
 		from.delete();
 		to.delete();
@@ -98,7 +78,7 @@ public class CopyToolTest {
 		assertTrue(copyTool.copy(from, to));
 		assertEquals(0, copyTool.getStatusCode());
 		File toFile = new File(to.getAbsolutePath() + File.separator +from.getName());
-		assertEquals(fromStr, readFile(toFile));
+		assertEquals(fromStr, Common.readFile(toFile));
 
 		from.delete();
 		toFile.delete();
@@ -118,7 +98,7 @@ public class CopyToolTest {
 		assertTrue(from.exists());
 		assertTrue(copyTool.copy(from, to));
 		assertEquals(0, copyTool.getStatusCode());
-		assertEquals(fromStr, readFile(to));
+		assertEquals(fromStr, Common.readFile(to));
 		(new File(args[2] + File.separator + from.getName())).delete();
 		from.delete();
 		to.delete();

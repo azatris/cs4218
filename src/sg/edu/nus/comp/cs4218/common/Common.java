@@ -3,6 +3,7 @@ package sg.edu.nus.comp.cs4218.common;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -62,5 +63,25 @@ public class Common {
 		writer.close();
 
 		return str;
+	}
+	
+	/**
+	 * Read file char by char, because reading line by line cannot be used when file separator is different on different platforms.
+	 * @param toRead
+	 * @return content of the file
+	 * @throws IOException
+	 */
+	public static String readFile(File toRead) throws IOException{
+		FileReader fileReader = new FileReader(toRead);
+
+		String fileContents = "";
+		int i ;
+		while((i = fileReader.read()) != -1){
+			char ch = (char)i;
+			fileContents = fileContents + ch; 
+		}
+		fileReader.close();
+
+		return fileContents;
 	}
 }

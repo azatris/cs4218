@@ -1,16 +1,9 @@
 package sg.edu.nus.comp.cs4218.impl.fileutils;
 
 import static org.junit.Assert.*;
-
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.nio.file.Files;
-import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,20 +22,6 @@ public class MoveToolTest {
 	@After
 	public void tearDown() throws Exception {
 		moveTool = null;
-	}
-
-	public String readFile(File toRead) throws IOException{
-		FileReader fileReader = new FileReader(toRead);
-
-		String fileContents = "";
-		int i ;
-		while((i = fileReader.read()) != -1){
-			char ch = (char)i;
-			fileContents = fileContents + ch; 
-		}
-		fileReader.close();
-
-		return fileContents;
 	}
 	
 	/*Testing boolean move(File from, File to)*/
@@ -67,7 +46,7 @@ public class MoveToolTest {
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		assertTrue(to.exists());
-		assertEquals(fromStr, readFile(to));
+		assertEquals(fromStr, Common.readFile(to));
 
 		to.delete();
 	}
@@ -86,7 +65,7 @@ public class MoveToolTest {
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		assertTrue(to.exists());
-		assertEquals(fromStr, readFile(to));
+		assertEquals(fromStr, Common.readFile(to));
 
 		to.delete();
 	}
@@ -126,7 +105,7 @@ public class MoveToolTest {
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		assertTrue(to.exists());
-		assertEquals(fromStr, readFile(to));
+		assertEquals(fromStr, Common.readFile(to));
 
 		to.delete();	
 	}
@@ -149,7 +128,7 @@ public class MoveToolTest {
 		File movedFile = new File(to.getAbsolutePath()+File.separator+from.getName());
 		assertEquals(
 				fromStr, 
-				readFile(movedFile)
+				Common.readFile(movedFile)
 				);
 		movedFile.delete();
 		to.delete();
@@ -170,7 +149,7 @@ public class MoveToolTest {
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		assertTrue(to.exists());
-		assertEquals(fromStr, readFile(to));
+		assertEquals(fromStr, Common.readFile(to));
 		
 		File movedFile = new File(to.getAbsolutePath()+File.separator+from.getName());
 		movedFile.delete();
