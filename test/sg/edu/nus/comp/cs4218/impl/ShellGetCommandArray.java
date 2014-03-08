@@ -77,19 +77,7 @@ public class ShellGetCommandArray {
 		String[] result = shell.getCommandArray(input);
 		assertArrayEquals("parsing went wrong", result, actual);
 	}
-	
-	/**
-	 * show that utf8 is no problem in pattern 
-	 */
-	@Test
-	public void uTF8InPattern() {
-		String[] actual = new String[]{"grep", "åka tält", "-"};
-		String input = prop.getProperty("uTF8InPattern");
-		String[] result = shell.getCommandArray(input);
-		assertArrayEquals("parsing went wrong", result, actual);
-	}
-	
-	
+
 	/**
 	 * show that Many files no problem 
 	 */

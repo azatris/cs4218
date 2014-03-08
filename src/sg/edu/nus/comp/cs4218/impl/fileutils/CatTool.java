@@ -82,9 +82,7 @@ public class CatTool extends ATool implements ICatTool {
 		}
 		for (int i = 0; i<buildNewAbsDir.size(); i++){
 			newWorkingDir.append(buildNewAbsDir.get(i));
-			//if ( i != 0 ){
 				newWorkingDir.append(File.separator);
-			//}		
 		}
 		return newWorkingDir.toString();
 	}

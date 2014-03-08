@@ -52,14 +52,13 @@ public class CdTool extends ATool implements ICdTool {
 			}
 		}
 		StringBuilder newWorkingDir = new StringBuilder();
-		newWorkingDir.append(File.separator);
+		if (System.getProperty("os.name").toLowerCase().indexOf("mac") > 0){
+			newWorkingDir.append(File.separator);
+		}
 		for (int i = 0; i<buildNewAbsDir.size(); i++){
 			newWorkingDir.append(buildNewAbsDir.get(i));
-			if ( i != 0 ){
 				newWorkingDir.append(File.separator);
-			}		
 		}
-		System.out.println(newWorkingDir.toString());
 		return newWorkingDir.toString();
 	}
 	
