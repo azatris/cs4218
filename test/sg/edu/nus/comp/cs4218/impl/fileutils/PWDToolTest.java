@@ -29,11 +29,13 @@ public class PWDToolTest {
 	public void getStringForDirectoryTest() throws IOException {
 		String[] test = new String[] {"pwd"};
 		pwdtool = new PWDTool(test);
-		String existsDirString = File.createTempFile("exists", "tmp").getParent();
+		File tempFile = File.createTempFile("existspwd", "tmp");
+		String existsDirString = tempFile.getParent();
 		File existsDir = new File(existsDirString);
 		String dirString = pwdtool.getStringForDirectory(existsDir);
 		assertTrue(dirString.equals(existsDirString));
 		assertEquals(pwdtool.getStatusCode(), 0);
+		tempFile.delete();
     }
 
 
@@ -58,33 +60,40 @@ public class PWDToolTest {
 	@Test
 	public void getStringPWDNullinConstructor() throws IOException { 
 		pwdtool = new PWDTool(null);
-		String existsDirString = File.createTempFile("exists", "tmp").getParent();
+		File tempFile = File.createTempFile("existspwd", "tmp");
+		String existsDirString = tempFile.getParent();
+		
 		File existsDir = new File(existsDirString);
 		String dirString = pwdtool.getStringForDirectory(existsDir);
 		assertTrue(dirString.equals(existsDirString));
 		assertEquals(pwdtool.getStatusCode(), 127);
+		tempFile.delete();
 	}
 	
 	@Test 
 	public void executeWrongInput() throws IOException{
 	String[] test = new String[] {"asd"};
 	pwdtool = new PWDTool(test);
-	
-	String existsDirString = File.createTempFile("exists", "tmp").getParent();
+	File tempFile = File.createTempFile("existspwd", "tmp");
+	String existsDirString = tempFile.getParent();
 	File existsDir = new File(existsDirString);
 	String dirString = pwdtool.execute(existsDir, null);
 	assertTrue(dirString.equals(existsDirString));
 	assertEquals(pwdtool.getStatusCode(), 127);
+	tempFile.delete();
 	}
 	
 	@Test 
 	public void executeToManyArgs() throws IOException{
 	String[] test = new String[] {"pwd" , "Hallo"};
 	pwdtool = new PWDTool(test);
-	String existsDirString = File.createTempFile("exists", "tmp").getParent();
+	File tempFile = File.createTempFile("existspwd", "tmp");
+	String existsDirString = tempFile.getParent();
+	
 	File existsDir = new File(existsDirString);
 	String dirString = pwdtool.execute(existsDir, null);
 	assertTrue("Not right dir", dirString.equals("Error: PWD command wrong"));
 	assertEquals("Not right statuscode ", pwdtool.getStatusCode(), 1);
+	tempFile.delete();
 	}
 }
