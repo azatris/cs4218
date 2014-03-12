@@ -94,6 +94,33 @@ public class CutTool extends ATool implements ICutTool {
 		return endResult.toString();
 	}
 	
+	@Override
+	public String cutSpecifiedCharactersUseDelimiter(String list, String delim,
+			String input) {
+		if(list == null || input ==null || delim==null){
+			setStatusCode(210);
+			return "";
+		}
+		if(!validDelim(delim)){
+			setStatusCode(83);
+			return "";
+		}
+		StringBuilder endResult = new StringBuilder();
+		String[] fieldArray = input.split(delim);
+		boolean[] possitions = listToPossitions(list, fieldArray.length);
+		for(int i=1; i<possitions.length; i++){
+			if(possitions[i]){
+				endResult.append(fieldArray[i-1]);
+				endResult.append(delim);
+			}
+		}
+		if(endResult.length()>0){
+		endResult.replace(endResult.length()-delim.length(), endResult.length(), "");
+		}
+		return endResult.toString();
+	}
+
+	
 	
 	private boolean[] listToPossitions(String list, int inputLenght){
 		LinkedList<Integer> allBlockNumbers = new LinkedList<Integer>();
@@ -159,32 +186,6 @@ public class CutTool extends ATool implements ICutTool {
 			}
 		}
 		return Integer.parseInt(number);
-	}
-
-	@Override
-	public String cutSpecifiedCharactersUseDelimiter(String list, String delim,
-			String input) {
-		if(list == null || input ==null || delim==null){
-			setStatusCode(210);
-			return "";
-		}
-		if(!validDelim(delim)){
-			setStatusCode(83);
-			return "";
-		}
-		StringBuilder endResult = new StringBuilder();
-		String[] fieldArray = input.split(delim);
-		boolean[] possitions = listToPossitions(list, fieldArray.length);
-		for(int i=1; i<possitions.length; i++){
-			if(possitions[i]){
-				endResult.append(fieldArray[i-1]);
-				endResult.append(delim);
-			}
-		}
-		if(endResult.length()>0){
-		endResult.replace(endResult.length()-delim.length(), endResult.length(), "");
-		}
-		return endResult.toString();
 	}
 
 	private boolean validDelim(String delim) {
