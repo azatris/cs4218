@@ -74,6 +74,9 @@ public class PASTETool extends ATool implements IPasteTool {
 					setStatusCode(127);
 				} else {
 					int newIndex = i - filesDone*(fileLength + 1);
+					if (newIndex >= output.size()) {
+						output.add("");
+					}
 					output.set(newIndex, output.get(newIndex) + delim.charAt(currentDelimIndex) + line);
 					currentDelimIndex = (currentDelimIndex + 1) % delimLength;
 				}	
@@ -156,7 +159,7 @@ public class PASTETool extends ATool implements IPasteTool {
 						input.addAll(new ArrayList<String>(Arrays.asList(stdin.split("\n"))));
 					} else {
 						String fileContent = catTool.getStringForFile(new File(fileName));
-						if(fileContent == null){
+						if (fileContent != null) {
 							fileContent = fileContent.trim(); // for removing trailing newline
 						}
 						input.addAll(new ArrayList<String>(Arrays.asList(fileContent.split("\n"))));
@@ -173,18 +176,18 @@ public class PASTETool extends ATool implements IPasteTool {
 			String[] inputAsArray = input.toArray(new String[input.size()]);
 
 			switch (mode) {
-			case "default":
-				returnable = pasteUseDelimiter("\t", inputAsArray);
-				break;
-			case "s":
-				returnable = pasteSerial(inputAsArray);
-				break;
-			case "d":
-				returnable = pasteUseDelimiter(args[2], inputAsArray);
-				break;
-			default:
-				setStatusCode(127);
-				break;
+				case "default":
+					returnable = pasteUseDelimiter("\t", inputAsArray);
+					break;
+				case "s":
+					returnable = pasteSerial(inputAsArray);
+					break;
+				case "d":
+					returnable = pasteUseDelimiter(args[2], inputAsArray);
+					break;
+				default:
+					setStatusCode(127);
+					break;
 			}
 
 		}
