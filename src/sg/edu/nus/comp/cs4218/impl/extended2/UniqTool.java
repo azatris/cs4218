@@ -13,7 +13,7 @@ public class UniqTool extends ATool implements IUniqTool{
 
 	/**
 	 * Constructor taking the arguments
-	 * @param arguments (args[0] is the command name)
+	 * @param	arguments	(args[0] is the command name)
 	 */
 	public UniqTool(String[] arguments) {
 		super(arguments);
@@ -24,8 +24,8 @@ public class UniqTool extends ATool implements IUniqTool{
 
 	/**
 	 * Helper method to check whether the given filename exists in the system
-	 * @param the given filename
-	 * @return true if the file exists
+	 * @param	filename	the given filename
+	 * @return	true if the file exists
 	 */
 	public static boolean checkFileExistence(String filename){
 		if(new File(filename).exists()){
@@ -56,6 +56,12 @@ public class UniqTool extends ATool implements IUniqTool{
 			return builder.toString();
 		}
 
+	/**
+	 * Helper method to skip NUM tokens from the line
+	 * @param	line	line whose tokens need to be skipped
+	 * @param	NUM	number of token need to be skipped
+	 * @return	line with skipped tokens
+	 */
 		private String skipFields(String line, int NUM){
 			if(line == null || line.equals("")){
 				return "";
@@ -325,7 +331,8 @@ public class UniqTool extends ATool implements IUniqTool{
 
 		}
 
-		/**Get Help Explanation
+		/**
+		 * Get Help Explanation
 		 * @return	the help explanation
 		 */
 		public String getHelp() {

@@ -13,7 +13,7 @@ public class WcTool extends ATool implements IWcTool{
 
 	/**
 	 * Constructor taking the arguments
-	 * @param arguments (args[0] is the command name)
+	 * @param	arguments	(args[0] is the command name)
 	 */
 	public WcTool(String[] arguments) {
 		super(arguments);
@@ -24,8 +24,8 @@ public class WcTool extends ATool implements IWcTool{
 
 	/**
 	 * Helper method to open a stream to a file and read its content
-	 * @param the name of the file
-	 * @return the content of the file
+	 * @param	filename	the name of the file
+	 * @return	the content of the file
 	 */
 	public static String readFile(String filename) throws IOException{
 			FileInputStream inputStream = new FileInputStream(filename);
@@ -45,8 +45,8 @@ public class WcTool extends ATool implements IWcTool{
 
 	/**
 	 * Helper method to check whether the given filename exists in the system
-	 * @param the given filename
-	 * @return true if the file exists
+	 * @param	filename	the given filename
+	 * @return	true if the file exists
 	 */
 	public static boolean checkFileExistence(String filename){
 		if(new File(filename).exists()){
@@ -159,7 +159,9 @@ public class WcTool extends ATool implements IWcTool{
 	}
 
 	/**
-	 * Count the number of character in the given input
+	 * Count the number of characters in the given input
+	 * @param	input	the input string (/file content) whose characters need to be counted
+	 * @return	number of characters in the input
 	 */
 	@Override
 	public String getCharacterCount(String input) {
@@ -175,6 +177,8 @@ public class WcTool extends ATool implements IWcTool{
 
 	/**
 	 * Count the number of words in the given input
+	 * @param	input	the input string (/file content) whose words need to be counted
+	 * @return	number of words in the input
 	 */
 	@Override
 	public String getWordCount(String input) {
@@ -190,7 +194,9 @@ public class WcTool extends ATool implements IWcTool{
 	}
 
 	/**
-	 * Count the number of new line in the given input
+	 * Count the number of newlines in the given input
+	 * @param	input	the input string (/file content) whose newlines need to be counted
+	 * @return	number of newlines in the input
 	 */
 	@Override
 	public String getNewLineCount(String input) {
@@ -203,7 +209,8 @@ public class WcTool extends ATool implements IWcTool{
 		return Integer.toString(count);
 	}
 
-	/**Get Help Explanation
+	/**
+	 * Get Help Explanation
 	 * @return	the help explanation
 	 */
 	public String getHelp() {
