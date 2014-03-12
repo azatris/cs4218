@@ -152,7 +152,6 @@ public class PASTETool extends ATool implements IPasteTool {
 			try {
 				String[] fileNames = matcher.group(0).trim().split(" ");
 				for (String fileName : fileNames) {
-					System.out.println(fileName);
 					if (fileName.equals("-")) {
 						input.addAll(new ArrayList<String>(Arrays.asList(stdin.split("\n"))));
 					} else {

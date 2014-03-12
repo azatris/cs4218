@@ -7,6 +7,7 @@ import sg.edu.nus.comp.cs4218.IShell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
 import sg.edu.nus.comp.cs4218.impl.extended1.GrepTool;
 import sg.edu.nus.comp.cs4218.impl.extended2.CommTool;
+import sg.edu.nus.comp.cs4218.impl.extended2.CutTool;
 import sg.edu.nus.comp.cs4218.impl.extended2.PASTETool;
 import sg.edu.nus.comp.cs4218.impl.extended2.SORTTool;
 import sg.edu.nus.comp.cs4218.impl.extended2.UniqTool;
@@ -35,6 +36,11 @@ public class Shell implements IShell {
 	private static PrintStream out = System.out;
 	static Thread executingThread = null; //Thread responsible for executing the command
 
+	/**
+	 * Get the corresponding tool depending on the given commmandline
+	 * @param commandline input typed by the user
+	 * @return Tool that should be executed
+	 */
 	@Override
 	public ITool parse(final String commandline) {
 		ITool tool;
@@ -71,9 +77,9 @@ public class Shell implements IShell {
 	}
 
 	/**
-	 *  
-	 * @param argument
-	 * @return
+	 * Handle arguments differently for grep
+	 * @param arguments Arguments given by the parser
+	 * @return a string of arguments
 	 */
 	public String[] getCommandArray(final String argument){
 		// Something could go wrong
@@ -102,7 +108,7 @@ public class Shell implements IShell {
 	 * The parser if a pattern and grep is the next running iTool
 	 * @param hasPattern A string array of length 3 with command and maybe option it there is any
 	 * as first parameter, The pattern as is second and the filename as the third paramenter.
-	 * @return A argument array ready to process by grep.
+	 * @return A argument array ready to process by grep.(args[0] == grep)
 	 */
 	public String[] patternForGrep(final String[] hasPattern){
 		final String commandAndOption = hasPattern[0];
@@ -125,10 +131,9 @@ public class Shell implements IShell {
 	}
 
 	/**
-	 *
-	 * @param arguments
-	 * @param tool
-	 * @return The new Command that should be ececuted
+	 * Get corresponding tool depending on the arguments given by the parser
+	 * @param arguments Arguments that are given to the Tool, args[0] is "tool name" in this case
+	 * @return Tool that should be executed
 	 */
 	private ITool getWhatTool(final String[] arguments){
 		ITool newCommand;
@@ -167,9 +172,9 @@ public class Shell implements IShell {
 		case "uniq":
 			newCommand = new UniqTool(arguments);
 			break;
-//		case "cut":
-//			newCommand = new CutTool(arguments);
-//			break;
+		case "cut":
+			newCommand = new CutTool(arguments);
+			break;
 		case "paste":
 			newCommand = new PASTETool(arguments);
 			for(String args: arguments){
@@ -191,6 +196,11 @@ public class Shell implements IShell {
 		return newCommand;
 	}
 
+	/**
+	 * Create a thread to handle execution of a tool
+	 * @param tool Tool that you want to run
+	 * @return thread which handles the execution of the given tool
+	 */
 	@Override
 	public Runnable execute(ITool tool) {
 		// TODO Implement
@@ -200,6 +210,10 @@ public class Shell implements IShell {
 		return runningThread;
 	}
 
+	/**
+	 * Stop a running thread (which handle the execution of a tool) from executing tool
+	 * @param toolExecution a thread currently executing the tool
+	 */
 	@Override
 	public void stop(Runnable toolExecution) {
 		final Thread runningThread = (Thread)toolExecution;
@@ -223,7 +237,6 @@ public class Shell implements IShell {
 	 * 6. Report the exit status of the command to the user
 	 */
 	public static void main(final String[] args){
-		//TODO Implement
 		final Shell shell = new Shell(); //constructor
 		out.print("Welcome to CS4218 Shell\n");
 
@@ -265,7 +278,8 @@ public class Shell implements IShell {
 		
 		/**
          * Constructor, instantiate tool and standard in
-         * @param tool that we want to run and standard in
+         * @param tool Tool that we want to run and standard in
+         * @param stdin Stdin given to the thread
          */
 		public ExecutingCommandThread(final ITool tool, final String stdin){
 			super();
@@ -276,6 +290,8 @@ public class Shell implements IShell {
         /**
          * Method for getting a particular Message based on the status code (http://tldp.org/LDP/abs/html/exitcodes.html#EXITCODESREF)
          * User defined status code = {55: change working directory, 98: error in parsing}
+         * @param statusCode status code of a tool
+         * @param executionResult the result of running a tool
          * @return a message to be printed on the shell
          */
 		public String getMessage(final int statusCode, final String executionResult){
@@ -337,6 +353,7 @@ public class Shell implements IShell {
 	
     /**
      * Getter to return this shell working directory
+     * @return path of this shell working Directory (absolute path)
      */
 	public File getWorkingDirectory(){
 		return workingDirectory;

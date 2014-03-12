@@ -82,10 +82,13 @@ public class WCToolTest {
 		assertEquals("0", wcTool.getWordCount(input));
 	}
 
-	//Add additional test cases
-	//Test reading File
+	//==================Add additional test cases==========
+	/**
+	 * Test to read a file given a valid filename
+	 * Method to be tested: readFile(String filename)
+	 */
 	@Test
-	public void readFileTest() {
+	public void readFileValidFilenameTest() {
 		try {
 			//Create a temp file and input some dummy content on it
 			String tempFileName = "dummyfile";
@@ -97,12 +100,31 @@ public class WCToolTest {
 			assertEquals(fileContent, WcTool.readFile(tempFileName));
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 
-	//Check whether an existing file is considered as exist
+	/**
+	 * Test to read a file given a valid filename
+	 * Method to be tested: readFile(String filename)
+	 */
+	@Test
+	public void readFileInvalidFilenameTest() {
+
+			String tempFileName = "invalidFilename";
+			try {
+				WcTool.readFile(tempFileName);
+				fail();
+			} catch (IOException e) {
+				//Exception Caught
+			}
+		
+	}
+	
+	/**
+	 * Test to check the File Existence of Existing File
+	 * Method to be tested: checkFileExistence(String filename)
+	 */
 	@Test
 	public void checkFileExistenceForExistingFile(){
 		try {
@@ -121,7 +143,10 @@ public class WCToolTest {
 		}
 	}
 
-	//Check whether a non-existing file is considered as not exist
+	/**
+	 * Test to check the File Existence of NonExisting File
+	 * Method to be tested: checkFileExistence(String filename)
+	 */
 	@Test
 	public void checkFileExistenceForNonExistingFile(){
 		try {
@@ -140,7 +165,10 @@ public class WCToolTest {
 		}
 	}
 	
-	//Test executing a simple command
+	/**
+	 * Test executing simple command
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTest(){
 		try {
@@ -162,12 +190,14 @@ public class WCToolTest {
 			assertEquals(0, tempWcTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
-	//Test executing a simple command with M option
+	/**
+	 * Test executing with M option
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestWithMOption(){
 		try {
@@ -192,7 +222,10 @@ public class WCToolTest {
 		}
 	}
 	
-	//Test executing a simple command with W option
+	/**
+	 * Test executing with W option
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestWithWOption(){
 		try {
@@ -217,7 +250,10 @@ public class WCToolTest {
 		}
 	}
 	
-	//Test executing a simple command with L option
+	/**
+	 * Test executing with L option
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestWithLOption(){
 		try {
@@ -242,7 +278,10 @@ public class WCToolTest {
 		}
 	}
 	
-	//Test executing a simple command with illegal option
+	/**
+	 * Test executing with Illegal Option
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestWithIllegalOption(){
 		try {
@@ -264,7 +303,10 @@ public class WCToolTest {
 		}
 	}
 	
-	//Test get help
+	/**
+	 * Test getting Help
+	 * Method to be tested: getHelp()
+	 */
 	@Test
 	public void testGetHelp(){
 		String textOfHelp = "Command Format - wc [OPTIONS] [FILE]\n"

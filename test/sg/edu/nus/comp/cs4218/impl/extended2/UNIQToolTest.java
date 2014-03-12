@@ -74,13 +74,17 @@ public class UNIQToolTest {
 		assertEquals("",uniqTool.getUniqueSkipNum(1,true, null));
 	}
 	
-	//Add additional test cases
-	//Test reading File
+	//=======================Add additional test cases======================
+	
+	/**
+	 * Test to read a file given a valid filename
+	 * Method to be tested: readFile(String filename)
+	 */
 	@Test
-	public void readFileTest() {
+	public void readFileValidFilenameTest() {
 		try {
 			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummy file";
+			String tempFileName = "dummyfile";
 			File tempFile = new File(tempFileName);
 			String fileContent = "This is just a dummy file content \n The End\n";
 			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
@@ -89,12 +93,31 @@ public class UNIQToolTest {
 			assertEquals(fileContent, UniqTool.readFile(tempFileName));
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 
-	//Check whether an existing file is considered as exist
+	/**
+	 * Test to read a file given a valid filename
+	 * Method to be tested: readFile(String filename)
+	 */
+	@Test
+	public void readFileInvalidFilenameTest() {
+
+			String tempFileName = "invalidFilename";
+			try {
+				UniqTool.readFile(tempFileName);
+				fail();
+			} catch (IOException e) {
+				//Exception Caught
+			}
+		
+	}
+	
+	/**
+	 * Test to check the File Existence of Existing File
+	 * Method to be tested: checkFileExistence(String filename)
+	 */
 	@Test
 	public void checkFileExistenceForExistingFile(){
 		try {
@@ -108,12 +131,14 @@ public class UNIQToolTest {
 			assertTrue(UniqTool.checkFileExistence(tempFileName));
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 
-	//Check whether a non-existing file is considered as not exist
+	/**
+	 * Test to check the File Existence of NonExisting File
+	 * Method to be tested: checkFileExistence(String filename)
+	 */
 	@Test
 	public void checkFileExistenceForNonExistingFile(){
 		try {
@@ -127,12 +152,15 @@ public class UNIQToolTest {
 			tempFile.delete();
 			assertFalse(UniqTool.checkFileExistence(tempFileName));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
-	//Test executing a simple command
+	/**
+	 * Test executing simple command
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+	
 	@Test
 	public void executionTest(){
 		try {
@@ -151,12 +179,14 @@ public class UNIQToolTest {
 			assertEquals(0, tempUniqTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
-	//Test executing a simple command ignoring case
+	/**
+	 * Test executing with simple command ignoring case
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestIgnoringCase(){
 		try {
@@ -175,12 +205,14 @@ public class UNIQToolTest {
 			assertEquals(0, tempUniqTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
-	//Test executing a simple command skipping 1 token
+	/**
+	 * Test executing with simple command skipping 1 token
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestSkipping1Token(){
 		try {
@@ -199,12 +231,14 @@ public class UNIQToolTest {
 			assertEquals(0, tempUniqTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
-	//Test executing a simple command skipping 1 token ignoring case
+	/**
+	 * Test executing with Simple Command Skipping 1 token ignoring case
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestSkipping1TokenIgnoringCase(){
 		try {
@@ -223,12 +257,14 @@ public class UNIQToolTest {
 			assertEquals(0, tempUniqTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
-	//Test executing a simple command with illegal option
+	/**
+	 * Test executing with Illegal Option (Unknown Option)
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestIllegalOption(){
 		try {
@@ -245,12 +281,14 @@ public class UNIQToolTest {
 			assertNotEquals(0, tempUniqTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
-	//Test executing a simple command with 0 skip number (illegal)
+	/**
+	 * Test executing with Illegal Option (Zero)
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestIllegal0SkipNumber(){
 		try {
@@ -267,12 +305,14 @@ public class UNIQToolTest {
 			assertNotEquals(0, tempUniqTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
-	//Test executing a simple command with negative skip number (illegal)
+	/**
+	 * Test executing with Illegal Option (Negative Number)
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestIllegalNegativeSkipNumber(){
 		try {
@@ -289,12 +329,14 @@ public class UNIQToolTest {
 			assertNotEquals(0, tempUniqTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
-	//Test executing a simple command with Non-Integer skip number (illegal)
+	/**
+	 * Test executing with Illegal Option (Non-Integer Skip Number)
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
 	@Test
 	public void executionTestIllegalNonIntegerSkipNumber(){
 		try {
@@ -311,8 +353,7 @@ public class UNIQToolTest {
 			assertNotEquals(0, tempUniqTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	

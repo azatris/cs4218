@@ -27,8 +27,7 @@ public class WcTool extends ATool implements IWcTool{
 	 * @param the name of the file
 	 * @return the content of the file
 	 */
-	public static String readFile(String filename){
-		try {
+	public static String readFile(String filename) throws IOException{
 			FileInputStream inputStream = new FileInputStream(filename);
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 			StringBuilder builder = new StringBuilder();
@@ -41,10 +40,7 @@ public class WcTool extends ATool implements IWcTool{
 
 			inputStream.close();
 			return builder.toString();
-		} catch (IOException e) {
-			System.err.print("IO Exception caught");
-		}
-		return null;
+
 	}
 
 	/**
@@ -80,7 +76,14 @@ public class WcTool extends ATool implements IWcTool{
 				}
 				else{
 					if(checkFileExistence(filename)){
-						String input = readFile(filename);
+						String input = null;
+						try {
+							input = readFile(filename);
+						} catch (IOException e) {		
+							System.err.print("IO Exception caught");
+							setStatusCode(1);
+							return null;
+						}
 						characterCount = getCharacterCount(input);
 						wordCount = getWordCount(input);
 						newLineCount = getNewLineCount(input);
@@ -102,7 +105,14 @@ public class WcTool extends ATool implements IWcTool{
 			}
 			else{
 				if(checkFileExistence(filename)){
-					String input = readFile(filename);
+					String input = null;
+					try {
+						input = readFile(filename);
+					} catch (IOException e) {
+						System.err.print("IO Exception caught");
+						setStatusCode(1);
+						return null;
+					}
 					for(int i = 1; i < args.length - 1; i++){
 						if(args[i].equals("-m")||args[i].equals("-w")||args[i].equals("-l")){
 							if(args[i].equals("-m")){
@@ -193,10 +203,9 @@ public class WcTool extends ATool implements IWcTool{
 		return Integer.toString(count);
 	}
 
-	/**
-	 * Get the corresponding help explanation
+	/**Get Help Explanation
+	 * @return	the help explanation
 	 */
-	@Override
 	public String getHelp() {
 		String help = "Command Format - wc [OPTIONS] [FILE]\n"
 				+ "FILE - Name of the file, when no file is present (denoted by \"-\") use standard input\n"

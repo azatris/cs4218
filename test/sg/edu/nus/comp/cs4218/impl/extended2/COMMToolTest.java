@@ -137,6 +137,7 @@ public class COMMToolTest {
 		String result = commTool.compareFilesCheckSortStatus(
 				myFile1.getAbsolutePath(), 
 				myFile2.getAbsolutePath());
+		System.out.println(result);
 		assertEquals(
 				"aaa"+System.lineSeparator()+"\taaf"+
 				System.lineSeparator()+"bbb"+System.lineSeparator()+"\tabb"+
