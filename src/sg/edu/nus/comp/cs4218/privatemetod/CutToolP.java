@@ -1,10 +1,8 @@
-package sg.edu.nus.comp.cs4218.impl.extended2;
+package sg.edu.nus.comp.cs4218.privatemetod;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.annotation.Retention;
-import java.lang.reflect.Array;
 import java.util.LinkedList;
 import java.util.Properties;
 
@@ -26,8 +24,8 @@ import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
  * Args[5] = file;
  *
  */
-public class CutTool extends ATool implements ICutTool {
-    public CutTool(String[] args) {
+public class CutToolP extends ATool implements ICutTool {
+    public CutToolP(String[] args) {
 		super(args);
 		if (!args[0].equals("cut")) {
 			setStatusCode(127);
@@ -118,7 +116,7 @@ public class CutTool extends ATool implements ICutTool {
 	}
 
 	
-	private boolean[] listToPossitions(String list, int inputLenght){
+	public boolean[] listToPossitions(String list, int inputLenght){
 		LinkedList<Integer> allBlockNumbers = new LinkedList<Integer>();
 		boolean[] output = new boolean[inputLenght+1];
 		String[] partsOfLineToPrint = list.split(",");
@@ -137,8 +135,11 @@ public class CutTool extends ATool implements ICutTool {
 		}
 		return new boolean[inputLenght+1];
 	}
-
-	private LinkedList<Integer> parseString(String currentPart) {
+    /**
+     * Parameter a string on fromation [d]|[d1-d2] where d is a int
+     * output a linkedlist with Integers d or d1-d2
+     */
+	public LinkedList<Integer> parseString(String currentPart) {
 		String[] partsOfString= currentPart.split("-");
 		Integer firstPart;
 		LinkedList<Integer> returnList = new LinkedList<Integer>();
@@ -153,6 +154,7 @@ public class CutTool extends ATool implements ICutTool {
 		else if(partsOfString.length==2){
 			Integer secondPart=parseSingelNumber(partsOfString[1]);
 			if (secondPart == -1) {
+				returnList.clear();
 				return returnList;
 			}
 			while(firstPart<=secondPart){
@@ -165,8 +167,14 @@ public class CutTool extends ATool implements ICutTool {
 		}
 		return returnList;
 	}
-
-	private Integer parseSingelNumber(String number) {
+	/**
+	 * Check if the string can be parsed to a int > -1 
+	 * @param number
+	 * @return number as int 
+	 * @return -1 if number is not an int 
+	 */
+	
+	public Integer parseSingelNumber(String number) {
 		if(number.length() == 0){
 			setStatusCode(67);
 			return -1;
@@ -182,10 +190,7 @@ public class CutTool extends ATool implements ICutTool {
 		return Integer.parseInt(number);
 	}
 
-	private boolean validDelim(String delim) {
-		// TODO Auto-generated method stub
-		return true;
-	}
+
 
 	@Override
 	public String getHelp() {
