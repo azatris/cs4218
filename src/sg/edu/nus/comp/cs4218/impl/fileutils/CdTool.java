@@ -49,7 +49,6 @@ public class CdTool extends ATool implements ICdTool {
 		}
 		
 		if (newDir != null){
-			workingDir = newDir;
 			return newDir.getAbsolutePath();
 		}else{
 			return workingDir.toString();
