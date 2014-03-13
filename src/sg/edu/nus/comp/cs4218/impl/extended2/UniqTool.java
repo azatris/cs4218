@@ -14,7 +14,7 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * Constructor taking the arguments
 	 * @param	arguments	(args[0] is the command name)
 	 */
-	public UniqTool(String[] arguments) {
+	public UniqTool(final String[] arguments) {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("uniq")) {
 			setStatusCode(127);
@@ -26,13 +26,9 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * @param	filename	the given filename
 	 * @return	true if the file exists
 	 */
-	public static boolean checkFileExistence(String filename){
-		if(new File(filename).exists()){
-			return true;
-		}
-		else{
-			return false;
-		}
+	public static boolean checkFileExistence(final String filename){
+		File f = new File(filename);
+		return f.exists();
 	}
 
 	/**
@@ -40,17 +36,16 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * @param the name of the file
 	 * @return the content of the file
 	 */
-	public static String readFile(String filename) throws IOException{
-			FileInputStream inputStream = new FileInputStream(filename);
-			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-			StringBuilder builder = new StringBuilder();
-			int currentChar = br.read();
+	public static String readFile(final String filename) throws IOException{
+			final FileInputStream inputStream = new FileInputStream(filename);
+			final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			final StringBuilder builder = new StringBuilder();
+			int currentChar = reader.read();
 			while(currentChar != -1){
 				builder.append((char)currentChar);
-				currentChar = br.read();
+				currentChar = reader.read();
 			}
-			br.close();
-
+			reader.close();
 			inputStream.close();
 			return builder.toString();
 		}
@@ -61,7 +56,7 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * @param	NUM	number of token need to be skipped
 	 * @return	line with skipped tokens
 	 */
-		private String skipFields(String line, int NUM){
+		private String skipFields(final String line, final int NUM){
 			if(line == null || line.equals("")){
 				return "";
 			}
@@ -86,7 +81,7 @@ public class UniqTool extends ATool implements IUniqTool{
 
 		// TODO
 		@Override
-		public String execute(File workingDir, String stdin) {
+		public String execute(final File workingDir, final String stdin) {
 			String output = null;
 			if(args.length == 2){
 				if(args[1].equals("-help")){
@@ -266,7 +261,7 @@ public class UniqTool extends ATool implements IUniqTool{
 		 * @param	input	the input to be checked
 		 * @return	the unique line
 		 */
-		public String getUniqueSkipNum(int NUM, boolean checkCase, String input) {
+		public String getUniqueSkipNum(final int NUM, final boolean checkCase, final String input) {
 			if(input != null){
 				String[] line = null;
 				String lineSeparator = ""; //determine the line separator for the input (different OS different line separator)
