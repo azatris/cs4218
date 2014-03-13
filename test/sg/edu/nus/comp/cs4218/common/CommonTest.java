@@ -50,9 +50,9 @@ public class CommonTest {
 			fis.close();
 			String result = resultBuilder.toString();
 			assertEquals(expectedResult,result);
+			dummyFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
@@ -74,6 +74,7 @@ public class CommonTest {
 			String expectedResult = fileContent;
 			String result = Common.readFileByChar(dummyFile);
 			assertEquals(expectedResult, result);
+			dummyFile.delete();
 		} catch (IOException e){
 			fail();
 		}
@@ -94,9 +95,10 @@ public class CommonTest {
 			out.writeBytes(fileContent);
 			fos.close();
 			out.close();
-			String expectedResult = fileContent;
+			String expectedResult = "Just a dummy file content"+System.lineSeparator()+"Second sentence of dummy file"+System.lineSeparator();
 			String result = Common.readFileByLine(dummyFile);
 			assertEquals(expectedResult, result);
+			dummyFile.delete();
 		} catch (IOException e){
 			fail();
 		}
