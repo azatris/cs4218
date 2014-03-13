@@ -2,7 +2,6 @@ package sg.edu.nus.comp.cs4218.common;
 
 import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +19,9 @@ public class CommonTest {
 		common = new Common();
 	}
 
-	// TODO
+	/**
+	 * Test creating an absolute directory given the relative directory
+	 */
 	@Test
 	public void testConcatenateDirectory() {
 		String absDir = System.getProperty("user.dir");
@@ -30,7 +31,9 @@ public class CommonTest {
 		assertEquals(expectedResult,result);
 	}
 	
-	// TODO
+	/**
+	 * Test writing a random string to a file
+	 */
 	@Test
 	public void testWriteRandomStringToFile() {
 		try {
@@ -53,7 +56,9 @@ public class CommonTest {
 		}
 	}
 	
-	// TODO
+	/**
+	 * Test reading a content of the file
+	 */
 	@Test
 	public void testReadByChar(){
 		try{
@@ -70,12 +75,13 @@ public class CommonTest {
 			String result = Common.readFileByChar(dummyFile);
 			assertEquals(expectedResult, result);
 		} catch (IOException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
-	// TODO
+	/**
+	 * Test reading a content of the file, but changing the newline characters in the file into platform specific
+	 */
 	@Test
 	public void testReadByLine(){
 		try{
@@ -92,8 +98,7 @@ public class CommonTest {
 			String result = Common.readFileByLine(dummyFile);
 			assertEquals(expectedResult, result);
 		} catch (IOException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 }
