@@ -8,15 +8,11 @@ import java.util.Properties;
 import sg.edu.nus.comp.cs4218.common.Common;
 import sg.edu.nus.comp.cs4218.extended2.ICommTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
-import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
 
 public class CommTool extends ATool implements ICommTool {
 
 	public CommTool(String[] args) {
 		super(args);
-		if (args.length == 0 || !args[0].equals("comm")) {
-			setStatusCode(127);
-		}
 	}
 
 	@Override
@@ -176,7 +172,10 @@ public class CommTool extends ATool implements ICommTool {
 
 	@Override
 	public String execute(File workingDir, String stdin) {
-		if (args.length > 1 && args[0].equals("comm")){
+		if (args.length == 0 || !args[0].equals("comm")) {
+			setStatusCode(127);
+			return "";
+		}else if (args.length > 1 && args[0].equals("comm")){
 			if (args.length ==2){
 				 if ((args[1].equals("-help"))){
 					return getHelp();
