@@ -6,7 +6,6 @@ import sg.edu.nus.comp.cs4218.fileutils.IEchoTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class EchoTool extends ATool implements IEchoTool {
-
 	public EchoTool(String[] arguments) {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("echo")) {
@@ -14,6 +13,7 @@ public class EchoTool extends ATool implements IEchoTool {
 		}
 	}
 	
+	// TODO
 	@Override
 	public String echo(String toEcho) {
 		if (toEcho==null){
@@ -24,6 +24,7 @@ public class EchoTool extends ATool implements IEchoTool {
 		return toEcho;
 	}
 
+	// TODO
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length == 1){

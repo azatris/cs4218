@@ -39,6 +39,8 @@ public abstract class ATool {
 	protected void setStatusCode(int statusCode){
 		this.statusCode = statusCode;
 	}
+	
+	// TODO
 	@Override
 	public boolean equals(Object object){
 		if (object == null){

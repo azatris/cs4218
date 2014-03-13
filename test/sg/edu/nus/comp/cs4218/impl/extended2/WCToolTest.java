@@ -29,21 +29,27 @@ public class WCToolTest {
 		wcTool = null;
 	}
 
-	//test getCharacterCount method with string
+	/**
+	 * test getCharacterCount method with string
+	 */
 	@Test
 	public void getCharacterCountTest() {
 		String input = "Test this"; 
 		assertEquals("9", wcTool.getCharacterCount(input));
 	}
 
-	//test getCharacterCount method with string having a newline
+	/**
+	 * test getCharacterCount method with string having a newline
+	 */
 	@Test
 	public void getCharacterCountStringWithNewlineTest() {
 		String input = "Test this\n"; 
 		assertEquals("10", wcTool.getCharacterCount(input));
 	}
 
-	//test getCharacterCount method with empty string
+	/**
+	 * test getCharacterCount method with empty string
+	 */
 	@Test
 	public void getCharacterCountEmptyStringTest() {
 		String input = "";// empty string
@@ -51,7 +57,9 @@ public class WCToolTest {
 	}
 
 
-	//test getWordCountTest, String with newline
+	/**
+	 * test getWordCountTest, String with newline
+	 */
 	@Test
 	public void getWordCountTest() {
 
@@ -60,7 +68,9 @@ public class WCToolTest {
 
 	}
 
-	//test getWordCountTest for null string
+	/**
+	 * test getWordCountTest for null string
+	 */
 	@Test
 	public void getWordCountForNullTest() {
 		String input = null;
@@ -68,14 +78,18 @@ public class WCToolTest {
 	}
 
 
-	//Test getNewLineCount with string with newline
+	/**
+	 * Test getNewLineCount with string with newline
+	 */
 	@Test
 	public void getNewLineCountTest() {
 		String input = "Test this\n\n\n"; // with new line character
 		assertEquals("3", wcTool.getNewLineCount(input));
 	}
 
-	//Test getNewLineCount with null string
+	/**
+	 * Test getNewLineCount with null string
+	 */
 	@Test
 	public void getNewLineCountForNullTest() {
 		String input = null;

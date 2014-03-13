@@ -24,7 +24,9 @@ public class MoveToolTest {
 		moveTool = null;
 	}
 	
-	/*Testing boolean move(File from, File to)*/
+	/**
+	 * Testing boolean move(File from, File to)
+	 */
 	@Test
 	public void renameFileToExistFileTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
@@ -51,6 +53,8 @@ public class MoveToolTest {
 		to.delete();
 	}
 	
+	// TODO
+	@Test
 	public void renameFileToNonExistFileTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
 		File to = File.createTempFile("to","movetmp", new File(from.getParent()));
@@ -70,6 +74,7 @@ public class MoveToolTest {
 		to.delete();
 	}
 	
+	// TODO
 	@Test
 	public void renameFileToItselfTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
@@ -85,6 +90,7 @@ public class MoveToolTest {
 		from.delete();
 	}
 	
+	// TODO
 	@Test
 	public void moveFileToFileInDifferentDirTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
@@ -110,6 +116,7 @@ public class MoveToolTest {
 		to.delete();	
 	}
 	
+	// TODO
 	@Test
 	public void moveFileToDifferentDirTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
@@ -134,6 +141,7 @@ public class MoveToolTest {
 		to.delete();
 	}
 	
+	// TODO
 	@Test
 	public void moveFileToNonExistDirTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
@@ -156,6 +164,7 @@ public class MoveToolTest {
 		to.delete();
 	}
 	
+	// TODO
 	@Test
 	public void moveFileToNullTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
@@ -171,6 +180,7 @@ public class MoveToolTest {
 		from.delete();
 	}
 	
+	// TODO
 	@Test
 	public void moveNonExistFileTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
@@ -188,6 +198,7 @@ public class MoveToolTest {
 		to.delete();
 	}
 	
+	// TODO
 	@Test
 	public void moveDirTest() throws IOException {
 		File from = Files.createTempDirectory("fromdirmovetmp").toFile();
@@ -206,6 +217,7 @@ public class MoveToolTest {
 		to.delete();
 	}
 	
+	// TODO
 	@Test
 	public void moveNonExistDirTest() throws IOException {
 		File from = Files.createTempDirectory("fromdirmovetmp").toFile();
@@ -222,6 +234,7 @@ public class MoveToolTest {
 		to.delete();
 	}
 	
+	// TODO
 	@Test
 	public void moveNullTest() throws IOException {
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
@@ -235,8 +248,10 @@ public class MoveToolTest {
 		to.delete();
 	}
 	
-	/*String execute(File workingDir, String stdin)*/
-	// move file1 file2 - in current directory
+	/**
+	 * String execute(File workingDir, String stdin)
+	 *  move file1 file2 - in current directory
+	 */
 	@Test
 	public void moveFileInCurDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -254,7 +269,10 @@ public class MoveToolTest {
 		to.delete();
 	}
 
-	// move ../file1 ../file2
+	/**
+	 *  move ../file1 ../file2
+	 * @throws IOException
+	 */
 	@Test
 	public void moveFileInParentDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -276,7 +294,10 @@ public class MoveToolTest {
 		to.delete();
 	}
 
-	// move dir1/file1 dir2/file2
+	/**
+	 * move dir1/file1 dir2/file2
+	 * @throws IOException
+	 */
 	@Test
 	public void moveFileInChildDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -303,7 +324,10 @@ public class MoveToolTest {
 		toChild.delete();
 	}
 
-	// move abs_path_file1 abs_path_file2
+	/**
+	 * move abs_path_file1 abs_path_file2
+	 * @throws IOException
+	 */
 	@Test
 	public void moveAbsPathTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -326,7 +350,10 @@ public class MoveToolTest {
 		to.delete();
 	}
 
-	// move file1
+	/**
+	 * move file1
+	 * @throws IOException
+	 */
 	public void moveNoToDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","movetmp");

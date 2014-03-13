@@ -14,9 +14,9 @@ import org.junit.Test;
 import sg.edu.nus.comp.cs4218.extended2.ICutTool;
 
 public class CUTToolTest {
-
 	private ICutTool cutTool;
 	private Properties prop;
+	
 	@Before
 	public void before() {
 		cutTool = new CutTool(new String[]{"cut"});
@@ -33,7 +33,9 @@ public class CUTToolTest {
 		cutTool = null;
 	}
 
-	//Test cutSpecfiedCharacters method with valid range
+	/**
+	 * Test cutSpecfiedCharacters method with valid range
+	 */
 	@Test
 	public void cutSpecfiedCharactersListWithInRangeTest() {
 		String list1 = "1,8-9,3-10";
@@ -43,6 +45,7 @@ public class CUTToolTest {
 
 	}
 
+	// TODO
 	@Test
 	public void cutSpecfiedCharactersListNoList(){
 		String list =prop.getProperty("cutSpecfiedCharactersListNoListLIST");
@@ -53,6 +56,7 @@ public class CUTToolTest {
 		assertEquals("wrong status code", 67, cutTool.getStatusCode());
 	}
 	
+	// TODO
 	@Test
 	public void cutSpecfiedCharactersListNoNummerList(){
 		String list =prop.getProperty("cutSpecfiedCharactersListWrongListLIST");
@@ -63,7 +67,9 @@ public class CUTToolTest {
 		assertEquals("wrong status code", 67, cutTool.getStatusCode());
 	}
 
-	//Test cutSpecfiedCharacters methodW out of range
+	/**
+	 * Test cutSpecfiedCharacters methodW out of range
+	 */
 	@Test
 	public void cutSpecfiedCharactersListOurOfRangeTest() {
 		String list1 = "1,8-9,3-16";
@@ -73,7 +79,9 @@ public class CUTToolTest {
 	}
 
 
-	//Test cutSpecifiedCharactersUseDelimiter method with valid range
+	/**
+	 * Test cutSpecifiedCharactersUseDelimiter method with valid range
+	 */
 	@Test
 	public void cutSpecifiedCharactersUseDelimiterListWithInRangeTest(){
 		String list1 = "1,8-9,3-15";
@@ -83,7 +91,9 @@ public class CUTToolTest {
 		
 	}
 
-	//Test cutSpecifiedCharactersUseDelimiter method out of range
+	/**
+	 * Test cutSpecifiedCharactersUseDelimiter method out of range
+	 */
 	@Test
 	public void cutSpecifiedCharactersUseDelimiterListOutOfRangeTest(){
 		String list1 = "1,8-9,3-100";
@@ -92,6 +102,7 @@ public class CUTToolTest {
 		assertEquals(output1,cutTool.cutSpecifiedCharactersUseDelimiter(list1," ",input1));	
 	}
 
+	// TODO
 	@Test
 	public void cutExecuteInput(){
 		String [] args = new String[4];
@@ -103,6 +114,8 @@ public class CUTToolTest {
 		String output=cutTool.execute(new File("."), prop.getProperty("input"));
 		assertEquals("wrong output", prop.getProperty("output"), output);
 	}
+	
+	// TODO
 	@Test
 	public void cutExecuteBadInput(){
 		String [] args = new String[4];
@@ -116,6 +129,7 @@ public class CUTToolTest {
 		assertEquals("wrong statuscode", 127, cutTool.getStatusCode());
 	}
 
+	// TODO
 	@Test
 	public void cutExecuteBad2Input(){
 		String [] args = new String[4];
@@ -129,6 +143,7 @@ public class CUTToolTest {
 		assertEquals("wrong statuscode", 67, cutTool.getStatusCode());
 	}
 	
+	// TODO
 	@Test
 	public void cutGetHelp(){
 		String oracel = prop.getProperty("cutHelp");

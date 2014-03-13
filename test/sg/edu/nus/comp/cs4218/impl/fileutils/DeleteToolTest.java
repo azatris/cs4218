@@ -24,7 +24,10 @@ public class DeleteToolTest {
 		deleteTool = null;
 	}
 
-	// Testing boolean delete(File toDelete)
+	/**
+	 *  Testing boolean delete(File toDelete)
+	 * @throws IOException
+	 */
 	@Test
 	public void deletFileTest() throws IOException {
 		File fileToDelete = File.createTempFile("exists", "deltmp");
@@ -37,6 +40,7 @@ public class DeleteToolTest {
 		assertFalse(fileToDelete.isFile());
 	}
 
+	// TODO
 	@Test
 	public void deleteDirectoryWithFilesTest() throws IOException {
 		File fileInFolder = File.createTempFile("exists", "deltmp");
@@ -51,6 +55,7 @@ public class DeleteToolTest {
 		dirToDelete.delete();
 	}
 
+	// TODO
 	@Test
 	public void deleteDirectoryWithoutFilesTest() throws IOException {
 		File emptyDir = Files.createTempDirectory("deltmpfolder").toFile();
@@ -63,6 +68,7 @@ public class DeleteToolTest {
 		assertFalse(emptyDir.exists());
 	}
 
+	// TODO
 	@Test
 	public void deleteNonExistingFileTest() throws IOException {
 		String filePathStr = File.createTempFile("nonExists", "deltmp").getAbsolutePath();
@@ -76,6 +82,7 @@ public class DeleteToolTest {
 		assertFalse(deleteTool.getStatusCode() == 0);
 	}
 
+	// TODO
 	@Test
 	public void deleteNonExistingDirectoryTest() throws IOException {
 		File nonExistingDir = Files.createTempDirectory("deltmpfolder").toFile();
@@ -89,6 +96,7 @@ public class DeleteToolTest {
 		assertFalse(nonExistingDir.exists());
 	}
 
+	// TODO
 	@Test
 	public void deleteNullDirectoryTest() {
 		String[] args = {"delete", null};
@@ -98,8 +106,10 @@ public class DeleteToolTest {
 		assertFalse(deleteTool.getStatusCode() == 0);
 	}
 
-	/*String execute(File workingDir, String stdin)*/
-	//delete file1
+	/*
+	 * String execute(File workingDir, String stdin)
+	 * delete file1
+	 */
 	@Test
 	public void deleteOneInCurDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -112,7 +122,10 @@ public class DeleteToolTest {
 		assertFalse(fileToDelete.exists());
 	}
 
-	//delete ../file1
+	/**
+	 * delete ../file1
+	 * @throws IOException
+	 */
 	@Test
 	public void deleteOneInParentDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -125,7 +138,10 @@ public class DeleteToolTest {
 		assertFalse(fileToDelete.exists());
 	}
 
-	//delete dir1/file1
+	/**
+	 * delete dir1/file1
+	 * @throws IOException
+	 */
 	@Test
 	public void deleteOneInChildDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -140,7 +156,10 @@ public class DeleteToolTest {
 		folder.delete();
 	}
 
-	//delete abs_path_file1
+	/**
+	 * delete abs_path_file1
+	 * @throws IOException
+	 */
 	@Test
 	public void deleteOneInAbsDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -153,7 +172,10 @@ public class DeleteToolTest {
 		assertFalse(fileToDelete.exists());
 	}
 
-	//delete file1 file2 file3
+	/**
+	 * delete file1 file2 file3
+	 * @throws IOException
+	 */
 	@Test
 	public void deleteThreeInCurDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -170,7 +192,10 @@ public class DeleteToolTest {
 		assertFalse(fileToDelete3.exists());
 	}
 
-	//delete file1 non_exist_file1 file3
+	/**
+	 * delete file1 non_exist_file1 file3
+	 * @throws IOException
+	 */
 	@Test
 	public void deleteOneNonExistInCurDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -189,7 +214,10 @@ public class DeleteToolTest {
 		assertFalse(fileToDelete3.exists());
 	}
 
-	//delete empty_dir
+	/**
+	 * delete empty_dir
+	 * @throws IOException
+	 */
 	@Test
 	public void deleteEmptyDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -202,7 +230,10 @@ public class DeleteToolTest {
 		assertFalse(emptyFolder.exists());
 	}
 
-	//delete non_empty_dir
+	/**
+	 * delete non_empty_dir
+	 * @throws IOException
+	 */
 	@Test
 	public void deleteNonEmptyDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));

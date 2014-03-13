@@ -10,7 +10,6 @@ import sg.edu.nus.comp.cs4218.extended2.IUniqTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class UniqTool extends ATool implements IUniqTool{
-
 	/**
 	 * Constructor taking the arguments
 	 * @param	arguments	(args[0] is the command name)
@@ -85,6 +84,7 @@ public class UniqTool extends ATool implements IUniqTool{
 			}
 		}
 
+		// TODO
 		@Override
 		public String execute(File workingDir, String stdin) {
 			String output = null;
@@ -202,7 +202,8 @@ public class UniqTool extends ATool implements IUniqTool{
 			return output;
 		}
 
-		/**Check the given input, and eliminate any duplicate line
+		/**
+		 * Check the given input, and eliminate any duplicate line
 		 * @param	checkCase	false if ignore checking the case
 		 * @param	input	the input to be checked
 		 * @return	the unique line
@@ -259,7 +260,8 @@ public class UniqTool extends ATool implements IUniqTool{
 			}
 		}
 
-		/**Check the given input, and eliminate any duplicate line (considering skipping some tokens)
+		/**
+		 * Check the given input, and eliminate any duplicate line (considering skipping some tokens)
 		 * @param	checkCase	false if ignore checking the case
 		 * @param	input	the input to be checked
 		 * @return	the unique line

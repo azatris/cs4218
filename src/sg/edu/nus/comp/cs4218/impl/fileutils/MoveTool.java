@@ -11,7 +11,6 @@ import sg.edu.nus.comp.cs4218.fileutils.IMoveTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class MoveTool extends ATool implements IMoveTool {
-
 	public MoveTool(String[] arguments) {
 		super(arguments);
 		if (args.length == 0 || !args[0].equals("move")) {
@@ -21,6 +20,7 @@ public class MoveTool extends ATool implements IMoveTool {
 		}
 	}
 	
+	// TODO
 	@Override
 	public boolean move(File fromFile, File toFile) {
 		File from = fromFile;
@@ -49,6 +49,7 @@ public class MoveTool extends ATool implements IMoveTool {
 		return true;
 	}
 	
+	// TODO
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length==3) {
