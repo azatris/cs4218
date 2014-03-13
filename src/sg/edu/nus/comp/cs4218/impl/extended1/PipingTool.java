@@ -5,6 +5,7 @@ import java.io.File;
 import sg.edu.nus.comp.cs4218.ITool;
 import sg.edu.nus.comp.cs4218.extended1.IPipingTool;
 
+
 public class PipingTool implements IPipingTool {
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
@@ -17,8 +18,14 @@ public class PipingTool implements IPipingTool {
 		this.arguments = arguments;
 		workingDir=getWorkingdir();
 	}
-
-	// TODO
+	
+/**
+ * Execute a pipeingtool
+ * @param Currentworiking directory 
+ * @param Stdin    
+ * @return A String 
+ * 
+ */
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if(arguments.length<TWO){
@@ -26,21 +33,27 @@ public class PipingTool implements IPipingTool {
 			return "";
 		}
 		
-		String result = pipe(arguments[ZERO], arguments[ONE]);
-
-		for(int loopValue=TWO; loopValue<arguments.length && statuscode==ZERO; loopValue++){
+		String result =stdin;
+		for(int loopValue=ZERO; loopValue<arguments.length && statuscode==ZERO; loopValue++){
 			result = pipe(result, arguments[loopValue]);
 		}
 		return result;
 	}
 
-	// TODO
+	/**
+	 * @return The statuscode
+	 */
 	@Override
 	public int getStatusCode() {
 		return statuscode;
 
 	}
-	
+	/**
+	 * Running the first Tool with null as stdin 
+	 * @param ATool
+	 * @param ATool
+	 * @return Output from the second Tool 
+	 */
 	// TODO
 	@Override
 	public String pipe(ITool from, ITool to) {
