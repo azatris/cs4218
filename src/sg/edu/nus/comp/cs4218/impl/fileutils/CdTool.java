@@ -8,7 +8,6 @@ import sg.edu.nus.comp.cs4218.fileutils.ICdTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class CdTool extends ATool implements ICdTool {
-
 	public CdTool(String[] arguments) {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("cd")) {
@@ -16,6 +15,7 @@ public class CdTool extends ATool implements ICdTool {
 		}
 	}
 	
+	// TODO
 	@Override
 	public File changeDirectory(String newDirectory) {
 		if (newDirectory != null){
@@ -30,6 +30,7 @@ public class CdTool extends ATool implements ICdTool {
 		return null;
 	}
 	
+	// TODO
 	@Override
 	public String execute(File workingDir, String stdin) {
 		File newDir = null;

@@ -36,6 +36,7 @@ public class ShellParse {
 			e.printStackTrace();			
 		}
 	}
+	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
@@ -73,6 +74,7 @@ public class ShellParse {
 		assertNotEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test
 	public void pattern() {
 		String[] args = new String[]{"grep", "Sleep", "-"};
@@ -82,6 +84,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test
 	public void manySpaces() {
 		String[] args = new String[]{"ls", "","", "Sleep", "-"};	
@@ -91,6 +94,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test
 	public void onlySpace() {
 		ITool actual = null;
@@ -99,6 +103,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test 
 	public void pipe() {
 		String[] ettA = new String[]{"ls"};
@@ -110,6 +115,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test 
 	public void pipe2() {
 		String[] twoA = new String[]{"ls"};
@@ -123,6 +129,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test 
 	public void pipeNotSame() {
 		String[] twoA = new String[]{"ls"};
@@ -136,6 +143,7 @@ public class ShellParse {
 		assertNotEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test 
 	public void pipewithpipeinpattern() {
 		String[] twoA = new String[]{"ls"};
@@ -147,6 +155,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test
 	public void patternSpacePipeSpace() {
 		String[] twoA = new String[]{"ls"};

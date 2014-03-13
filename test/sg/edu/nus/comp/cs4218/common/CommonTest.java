@@ -20,6 +20,7 @@ public class CommonTest {
 		common = new Common();
 	}
 
+	// TODO
 	@Test
 	public void testConcatenateDirectory() {
 		String absDir = System.getProperty("user.dir");
@@ -29,6 +30,7 @@ public class CommonTest {
 		assertEquals(expectedResult,result);
 	}
 	
+	// TODO
 	@Test
 	public void testWriteRandomStringToFile() {
 		try {
@@ -51,6 +53,7 @@ public class CommonTest {
 		}
 	}
 	
+	// TODO
 	@Test
 	public void testReadByChar(){
 		try{
@@ -72,6 +75,7 @@ public class CommonTest {
 		}
 	}
 	
+	// TODO
 	@Test
 	public void testReadByLine(){
 		try{

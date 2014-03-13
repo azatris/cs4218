@@ -50,6 +50,7 @@ public class TestPipeingTool {
 		writer.close();
 		}
 	}
+	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		Files.delete(Paths.get(pipeTestFile));
@@ -59,6 +60,7 @@ public class TestPipeingTool {
 	public void setup(){
 	}
 	
+	// TODO
 	@Test
 	public void canPipeTwoITools(){
 		String[] empty = new String[] {"cat", "-"};
@@ -74,6 +76,7 @@ public class TestPipeingTool {
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
 	
+	// TODO
 	@Test
 	public void canPipeOneElement(){
 		String[] empty = new String[] {"cat", "-"};
@@ -87,6 +90,7 @@ public class TestPipeingTool {
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
 	
+	// TODO
 	@Test
 	public void excecuteWithTwoTools(){
 		String[] empty = new String[] {"cat", "-"};
@@ -102,6 +106,7 @@ public class TestPipeingTool {
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
 	
+	// TODO
 	@Test
 	public void excecuteWithThreeTools(){
 		String[] empty = new String[] {"cat", "-"};
@@ -118,6 +123,7 @@ public class TestPipeingTool {
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
 	
+	// TODO
 	@Test 
 	public void passingOfsatusCode(){
 		String[] empty = new String[] {"cat", "-"};
@@ -134,6 +140,7 @@ public class TestPipeingTool {
 		assertTrue("Statuscode", 0 !=pipe.getStatusCode());
 	}
 	
+	// TODO
 	@Test 
 	public void FailOnOneITools(){
 		String[] a = new String[] {"echo", null};
@@ -146,6 +153,7 @@ public class TestPipeingTool {
 		assertTrue("Statuscode", 0 !=pipe.getStatusCode());
 	}
 	
+	// TODO
 	@Test 
 	public void NullinITools(){
 		ITool[] set = new ITool[2];

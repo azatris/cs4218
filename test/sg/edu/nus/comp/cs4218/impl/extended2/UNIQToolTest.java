@@ -16,6 +16,7 @@ import sg.edu.nus.comp.cs4218.helper.MessageHelper;
 
 public class UNIQToolTest {
 	private IUniqTool uniqTool;
+	
 	@Before
 	public void before() {
 		String[] args = {"uniq"};
@@ -27,9 +28,8 @@ public class UNIQToolTest {
 		uniqTool = null;
 	}
 	
-	
-	//test getUnique method
 	/**
+	 * test getUnique method
 	 * @Corrected assertEquals("",uniqTool.getUnique(false, input4)); suppose to be assertEquals(input4,uniqTool.getUnique(false, input4));
 	 */
 	@Test
@@ -41,13 +41,17 @@ public class UNIQToolTest {
 		assertEquals(input4,uniqTool.getUnique(true, input4));
 	}
 	
-	//test getUnique method for null
+	/**
+	 * test getUnique method for null
+	 */
 	@Test
 	public void getUniqueForNullTest(){
 		assertEquals("",uniqTool.getUnique(true, null));
 	}
 	
-	//test getUniqueSkipNum method for valid range
+	/**
+	 * test getUniqueSkipNum method for valid range
+	 */
 	@Test
 	public void getUniqueSkipNumValidRangeTest(){
 		String input1 = "a b c d e";
@@ -56,8 +60,8 @@ public class UNIQToolTest {
 		assertEquals(input2,uniqTool.getUniqueSkipNum(1,false, input2));
 	}
 	
-	//test getUniqueSkipNum method for out of range
 	/**
+	 * test getUniqueSkipNum method for out of range
 	 * @Corrected assertEquals("",uniqTool.getUniqueSkipNum(false, input2)); suppose to be assertEquals(input2,uniqTool.getUniqueSkipNum(false, input2));
 	 */
 	@Test
@@ -68,7 +72,9 @@ public class UNIQToolTest {
 		assertEquals(input2,uniqTool.getUniqueSkipNum(100,false, input2));
 	}
 	
-	//test getUniqueSkipNum method for null
+	/**
+	 * test getUniqueSkipNum method for null
+	 */
 	@Test
 	public void getUniqueSkipNumForNullTest(){
 		assertEquals("",uniqTool.getUniqueSkipNum(1,true, null));
@@ -357,7 +363,9 @@ public class UNIQToolTest {
 		}
 	}
 	
-	//Test get help
+	/**
+	 * Test get help
+	 */
 	@Test
 	public void testGetHelp(){
 		String textOfHelp = "Command Format - uniq [OPTIONS] [FILE]\n"

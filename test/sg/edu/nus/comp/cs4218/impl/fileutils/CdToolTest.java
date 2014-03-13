@@ -25,7 +25,9 @@ public class CdToolTest {
 		cdTool = null;
 	}
 
-	/* Testing File changeDirectory(String newDirectory)*/
+	/**
+	 *  Testing File changeDirectory(String newDirectory)
+	 */
 	@Test
 	public void changeToEmptyStringTest(){
 		String args[] = {"cd", ""};
@@ -34,6 +36,7 @@ public class CdToolTest {
 		assertTrue(cdTool.getStatusCode() != 0);
 	}
 	
+	// TODO
 	@Test
 	public void changeToFileTest() throws IOException {
 		File fileToCd = File.createTempFile("exists", "cdtmp");
@@ -47,6 +50,7 @@ public class CdToolTest {
 		fileToCd.delete();
 	}
 	
+	// TODO
 	@Test
 	public void changeToNonExistingFileTest() throws IOException {
 		File fileToCd = File.createTempFile("nonExists", "cdtmp");
@@ -59,6 +63,7 @@ public class CdToolTest {
 		assertTrue(cdTool.getStatusCode() != 0);
 	}
 	
+	// TODO
 	@Test
 	public void changeToDirectoryTest() throws IOException {
 		File dirToCd = Files.createTempDirectory("cdtmpfolder").toFile();
@@ -72,6 +77,7 @@ public class CdToolTest {
 		dirToCd.delete();
 	}
 	
+	// TODO
 	@Test
 	public void changeToNonExistingDirectoryTest() throws IOException {
 		File dirToCd = Files.createTempDirectory("cdtmpfolder").toFile();
@@ -84,6 +90,7 @@ public class CdToolTest {
 		assertTrue(cdTool.getStatusCode() != 0);
 	}
 	
+	// TODO
 	@Test
 	public void changeToNullDirectoryTest() {
 		String args[] = {"cd", null};
@@ -92,8 +99,9 @@ public class CdToolTest {
 		assertTrue(cdTool.getStatusCode() != 0);
 	}
 	
-	/* Test String execute(File workingDir, String stdin) */
-	// Test Home ~
+	/** Test String execute(File workingDir, String stdin) 
+	 * 	Test Home ~
+	 */
 	@Test
 	public void cdHomeTest() {
 		workingDir = new File(System.getProperty("user.dir"));
@@ -104,7 +112,10 @@ public class CdToolTest {
 		assertEquals(55, cdTool.getStatusCode());
 	}
 	
-	// Test absolute file path
+	/**
+	 * Test absolute file path
+	 * @throws IOException
+	 */
 	@Test
 	public void cdAbsolutePathFileTest() throws IOException {
 		workingDir = new File(System.getProperty("user.dir"));
@@ -117,7 +128,10 @@ public class CdToolTest {
 		fileToCd.delete();
 	}
 	
-	// Test absolute folder path
+	/**
+	 * Test absolute folder path
+	 * @throws IOException
+	 */
 	@Test
 	public void cdAbsolutePathFolderTest() throws IOException {
 		workingDir = new File(System.getProperty("user.dir"));
@@ -130,7 +144,9 @@ public class CdToolTest {
 		folderToCd.delete();
 	}
 	
-	// Test parent folder
+	/**
+	 *  Test parent folder
+	 */
 	@Test
 	public void cdParentFolderTest() {
 		workingDir = new File(System.getProperty("user.dir"));
@@ -142,6 +158,7 @@ public class CdToolTest {
 		assertEquals(55, cdTool.getStatusCode());
 	}
 
+	// TODO
 	@Test
 	public void cdChildFolderTest() throws IOException {
 		workingDir = new File(System.getProperty("user.dir"));
@@ -154,7 +171,9 @@ public class CdToolTest {
 		folderToCd.delete();
 	}
 	
-	// Test "cd" go back to user.dir
+	/**
+	 * Test "cd" go back to user.dir
+	 */
 	@Test
 	public void cdNullTest() {
 		workingDir = new File(System.getProperty("user.dir"));

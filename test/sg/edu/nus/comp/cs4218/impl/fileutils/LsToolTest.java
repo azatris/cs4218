@@ -48,6 +48,7 @@ public class LsToolTest {
         Files.delete(Paths.get(PARENTFOLDER));
 	}
 
+	// TODO
 	@Test
 	public void testGetFiles() throws IOException {
         List<File> files = lsTool.getFiles(new File(PARENTFOLDER));
@@ -55,6 +56,7 @@ public class LsToolTest {
         		files.size(), 2);
 	}
 
+	// TODO
 	@Test
 	public void testGetStringForFiles() {
 		List<File> files = lsTool.getFiles(new File(PARENTFOLDER));
@@ -64,6 +66,7 @@ public class LsToolTest {
 				stringForFiles.contains(FILE));
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteWithStdIn() {
 		lsToolForExecute = new LsTool(new String[]{"ls", "-"});
@@ -71,6 +74,7 @@ public class LsToolTest {
 		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments0ReturnsNull() {
 		lsToolForExecute = new LsTool(new String[]{});
@@ -78,6 +82,7 @@ public class LsToolTest {
 		assertNull(stringForFiles);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments0StatusCode() {
 		lsToolForExecute = new LsTool(new String[]{});
@@ -85,6 +90,7 @@ public class LsToolTest {
 		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments1() {
 		lsToolForExecute = new LsTool(new String[]{"ls"});
@@ -94,6 +100,7 @@ public class LsToolTest {
 				stringForFiles.contains(FILE));
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments2() {
 		lsToolForExecute = new LsTool(new String[]{"ls", PARENTFOLDER});
@@ -102,7 +109,8 @@ public class LsToolTest {
 				stringForFiles.contains(CHILDFOLDER + File.separator) &&
 				stringForFiles.contains(FILE));
 	}
-	
+
+	// TODO
 	@Test
 	public void testExecuteArgumentsMoreThan2StatusCode() {
 		lsToolForExecute = new LsTool(new String[]{"ls", PARENTFOLDER, "dummyArgument"});
@@ -110,6 +118,7 @@ public class LsToolTest {
 		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteWithIncorrectTool() {
 		lsToolForExecute = new LsTool(new String[]{"cat", PARENTFOLDER});
@@ -117,6 +126,7 @@ public class LsToolTest {
 		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteWithInvalidTool() {
 		lsToolForExecute = new LsTool(new String[]{"dog", PARENTFOLDER});

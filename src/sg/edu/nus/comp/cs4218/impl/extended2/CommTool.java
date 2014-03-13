@@ -11,7 +11,6 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
 
 public class CommTool extends ATool implements ICommTool {
-
 	public CommTool(String[] args) {
 		super(args);
 		if (args.length == 0 || !args[0].equals("comm")) {
@@ -19,6 +18,7 @@ public class CommTool extends ATool implements ICommTool {
 		}
 	}
 
+	// TODO
 	@Override
 	public String compareFiles(String input1, String input2) {
 		File file1 = new File(input1);
@@ -63,6 +63,7 @@ public class CommTool extends ATool implements ICommTool {
 		return output.toString();
 	}
 
+	// TODO
 	@Override
 	public String compareFilesCheckSortStatus(String input1, String input2) {
 		File file1 = new File(input1);
@@ -132,6 +133,7 @@ public class CommTool extends ATool implements ICommTool {
 		return output.toString();
 	}
 
+	// TODO
 	@Override
 	public String compareFilesDoNotCheckSortStatus(String input1, String input2) {
 		File file1 = new File(input1);
@@ -162,6 +164,7 @@ public class CommTool extends ATool implements ICommTool {
 		return output.toString();
 	}
 
+	// TODO
 	@Override
 	public String getHelp() {
 		Properties prop = new Properties();
@@ -174,6 +177,7 @@ public class CommTool extends ATool implements ICommTool {
 		return prop.getProperty("commHelp");
 	}
 
+	// TODO
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length > 1 && args[0].equals("comm")){
