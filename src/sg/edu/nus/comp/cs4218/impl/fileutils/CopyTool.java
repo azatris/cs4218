@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Paths;
 
 import sg.edu.nus.comp.cs4218.common.Common;
@@ -13,6 +14,8 @@ import sg.edu.nus.comp.cs4218.fileutils.ICopyTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class CopyTool extends ATool implements ICopyTool {
+	
+	private static PrintStream err = System.err;
 	public CopyTool(String[] arguments) {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("copy")) {
@@ -20,7 +23,12 @@ public class CopyTool extends ATool implements ICopyTool {
 		}
 	}
 	
-	// TODO
+	/**
+	 * Copy the content from the source to destination
+	 * @param	fromFile	source File to be copied
+	 * @param	toFile	destination File
+	 * @return true if copy successfully
+	 */
 	@Override
 	public boolean copy(File fromFile, File toFile) {
 		File from = fromFile;
@@ -83,13 +91,14 @@ public class CopyTool extends ATool implements ICopyTool {
 			return true;
 		}else{
 			setStatusCode(1);
-			// TODO remove the println once done debugging kthnxbye
-//			System.err.println("Error: Source is null");
+			err.println("Error: Source is null");
 			return false;
 		}
 	}
 	
-	// TODO
+	/**
+	 * Execute the copy
+	 */
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length == 3){

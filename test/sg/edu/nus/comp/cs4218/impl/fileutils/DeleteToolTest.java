@@ -25,7 +25,7 @@ public class DeleteToolTest {
 	}
 
 	/**
-	 *  Testing boolean delete(File toDelete)
+	 * Testing boolean delete(File toDelete)
 	 * @throws IOException
 	 */
 	@Test
@@ -40,7 +40,9 @@ public class DeleteToolTest {
 		assertFalse(fileToDelete.isFile());
 	}
 
-	// TODO
+	/**
+	 * delete directory which has files
+	 */
 	@Test
 	public void deleteDirectoryWithFilesTest() throws IOException {
 		File fileInFolder = File.createTempFile("exists", "deltmp");
@@ -55,7 +57,9 @@ public class DeleteToolTest {
 		dirToDelete.delete();
 	}
 
-	// TODO
+	/**
+	 * delete directory which doesn't have any file
+	 */
 	@Test
 	public void deleteDirectoryWithoutFilesTest() throws IOException {
 		File emptyDir = Files.createTempDirectory("deltmpfolder").toFile();
@@ -68,7 +72,9 @@ public class DeleteToolTest {
 		assertFalse(emptyDir.exists());
 	}
 
-	// TODO
+	/**
+	 * delete file which doesn't exist
+	 */
 	@Test
 	public void deleteNonExistingFileTest() throws IOException {
 		String filePathStr = File.createTempFile("nonExists", "deltmp").getAbsolutePath();
@@ -82,7 +88,9 @@ public class DeleteToolTest {
 		assertFalse(deleteTool.getStatusCode() == 0);
 	}
 
-	// TODO
+	/**
+	 * delete directory which doesn't exist
+	 */
 	@Test
 	public void deleteNonExistingDirectoryTest() throws IOException {
 		File nonExistingDir = Files.createTempDirectory("deltmpfolder").toFile();
@@ -96,7 +104,9 @@ public class DeleteToolTest {
 		assertFalse(nonExistingDir.exists());
 	}
 
-	// TODO
+	/**
+	 * delete null directory
+	 */
 	@Test
 	public void deleteNullDirectoryTest() {
 		String[] args = {"delete", null};
@@ -106,7 +116,7 @@ public class DeleteToolTest {
 		assertFalse(deleteTool.getStatusCode() == 0);
 	}
 
-	/*
+	/**
 	 * String execute(File workingDir, String stdin)
 	 * delete file1
 	 */
@@ -207,8 +217,8 @@ public class DeleteToolTest {
 		
 		fileToDelete2.delete();
 		assertFalse(fileToDelete2.exists());
-		assertFalse(deleteTool.execute(workingDir, null).equals(null));
-		assertTrue(deleteTool.getStatusCode() != 0);
+		assertNotNull(deleteTool.execute(workingDir, null));
+		assertNotEquals(0,deleteTool.getStatusCode());
 		assertFalse(fileToDelete1.exists());
 		assertFalse(fileToDelete2.exists());
 		assertFalse(fileToDelete3.exists());
@@ -242,7 +252,7 @@ public class DeleteToolTest {
 		String[] args = {"delete", folder.getName()};
 		deleteTool = new DeleteTool(args);
 
-		assertFalse(deleteTool.execute(workingDir, null).equals(null));
+		assertNotNull(deleteTool.execute(workingDir, null));
 		assertTrue(deleteTool.getStatusCode() != 0);
 		assertTrue(folder.exists());
 		fileInFolder.delete();

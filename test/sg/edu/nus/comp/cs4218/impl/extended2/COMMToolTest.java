@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,6 +19,8 @@ import sg.edu.nus.comp.cs4218.extended2.ICommTool;
 public class COMMToolTest {
 	private static ICommTool commTool; 
 	private static File myFile1, myFile2, myFile3, myFile4;
+	
+	private static PrintStream out = System.out;
 	
 	public static void writeFile(File file, String s) throws IOException {
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -147,7 +150,7 @@ public class COMMToolTest {
 		String result = commTool.compareFilesCheckSortStatus(
 				myFile1.getAbsolutePath(), 
 				myFile2.getAbsolutePath());
-		System.out.println(result);
+		out.println(result);
 		assertEquals(
 				"aaa"+System.lineSeparator()+"\taaf"+
 				System.lineSeparator()+"bbb"+System.lineSeparator()+"\tabb"+
