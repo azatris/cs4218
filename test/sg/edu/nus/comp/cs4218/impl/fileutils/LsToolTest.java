@@ -48,7 +48,10 @@ public class LsToolTest {
         Files.delete(Paths.get(PARENTFOLDER));
 	}
 
-	// TODO
+	/**
+	 * Tests the helper method for getting the file list
+	 * @throws IOException
+	 */
 	@Test
 	public void testGetFiles() throws IOException {
         List<File> files = lsTool.getFiles(new File(PARENTFOLDER));
@@ -56,7 +59,9 @@ public class LsToolTest {
         		files.size(), 2);
 	}
 
-	// TODO
+	/**
+	 * Tests the human-readable form of the file list received
+	 */
 	@Test
 	public void testGetStringForFiles() {
 		List<File> files = lsTool.getFiles(new File(PARENTFOLDER));
@@ -66,7 +71,9 @@ public class LsToolTest {
 				stringForFiles.contains(FILE));
 	}
 	
-	// TODO
+	/**
+	 * Tests the execute method with stdin (from pipe)
+	 */
 	@Test
 	public void testExecuteWithStdIn() {
 		lsToolForExecute = new LsTool(new String[]{"ls", "-"});
@@ -74,7 +81,9 @@ public class LsToolTest {
 		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
-	// TODO
+	/**
+	 * Tests ls tool execute method with 0 arguments
+	 */
 	@Test
 	public void testExecuteArguments0ReturnsNull() {
 		lsToolForExecute = new LsTool(new String[]{});
@@ -82,7 +91,9 @@ public class LsToolTest {
 		assertNull(stringForFiles);
 	}
 	
-	// TODO
+	/**
+	 * Tests the status code of ls tool execute method with 0 arguments
+	 */
 	@Test
 	public void testExecuteArguments0StatusCode() {
 		lsToolForExecute = new LsTool(new String[]{});
@@ -90,7 +101,9 @@ public class LsToolTest {
 		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
-	// TODO
+	/**
+	 * Tests ls tool execute method with 1 argument
+	 */
 	@Test
 	public void testExecuteArguments1() {
 		lsToolForExecute = new LsTool(new String[]{"ls"});
@@ -100,7 +113,9 @@ public class LsToolTest {
 				stringForFiles.contains(FILE));
 	}
 	
-	// TODO
+	/**
+	 * Tests ls tool execute method with 2 arguments
+	 */
 	@Test
 	public void testExecuteArguments2() {
 		lsToolForExecute = new LsTool(new String[]{"ls", PARENTFOLDER});
@@ -110,7 +125,9 @@ public class LsToolTest {
 				stringForFiles.contains(FILE));
 	}
 
-	// TODO
+	/**
+	 * Tests ls tool execute method status code with more than 2 arguments
+	 */
 	@Test
 	public void testExecuteArgumentsMoreThan2StatusCode() {
 		lsToolForExecute = new LsTool(new String[]{"ls", PARENTFOLDER, "dummyArgument"});
@@ -118,7 +135,9 @@ public class LsToolTest {
 		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
-	// TODO
+	/**
+	 * Tests ls tool execute method with an incorrect tool
+	 */
 	@Test
 	public void testExecuteWithIncorrectTool() {
 		lsToolForExecute = new LsTool(new String[]{"cat", PARENTFOLDER});
@@ -126,7 +145,9 @@ public class LsToolTest {
 		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
-	// TODO
+	/**
+	 * Tests ls tool execute method with an invalid tool
+	 */
 	@Test
 	public void testExecuteWithInvalidTool() {
 		lsToolForExecute = new LsTool(new String[]{"dog", PARENTFOLDER});
