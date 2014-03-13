@@ -12,6 +12,7 @@ import sg.edu.nus.comp.cs4218.fileutils.IEchoTool;
 
 public class EchoToolTest {
 	private IEchoTool echoTool;
+	
 	@Before
 	public void setUp() throws Exception {
 		
@@ -22,7 +23,9 @@ public class EchoToolTest {
 		echoTool = null;
 	}
 
-	// Testing String echo(String toEcho)
+	/**
+	 *  Testing String echo(String toEcho)
+	 */
 	@Test
 	public void echoStringTest() {
 		String[] args = {"echo", ""};
@@ -32,6 +35,7 @@ public class EchoToolTest {
 		assertEquals(0, echoTool.getStatusCode());
 	}
 	
+	// TODO
 	@Test
 	public void echoEmptyStringTest() {
 		String[] args = {"echo", ""};
@@ -40,6 +44,7 @@ public class EchoToolTest {
 		assertEquals(0, echoTool.getStatusCode());
 	}
 	
+	// TODO
 	@Test
 	public void echoNullTest() {
 		String[] args = {"echo", ""};
@@ -48,8 +53,10 @@ public class EchoToolTest {
 		assertTrue(echoTool.getStatusCode() != 0);
 	}
 	
-	/*String execute(File workingDir, String stdin)*/
-	// echo str1
+	/**
+	 * String execute(File workingDir, String stdin)
+	 * echo str1
+	 */
 	@Test
 	public void echoOneTest() {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -59,37 +66,41 @@ public class EchoToolTest {
 		assertEquals(0, echoTool.getStatusCode());
 	}
 	
-	// echo str1 str2
-		@Test
-		public void echoTwoTest() {
-			File workingDir = new File(System.getProperty("user.dir"));
-			String[] args = {"echo", "str1", "str2"};
-			echoTool = new EchoTool(args);
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int i=1; i < args.length; i++){
-				stringBuilder.append(args[i]);
-				if (i != args.length-1){
-					stringBuilder.append(" ");
-				}
+	/**
+	 *  echo str1 str2
+	 */
+	@Test
+	public void echoTwoTest() {
+		File workingDir = new File(System.getProperty("user.dir"));
+		String[] args = {"echo", "str1", "str2"};
+		echoTool = new EchoTool(args);
+		StringBuilder stringBuilder = new StringBuilder();
+		for (int i=1; i < args.length; i++){
+			stringBuilder.append(args[i]);
+			if (i != args.length-1){
+				stringBuilder.append(" ");
 			}
-			assertTrue(echoTool.execute(workingDir, null).equals(stringBuilder.toString()));
-			assertEquals(0, echoTool.getStatusCode());
 		}
-		
-		// echo str1 str2 str3
-		@Test
-		public void echoThreeTest() {
-			File workingDir = new File(System.getProperty("user.dir"));
-			String[] args = {"echo", "str1", "str2", "str3"};
-			echoTool = new EchoTool(args);
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int i=1; i < args.length; i++){
-				stringBuilder.append(args[i]);
-				if (i != args.length-1){
-					stringBuilder.append(" ");
-				}
+		assertTrue(echoTool.execute(workingDir, null).equals(stringBuilder.toString()));
+		assertEquals(0, echoTool.getStatusCode());
+	}
+	
+	/**
+	 *  echo str1 str2 str3
+	 */
+	@Test
+	public void echoThreeTest() {
+		File workingDir = new File(System.getProperty("user.dir"));
+		String[] args = {"echo", "str1", "str2", "str3"};
+		echoTool = new EchoTool(args);
+		StringBuilder stringBuilder = new StringBuilder();
+		for (int i=1; i < args.length; i++){
+			stringBuilder.append(args[i]);
+			if (i != args.length-1){
+				stringBuilder.append(" ");
 			}
-			assertTrue(echoTool.execute(workingDir, null).equals(stringBuilder.toString()));
-			assertEquals(0, echoTool.getStatusCode());
 		}
+		assertTrue(echoTool.execute(workingDir, null).equals(stringBuilder.toString()));
+		assertEquals(0, echoTool.getStatusCode());
+	}
 }

@@ -52,6 +52,7 @@ public class IntegrationTestingTwoOrMorePipes {
 		tempFile.delete();
 	}
 
+    // TODO
 	@Test
 	public void TestSortAndUniqAndWcAndCat(){
 		SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
@@ -65,6 +66,8 @@ public class IntegrationTestingTwoOrMorePipes {
 		assertEquals(expectedResult,result);
 		assertEquals(0,pipingTool.getStatusCode());
 	}
+	
+    // TODO
 	@Test
 	public void TestUniqAndWcAndCat(){
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq",tempFileName});
@@ -78,6 +81,7 @@ public class IntegrationTestingTwoOrMorePipes {
 		assertEquals(0,pipingTool.getStatusCode());
 	}
 
+    // TODO
 	@Test
 	public void TestUniqAndSortAndCat(){
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq",tempFileName});
@@ -91,6 +95,7 @@ public class IntegrationTestingTwoOrMorePipes {
 		assertEquals(0,pipingTool.getStatusCode());
 	}
 
+    // TODO
 	@Test
 	public void TestSortAndUniqAndCat(){
 		SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
@@ -104,6 +109,7 @@ public class IntegrationTestingTwoOrMorePipes {
 		assertEquals(0,pipingTool.getStatusCode());
 	}
 
+    // TODO
 	@Test
 	public void TestCatAndWcAndWc(){
 			CatTool catTool = new CatTool(new String[]{"cat",tempFileName});
@@ -117,6 +123,7 @@ public class IntegrationTestingTwoOrMorePipes {
 			assertEquals(0,pipingTool.getStatusCode());
 	}
 	
+    // TODO
 	@Test
 	public void TestUniqAndSortAndPaste(){
 			UniqTool uniqTool = new UniqTool(new String[]{"uniq",tempFileName});
@@ -130,6 +137,7 @@ public class IntegrationTestingTwoOrMorePipes {
 			assertEquals(0,pipingTool.getStatusCode());
 	}
 	
+    // TODO
 	@Test
 	public void TestPwdAndCatAndPaste(){
 			PWDTool pwdTool = new PWDTool(new String[]{"pwd"});
@@ -142,6 +150,8 @@ public class IntegrationTestingTwoOrMorePipes {
 			assertEquals(expectedResult,result);
 			assertEquals(0,pipingTool.getStatusCode());
 	}
+	
+    // TODO
 	@Test
 	public void TestPwdAndCatAndWc(){
 			PWDTool pwdTool = new PWDTool(new String[]{"pwd"});
@@ -155,6 +165,7 @@ public class IntegrationTestingTwoOrMorePipes {
 			assertEquals(0,pipingTool.getStatusCode());
 	}
 
+    // TODO
 	@Test
 	public void TestUniqAndSortAndCut(){
 			UniqTool uniqTool = new UniqTool(new String[]{"uniq",tempFileName});
@@ -168,74 +179,77 @@ public class IntegrationTestingTwoOrMorePipes {
 			assertEquals(0,pipingTool.getStatusCode());
 	}
 
-		@Test
-		public void TestCommAndSortAndUniq(){
-			try {
-				//temp file 1
-				String tempFileName1 = "dummyfile1";
-				File tempFile1 = new File(tempFileName1);
-				String fileContent1 = "The first line of first file\nThe second line of first file\n";
-				DataOutputStream out1 = new DataOutputStream(new FileOutputStream(tempFile1));
-				out1.writeBytes(fileContent1);
-				out1.close();
-				//temp file 2
-				String tempFileName2 = "dummyfile2";
-				File tempFile2 = new File(tempFileName2);
-				String fileContent2 = "The first line of second file\nThe second line of second file\n";
-				DataOutputStream out2 = new DataOutputStream(new FileOutputStream(tempFile2));
-				out2.writeBytes(fileContent2);
-				out2.close();
-				CommTool commTool = new CommTool(new String[]{"comm",tempFileName1,tempFileName2});
-				SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
-				UniqTool uniqTool = new UniqTool(new String[]{"uniq","-"});
-				ITool[] toolCollections = {commTool,sortTool,uniqTool};
-				PipingTool pipingTool = new PipingTool(toolCollections);
-				String result = pipingTool.execute(workingDirectory,null);
-				String expectedResult = "\tThe first line of second file\n\tThe second line of second file\nThe first line of first file\nThe second line of first file\n";
-				assertEquals(expectedResult,result);
-				assertEquals(0,pipingTool.getStatusCode());
-				tempFile1.delete();
-				tempFile2.delete();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+    // TODO
+	@Test
+	public void TestCommAndSortAndUniq(){
+		try {
+			//temp file 1
+			String tempFileName1 = "dummyfile1";
+			File tempFile1 = new File(tempFileName1);
+			String fileContent1 = "The first line of first file\nThe second line of first file\n";
+			DataOutputStream out1 = new DataOutputStream(new FileOutputStream(tempFile1));
+			out1.writeBytes(fileContent1);
+			out1.close();
+			//temp file 2
+			String tempFileName2 = "dummyfile2";
+			File tempFile2 = new File(tempFileName2);
+			String fileContent2 = "The first line of second file\nThe second line of second file\n";
+			DataOutputStream out2 = new DataOutputStream(new FileOutputStream(tempFile2));
+			out2.writeBytes(fileContent2);
+			out2.close();
+			CommTool commTool = new CommTool(new String[]{"comm",tempFileName1,tempFileName2});
+			SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
+			UniqTool uniqTool = new UniqTool(new String[]{"uniq","-"});
+			ITool[] toolCollections = {commTool,sortTool,uniqTool};
+			PipingTool pipingTool = new PipingTool(toolCollections);
+			String result = pipingTool.execute(workingDirectory,null);
+			String expectedResult = "\tThe first line of second file\n\tThe second line of second file\nThe first line of first file\nThe second line of first file\n";
+			assertEquals(expectedResult,result);
+			assertEquals(0,pipingTool.getStatusCode());
+			tempFile1.delete();
+			tempFile2.delete();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		@Test
-		public void TestCommAndSortAndCutt(){
-			try {
-				//temp file 1
-				String tempFileName1 = "dummyfile1";
-				File tempFile1 = new File(tempFileName1);
-				String fileContent1 = "The first line of first file\nThe second line of first file\n";
-				DataOutputStream out1 = new DataOutputStream(new FileOutputStream(tempFile1));
-				out1.writeBytes(fileContent1);
-				out1.close();
-				//temp file 2
-				String tempFileName2 = "dummyfile2";
-				File tempFile2 = new File(tempFileName2);
-				String fileContent2 = "The first line of second file\nThe second line of second file\n";
-				DataOutputStream out2 = new DataOutputStream(new FileOutputStream(tempFile2));
-				out2.writeBytes(fileContent2);
-				out2.close();
-				CommTool commTool = new CommTool(new String[]{"comm",tempFileName1,tempFileName2});
-				SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
-				CutTool cutTool = new CutTool(new String[]{"cut","-c","1-10","-"});
-				ITool[] toolCollections = {commTool,sortTool,cutTool};
-				PipingTool pipingTool = new PipingTool(toolCollections);
-				String result = pipingTool.execute(workingDirectory,null);
-				String expectedResult = "\tThe first";
-				assertEquals(expectedResult,result);
-				assertEquals(0,pipingTool.getStatusCode());
-				tempFile1.delete();
-				tempFile2.delete();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	}
+	
+    // TODO
+	@Test
+	public void TestCommAndSortAndCutt(){
+		try {
+			//temp file 1
+			String tempFileName1 = "dummyfile1";
+			File tempFile1 = new File(tempFileName1);
+			String fileContent1 = "The first line of first file\nThe second line of first file\n";
+			DataOutputStream out1 = new DataOutputStream(new FileOutputStream(tempFile1));
+			out1.writeBytes(fileContent1);
+			out1.close();
+			//temp file 2
+			String tempFileName2 = "dummyfile2";
+			File tempFile2 = new File(tempFileName2);
+			String fileContent2 = "The first line of second file\nThe second line of second file\n";
+			DataOutputStream out2 = new DataOutputStream(new FileOutputStream(tempFile2));
+			out2.writeBytes(fileContent2);
+			out2.close();
+			CommTool commTool = new CommTool(new String[]{"comm",tempFileName1,tempFileName2});
+			SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
+			CutTool cutTool = new CutTool(new String[]{"cut","-c","1-10","-"});
+			ITool[] toolCollections = {commTool,sortTool,cutTool};
+			PipingTool pipingTool = new PipingTool(toolCollections);
+			String result = pipingTool.execute(workingDirectory,null);
+			String expectedResult = "\tThe first";
+			assertEquals(expectedResult,result);
+			assertEquals(0,pipingTool.getStatusCode());
+			tempFile1.delete();
+			tempFile2.delete();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	}
 		
+    // TODO what is this commented block?
 //		@Test
 //		public void PasteAndSortAndCat(){
 //			try {
@@ -272,41 +286,45 @@ public class IntegrationTestingTwoOrMorePipes {
 //	
 //		}
 		
-		//Test Broken Pipe, Invalid Input in First Tool in this case
-		@Test
-		public void TestBrokenPipeWithInvalidInputInFirstToolUniq(){
-			UniqTool uniqTool = new UniqTool(new String[]{"uniq","-f","dummy","-"});
-			SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
-			CatTool catTool = new CatTool(new String[]{"cat","-"});
-			ITool[] toolCollections = {uniqTool, sortTool, catTool};
-			PipingTool pipingTool = new PipingTool(toolCollections);
-			pipingTool.execute(workingDirectory,null);
-			assertNotEquals(0,pipingTool.getStatusCode());
-		}
-		
-		//Test Broken Pipe, Invalid Input in Second Tool in this case
-		@Test
-		public void TestBrokenPipeWithInvalidInputInSecondTool(){
-			SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
-			UniqTool uniqTool = new UniqTool(new String[]{"uniq","-f","dummy","-"});
-			CatTool catTool = new CatTool(new String[]{"cat","-"});
-			ITool[] toolCollections = {sortTool,uniqTool,catTool};
-			PipingTool pipingTool = new PipingTool(toolCollections);
-			pipingTool.execute(workingDirectory,null);
-			assertNotEquals(0,pipingTool.getStatusCode());
-		}
-		
-		//Test Broken Pipe, Invalid Input in Third Tool in this case
-		@Test
-		public void TestBrokenPipeWithInvalidInputInThirdTool(){
-			SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
-			CatTool catTool = new CatTool(new String[]{"cat","-"});
-			UniqTool uniqTool = new UniqTool(new String[]{"uniq","-f","dummy","-"});
-			ITool[] toolCollections = {sortTool,catTool,uniqTool};
-			PipingTool pipingTool = new PipingTool(toolCollections);
-			pipingTool.execute(workingDirectory,null);
-			assertNotEquals(0,pipingTool.getStatusCode());
-		}
-		
-
+	/**
+	 * Test Broken Pipe, Invalid Input in First Tool in this case
+	 */
+	@Test
+	public void TestBrokenPipeWithInvalidInputInFirstToolUniq(){
+		UniqTool uniqTool = new UniqTool(new String[]{"uniq","-f","dummy","-"});
+		SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
+		CatTool catTool = new CatTool(new String[]{"cat","-"});
+		ITool[] toolCollections = {uniqTool, sortTool, catTool};
+		PipingTool pipingTool = new PipingTool(toolCollections);
+		pipingTool.execute(workingDirectory,null);
+		assertNotEquals(0,pipingTool.getStatusCode());
+	}
+	
+	/**
+	 * Test Broken Pipe, Invalid Input in Second Tool in this case
+	 */
+	@Test
+	public void TestBrokenPipeWithInvalidInputInSecondTool(){
+		SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
+		UniqTool uniqTool = new UniqTool(new String[]{"uniq","-f","dummy","-"});
+		CatTool catTool = new CatTool(new String[]{"cat","-"});
+		ITool[] toolCollections = {sortTool,uniqTool,catTool};
+		PipingTool pipingTool = new PipingTool(toolCollections);
+		pipingTool.execute(workingDirectory,null);
+		assertNotEquals(0,pipingTool.getStatusCode());
+	}
+	
+	/**
+	 * Test Broken Pipe, Invalid Input in Third Tool in this case
+	 */
+	@Test
+	public void TestBrokenPipeWithInvalidInputInThirdTool(){
+		SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
+		CatTool catTool = new CatTool(new String[]{"cat","-"});
+		UniqTool uniqTool = new UniqTool(new String[]{"uniq","-f","dummy","-"});
+		ITool[] toolCollections = {sortTool,catTool,uniqTool};
+		PipingTool pipingTool = new PipingTool(toolCollections);
+		pipingTool.execute(workingDirectory,null);
+		assertNotEquals(0,pipingTool.getStatusCode());
+	}
 }

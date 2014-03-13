@@ -16,7 +16,6 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
 
 public class SORTTool extends ATool implements ISortTool {
-
 	public SORTTool(String[] arguments) {
 		super(arguments);
 		if (args.length == 0 || !args[0].equals("sort")) {

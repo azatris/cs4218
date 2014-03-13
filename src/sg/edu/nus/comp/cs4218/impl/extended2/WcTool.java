@@ -10,7 +10,6 @@ import sg.edu.nus.comp.cs4218.extended2.IWcTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class WcTool extends ATool implements IWcTool{
-
 	/**
 	 * Constructor taking the arguments
 	 * @param	arguments	(args[0] is the command name)
@@ -57,6 +56,7 @@ public class WcTool extends ATool implements IWcTool{
 		}
 	}
 
+	// TODO
 	@Override
 	public String execute(File workingDir, String stdin) {
 		String characterCount = null;

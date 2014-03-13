@@ -53,18 +53,21 @@ public class GrepToolTest {
 		grepTool = new GrepTool(new String[]{"does", "not", "matter"});
 	}
 
+	// TODO
 	@Test
 	public void testGetCountOfMatchingLinesJava() {
 		int result = grepTool.getCountOfMatchingLines("java", testData);
 		assertEquals("Incorrect number of matched lines.", 8, result);
 	}
 	
+	// TODO
 	@Test
 	public void testGetCountOfMatchingLinesIP() {
 		int result = grepTool.getCountOfMatchingLines(IP_PATTERN, testData);
 		assertEquals("Incorrect number of matched lines.", 3, result);
 	}
 
+	// TODO
 	@Test
 	public void testGetOnlyMatchingLinesJava() {
 		String correctResult = prop.getProperty("getOnlyMatchingLinesTestJava");
@@ -72,6 +75,7 @@ public class GrepToolTest {
 		assertEquals("The right lines were not matched.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testGetOnlyMatchingLinesIP() {
 		String correctResult = prop.getProperty("getOnlyMatchingLinesTestIP");
@@ -79,6 +83,7 @@ public class GrepToolTest {
 		assertEquals("The right lines were not matched.", correctResult, result);
 	}
 
+	// TODO
 	@Test
 	public void testGetMatchingLinesWithTrailingContextJava() {
 		String correctResult = prop.getProperty("getMatchingLinesWithTrailingContextTestJava");
@@ -86,6 +91,7 @@ public class GrepToolTest {
 		assertEquals("The right lines with trailing context were not matched.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testGetMatchingLinesWithTrailingContextIP() {
 		String correctResult = prop.getProperty("getMatchingLinesWithTrailingContextTestIP");
@@ -93,6 +99,7 @@ public class GrepToolTest {
 		assertEquals("The right lines with trailing context were not matched.", correctResult, result);
 	}
 
+	// TODO
 	@Test
 	public void testGetMatchingLinesWithLeadingContextJava() {
 		String correctResult = prop.getProperty("getMatchingLinesWithLeadingContextTestJava");
@@ -100,6 +107,7 @@ public class GrepToolTest {
 		assertEquals("The right lines with leading context were not matched.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testGetMatchingLinesWithLeadingContextIP() {
 		String correctResult = prop.getProperty("getMatchingLinesWithLeadingContextTestIP");
@@ -107,6 +115,7 @@ public class GrepToolTest {
 		assertEquals("The right lines with leading context were not matched.", correctResult, result);
 	}
 
+	// TODO
 	@Test
 	public void testGetMatchingLinesWithOutputContextJava() {
 		String correctResult = prop.getProperty("getMatchingLinesWithOutputContextTestJava");
@@ -114,6 +123,7 @@ public class GrepToolTest {
 		assertEquals("The right lines with output context were not matched.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testGetMatchingLinesWithOutputContextIP() {
 		String correctResult = prop.getProperty("getMatchingLinesWithOutputContextTestIP");
@@ -121,6 +131,7 @@ public class GrepToolTest {
 		assertEquals("The right lines with output context were not matched.", correctResult, result);
 	}
 
+	// TODO
 	@Test
 	public void testGetMatchingLinesOnlyMatchingPartJava() {
 		String correctResult = prop.getProperty("getMatchingLinesOnlyMatchingPartTestJava");
@@ -128,6 +139,7 @@ public class GrepToolTest {
 		assertEquals("The right parts were not matched.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testGetMatchingLinesOnlyMatchingPartIP() {
 		String correctResult = prop.getProperty("getMatchingLinesOnlyMatchingPartTestIP");
@@ -135,6 +147,7 @@ public class GrepToolTest {
 		assertEquals("The right parts were not matched.", correctResult, result);
 	}
 
+	// TODO
 	@Test
 	public void testGetNonMatchingLinesJava() {
 		String correctResult = prop.getProperty("getNonMatchingLinesTestJava");
@@ -142,6 +155,7 @@ public class GrepToolTest {
 		assertEquals("The right non-matching lines were not found.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testGetNonMatchingLinesIP() {
 		String correctResult = prop.getProperty("getNonMatchingLinesTestIP");
@@ -149,6 +163,7 @@ public class GrepToolTest {
 		assertEquals("The right non-matching lines were not found.", correctResult, result);
 	}
 
+	// TODO
 	@Test
 	public void testGetHelp() {
 		String correctResult = prop.getProperty("getHelpTest");
@@ -156,6 +171,7 @@ public class GrepToolTest {
 		assertEquals("Help was not printed correctly.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments0ReturnsNull() {
 		grepToolForExecute = new GrepTool(new String[]{});
@@ -163,6 +179,7 @@ public class GrepToolTest {
 		assertNull("Execution runtime should never reach this point", result);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments0StatusCode() {
 		grepToolForExecute = new GrepTool(new String[]{});
@@ -170,6 +187,7 @@ public class GrepToolTest {
 		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments1ReturnsNull() {
 		grepToolForExecute = new GrepTool(new String[]{"grep"});
@@ -177,6 +195,7 @@ public class GrepToolTest {
 		assertNull("Grep must have at least 1 argument", result);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments1StatusCode() {
 		grepToolForExecute = new GrepTool(new String[]{"grep"});
@@ -184,6 +203,7 @@ public class GrepToolTest {
 		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
 	}
 
+	// TODO
 	@Test
 	public void testExecuteArguments2() {
 		grepToolForExecute = new GrepTool(new String[]{"grep", "help"});
@@ -192,6 +212,7 @@ public class GrepToolTest {
 		assertEquals("Help was printed.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments3() {
 		grepToolForExecute = new GrepTool(new String[]{"grep", IP_PATTERN, testDataFileName});
@@ -200,6 +221,7 @@ public class GrepToolTest {
 		assertEquals("The lines were not matched.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments4() {
 		grepToolForExecute = new GrepTool(new String[]{"grep", "-c", IP_PATTERN, testDataFileName});
@@ -207,6 +229,7 @@ public class GrepToolTest {
 		assertEquals("Incorrect number of matched lines.", Integer.toString(3), result);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArguments5() {
 		grepToolForExecute = new GrepTool(new String[]{"grep", "-C", "1", IP_PATTERN, testDataFileName});
@@ -215,6 +238,7 @@ public class GrepToolTest {
 		assertEquals("The lines with output context were not matched.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteArgumentsMoreThan5StatusCode() {
 		grepToolForExecute = new GrepTool(new String[]{
@@ -223,6 +247,7 @@ public class GrepToolTest {
 		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteWithStdin() {
 		grepToolForExecute = new GrepTool(new String[]{"grep", IP_PATTERN, "-"});
@@ -231,6 +256,7 @@ public class GrepToolTest {
 		assertEquals("The lines were not matched.", correctResult, result);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteWithStdinWithTooManyArguments() {
 		grepToolForExecute = new GrepTool(new String[]{"grep", IP_PATTERN, "-", "dummyArgument"});
@@ -238,6 +264,7 @@ public class GrepToolTest {
 		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteWithIncorrectTool() {
 		grepToolForExecute = new GrepTool(new String[]{"cat", IP_PATTERN, testDataFileName});
@@ -245,6 +272,7 @@ public class GrepToolTest {
 		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
 	}
 	
+	// TODO
 	@Test
 	public void testExecuteWithInvalidTool() {
 		grepToolForExecute = new GrepTool(new String[]{"dog", IP_PATTERN, testDataFileName});

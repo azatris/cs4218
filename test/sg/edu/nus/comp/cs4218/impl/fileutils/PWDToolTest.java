@@ -12,7 +12,6 @@ import org.junit.Test;
 import sg.edu.nus.comp.cs4218.fileutils.IPwdTool;
 
 public class PWDToolTest {
-	//TODO Always test against the interface! 
 	private IPwdTool pwdtool; 
 	
 	@Before
@@ -25,6 +24,7 @@ public class PWDToolTest {
 		pwdtool = null;
 	}
 	
+    // TODO
 	@Test
 	public void getStringForDirectoryTest() throws IOException {
 		String[] test = new String[] {"pwd"};
@@ -38,7 +38,7 @@ public class PWDToolTest {
 		tempFile.delete();
     }
 
-
+    // TODO
 	@Test
 	public void getStringForNonExistingDirectoryTest() throws IOException { 
 		String[] test = new String[] {"pwd"};
@@ -48,7 +48,7 @@ public class PWDToolTest {
 		assertNotEquals(pwdtool.getStatusCode(), 0);
     }
 		
-
+    // TODO
 	@Test
 	public void getStringForNullDirectoryTest() throws IOException { 
 		String[] test = new String[] {"pwd"};
@@ -57,6 +57,7 @@ public class PWDToolTest {
 		assertNotEquals(pwdtool.getStatusCode(), 0);
 	}
 	
+    // TODO
 	@Test
 	public void getStringPWDNullinConstructor() throws IOException { 
 		pwdtool = new PWDTool(null);
@@ -70,30 +71,32 @@ public class PWDToolTest {
 		tempFile.delete();
 	}
 	
+    // TODO
 	@Test 
 	public void executeWrongInput() throws IOException{
-	String[] test = new String[] {"asd"};
-	pwdtool = new PWDTool(test);
-	File tempFile = File.createTempFile("existspwd", "tmp");
-	String existsDirString = tempFile.getParent();
-	File existsDir = new File(existsDirString);
-	String dirString = pwdtool.execute(existsDir, null);
-	assertTrue(dirString.equals(existsDirString));
-	assertEquals(pwdtool.getStatusCode(), 127);
-	tempFile.delete();
+		String[] test = new String[] {"asd"};
+		pwdtool = new PWDTool(test);
+		File tempFile = File.createTempFile("existspwd", "tmp");
+		String existsDirString = tempFile.getParent();
+		File existsDir = new File(existsDirString);
+		String dirString = pwdtool.execute(existsDir, null);
+		assertTrue(dirString.equals(existsDirString));
+		assertEquals(pwdtool.getStatusCode(), 127);
+		tempFile.delete();
 	}
 	
+    // TODO
 	@Test 
 	public void executeToManyArgs() throws IOException{
-	String[] test = new String[] {"pwd" , "Hallo"};
-	pwdtool = new PWDTool(test);
-	File tempFile = File.createTempFile("existspwd", "tmp");
-	String existsDirString = tempFile.getParent();
-	
-	File existsDir = new File(existsDirString);
-	String dirString = pwdtool.execute(existsDir, null);
-	assertTrue("Not right dir", dirString.equals("Error: PWD command wrong"));
-	assertEquals("Not right statuscode ", pwdtool.getStatusCode(), 1);
-	tempFile.delete();
+		String[] test = new String[] {"pwd" , "Hallo"};
+		pwdtool = new PWDTool(test);
+		File tempFile = File.createTempFile("existspwd", "tmp");
+		String existsDirString = tempFile.getParent();
+		
+		File existsDir = new File(existsDirString);
+		String dirString = pwdtool.execute(existsDir, null);
+		assertTrue("Not right dir", dirString.equals("Error: PWD command wrong"));
+		assertEquals("Not right statuscode ", pwdtool.getStatusCode(), 1);
+		tempFile.delete();
 	}
 }

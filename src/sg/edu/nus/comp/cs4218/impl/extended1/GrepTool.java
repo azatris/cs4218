@@ -19,7 +19,6 @@ import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
  * different arguments.
  */
 public class GrepTool extends ATool implements IGrepTool {
-
 	public GrepTool(String[] arguments) {
 		super(arguments);
 		if (args.length == 0 || !args[0].equals("grep")) {
@@ -282,6 +281,13 @@ public class GrepTool extends ATool implements IGrepTool {
 		return prop.getProperty("grepHelp");
 	}
 
+	/**
+	 * The general go-to method for using the tool that calls
+	 * the suitable submethods.
+	 * @param workingDir current working directory
+	 * @param stdin optional standard input from e.g. pipe tool
+	 * @return output
+	 */
 	@Override
 	public String execute(File workingDir, String stdin) {
 		// using catTool to call the file reading method

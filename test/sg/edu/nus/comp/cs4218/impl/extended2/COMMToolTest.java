@@ -16,10 +16,8 @@ import org.junit.Test;
 import sg.edu.nus.comp.cs4218.extended2.ICommTool;
 
 public class COMMToolTest {
-
 	private static ICommTool commTool; 
 	private static File myFile1, myFile2, myFile3, myFile4;
-	private File workingDir = new File(System.getProperty("user.dir"));
 	
 	public static void writeFile(File file, String s) throws IOException {
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -89,7 +87,9 @@ public class COMMToolTest {
 				result);
 	}
 
-	//test compareFiles method, with first file unsorted
+	/**
+	 * test compareFiles method, without sorted file
+	 */
 	@Test
 	public void compareFilesUnSortedFile1() {
 		String result = commTool.compareFiles(
@@ -104,22 +104,27 @@ public class COMMToolTest {
 				result);
 	}
 	
-	//test compareFiles method, with second file unsorted
-		@Test
-		public void compareFilesUnSortedFile2() {
-			String result = commTool.compareFiles(
-					myFile1.getAbsolutePath(), 
-					myFile3.getAbsolutePath());
-			assertEquals(
-					"aaa"+System.lineSeparator()+"\tzzz"+System.lineSeparator()+
-					"comm: File 2 is not in sorted order "+System.lineSeparator()+
-					"bbb"+System.lineSeparator()+"\tccc"+System.lineSeparator()+
-					"ccc"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
-					"ddd"+System.lineSeparator()+"\tbbb"+System.lineSeparator(),
-					result);
-		}
+	/**
+	 * test compareFiles method, without sorted file
+	 */
+	@Test
+	public void compareFilesUnSortedFile2() {
+		String result = commTool.compareFiles(
+				myFile1.getAbsolutePath(), 
+				myFile3.getAbsolutePath());
+		assertEquals(
+				"aaa"+System.lineSeparator()+"\tzzz"+System.lineSeparator()+
+				"comm: File 2 is not in sorted order "+System.lineSeparator()+
+				"bbb"+System.lineSeparator()+"\tccc"+System.lineSeparator()+
+				"ccc"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
+				"ddd"+System.lineSeparator()+"\tbbb"+System.lineSeparator(),
+				result);
+	}
 	
-	//test compareFiles method, with non-existing file
+	/**
+	 * test compareFiles method, with non-existing file
+	 * @throws IOException
+	 */
 	@Test
 	public void compareNonExistingFiles() throws IOException {
 		File nonExist = File.createTempFile("commNonExist", "");
@@ -133,12 +138,16 @@ public class COMMToolTest {
 		assertEquals(3, commTool.getStatusCode());
 	}
 		
-	//test compareFilesCheckSortStatus method, with sorted files
+	/**
+	 * test compareFilesCheckSortStatus method, with sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesCheckSortStatusSortedFile() throws IOException { 
 		String result = commTool.compareFilesCheckSortStatus(
 				myFile1.getAbsolutePath(), 
 				myFile2.getAbsolutePath());
+		System.out.println(result);
 		assertEquals(
 				"aaa"+System.lineSeparator()+"\taaf"+
 				System.lineSeparator()+"bbb"+System.lineSeparator()+"\tabb"+
@@ -148,7 +157,10 @@ public class COMMToolTest {
 	}
 
 
-	//test compareFilesCheckSortStatus method, with second file unsorted
+	/**
+	 * test compareFilesCheckSortStatus method, one not sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesCheckSortStatusOneNotSorted() throws IOException { 
 		String result = commTool.compareFilesCheckSortStatus(
@@ -162,7 +174,10 @@ public class COMMToolTest {
 				result);
 	}
 	
-	//test compareFilesCheckSortStatus method, neither files sorted
+	/**
+	 * test compareFilesCheckSortStatus method, neither sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesCheckSortStatusBothNotSorted() throws IOException { 
 		String result = commTool.compareFilesCheckSortStatus(
@@ -176,14 +191,17 @@ public class COMMToolTest {
 				result);
 	}
 	
-	//test compareFilesCheckSortStatus method, with non-existing file
+	/**
+	 * test compareFilesCheckSortStatus method, with non-existing file
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesCheckSortStatus() throws IOException {
 		File nonExist = File.createTempFile("commNonExist", "");
 		
 		nonExist.delete();
 		assertEquals(false, nonExist.exists());
-		String result = commTool.compareFilesCheckSortStatus(
+		String result = commTool.compareFiles(
 				nonExist.getAbsolutePath(),
 				myFile1.getAbsolutePath() 
 				);
@@ -191,7 +209,10 @@ public class COMMToolTest {
 		assertEquals(3, commTool.getStatusCode());
 	}
 	
-	//test compareFilesDoNotCheckSortStatus method, with sorted
+	/**
+	 * test compareFilesDoNotCheckSortStatus method, with sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesDoNotCheckSortStatusSortedFile() throws IOException { 
 
@@ -206,7 +227,10 @@ public class COMMToolTest {
 				result);
 	}
 	
-	//test compareFilesDoNotCheckSortStatus method, with second file unsorted
+	/**
+	 * test compareFilesDoNotCheckSortStatus method, without sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesDoNotCheckSortStatusNotSortedFile() throws IOException { 
 		String result = commTool.compareFilesDoNotCheckSortStatus(
@@ -222,7 +246,10 @@ public class COMMToolTest {
 
 	}
 	
-	//test compareFilesDoNotCheckSortStatus method, neither sorted
+	/**
+	 * test compareFilesDoNotCheckSortStatus method, neither sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesDoNotCheckSortStatusNeitherSortedFile() throws IOException { 
 		String result = commTool.compareFilesDoNotCheckSortStatus(
@@ -236,7 +263,9 @@ public class COMMToolTest {
 				result);
 	}
 
-	// test getHelp
+	/**
+	 *  test getHelp
+	 */
 	@Test
 	public void testGetHelp(){
 		String commHelp="comm : Compares two sorted files line by line. "
@@ -253,36 +282,5 @@ public class COMMToolTest {
 		assertEquals(commHelp, commTool.getHelp());
 		
 	}
-	// test execute method, with zero argument
-	@Test
-	public void testExecuteWihtZeroArg(){
-		commTool = new CommTool(new String[]{});
-		assertEquals("", commTool.execute(workingDir, ""))
-	}
-		
-	// test execute method, with one argument
-	@Test
-	public void testExecuteWihtOneArg(){
-		commTool = new CommTool(new String[]{"comm", });
-	}
-	
-	// test execute method, with two arguments
-	@Test
-	public void testExecuteWihtTwoArgs(){
-		commTool = new CommTool(new String[]{"comm", });
-	}
-	
-	// test execute method, with three arguments
-	@Test
-	public void testExecuteWihtThreeArgs(){
-		commTool = new CommTool(new String[]{"comm", });
-	}
-	
-	// test execute method, with four arguments
-	@Test
-	public void testExecuteWihtFourArgs(){
-		commTool = new CommTool(new String[]{"comm", });
-	}
-	
-	
+
 }
