@@ -57,7 +57,7 @@ public class MoveToolTest {
 	@Test
 	public void renameFileToNonExistFileTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
-		File to = File.createTempFile("to","movetmp", new File(from.getParent()));
+		File to = File.createTempFile("tofile","movetmp", new File(from.getParent()));
 		String fromStr = Common.writeRandomStringTo(from);
 		String[] args = {"move", from.getAbsolutePath(), to.getAbsolutePath()};
 		moveTool = new MoveTool(args);
@@ -354,6 +354,7 @@ public class MoveToolTest {
 	 * move file1
 	 * @throws IOException
 	 */
+	@Test
 	public void moveNoToDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","movetmp");
