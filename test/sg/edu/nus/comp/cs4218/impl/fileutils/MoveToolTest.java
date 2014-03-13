@@ -169,7 +169,7 @@ public class MoveToolTest {
 	public void moveFileToNullTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
 		Common.writeRandomStringTo(from);
-		String[] args = {"move", from.getAbsolutePath(), null};
+		String[] args = {"move", from.getAbsolutePath(), ""};
 		moveTool = new MoveTool(args);
 		
 		assertTrue(from.exists());
@@ -238,7 +238,7 @@ public class MoveToolTest {
 	@Test
 	public void moveNullTest() throws IOException {
 		File to = Files.createTempDirectory("todirmovetmp").toFile();
-		String[] args = {"move", null, to.getAbsolutePath()};
+		String[] args = {"move", "", to.getAbsolutePath()};
 		moveTool = new MoveTool(args);
 		
 		assertTrue(to.exists());
@@ -262,7 +262,7 @@ public class MoveToolTest {
 		String[] args = {"move", from.getName(), to.getName()};
 		moveTool = new MoveTool(args);
 
-		assertEquals("", moveTool.execute(workingDir, null));
+		assertEquals("", moveTool.execute(workingDir, ""));
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		
@@ -287,7 +287,7 @@ public class MoveToolTest {
 		};
 		moveTool = new MoveTool(args);
 
-		assertEquals("", moveTool.execute(workingDir, null));
+		assertEquals("", moveTool.execute(workingDir, ""));
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		
@@ -315,7 +315,7 @@ public class MoveToolTest {
 		};
 		moveTool = new MoveTool(args);
 
-		assertEquals("", moveTool.execute(workingDir, null));
+		assertEquals("", moveTool.execute(workingDir, ""));
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 
@@ -343,7 +343,7 @@ public class MoveToolTest {
 		};
 		moveTool = new MoveTool(args);
 
-		assertEquals("", moveTool.execute(workingDir, null));
+		assertEquals("", moveTool.execute(workingDir, ""));
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		
@@ -366,7 +366,7 @@ public class MoveToolTest {
 		};
 		moveTool = new MoveTool(args);
 
-		assertFalse(moveTool.execute(workingDir, null).equals(null));
+		assertEquals("", moveTool.execute(workingDir, ""));
 		assertTrue(moveTool.getStatusCode() != 0);
 
 		from.delete();
