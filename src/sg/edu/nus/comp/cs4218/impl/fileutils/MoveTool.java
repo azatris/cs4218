@@ -53,8 +53,8 @@ public class MoveTool extends ATool implements IMoveTool {
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length==3) {
-			String fromStr = null;
-			String toStr = null;
+			String fromStr = "";
+			String toStr = "";
 			if (Paths.get(args[1]).isAbsolute()){
 				fromStr = args[1];
 			}else{
@@ -68,11 +68,12 @@ public class MoveTool extends ATool implements IMoveTool {
 			}
 			
 			if ( !move(new File(fromStr), new File(toStr)) ) {
-				return "Move unsuccessfully\n";
+				return "Move unsuccessfully"+System.lineSeparator();
 			}
-			return null;
+			return "";
 		}else{
-			return "Error: Should have two arguments.";
+			setStatusCode(2);
+			return "";
 		}
 	}
 }

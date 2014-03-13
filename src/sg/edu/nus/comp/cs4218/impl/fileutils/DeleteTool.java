@@ -15,7 +15,11 @@ public class DeleteTool extends ATool implements IDeleteTool {
 		}
 	}
 
-	// TODO
+	/**
+	 * delete a file
+	 * @param	toDelete	file to be deleted
+	 * @return true if it deletes successfully
+	 */
 	@Override
 	public boolean delete(File toDelete) {
 		if(toDelete != null && toDelete.delete()){
@@ -27,7 +31,9 @@ public class DeleteTool extends ATool implements IDeleteTool {
 		}
 	}
 	
-	// TODO
+	/**
+	 * Executing the deletion of a file
+	 */
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if(args.length==1){

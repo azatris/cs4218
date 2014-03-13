@@ -120,7 +120,7 @@ public class CopyToolTest {
 
 		assertTrue(from.exists());
 		assertFalse(copyTool.copy(from, null));
-		assertTrue(copyTool.getStatusCode()!= 0);
+		assertNotEquals(0, copyTool.getStatusCode());
 
 		from.delete();
 	}
@@ -139,7 +139,7 @@ public class CopyToolTest {
 		assertFalse(from.exists());
 		assertTrue(to.exists());
 		assertFalse(copyTool.copy(from, to));
-		assertTrue(copyTool.getStatusCode() != 0);
+		assertNotEquals(0, copyTool.getStatusCode());
 
 		to.delete();
 	}
@@ -156,7 +156,7 @@ public class CopyToolTest {
 		assertTrue(from.exists());
 		assertTrue(to.exists());
 		assertFalse(copyTool.copy(from, to));
-		assertTrue(copyTool.getStatusCode() != 0);
+		assertNotEquals(0, copyTool.getStatusCode());
 
 		from.delete();
 		to.delete();
@@ -307,8 +307,8 @@ public class CopyToolTest {
 		};
 		copyTool = new CopyTool(args);
 
-		assertFalse(copyTool.execute(workingDir, null).equals(null));
-		assertTrue(copyTool.getStatusCode() != 0);
+		assertEquals("",copyTool.execute(workingDir, null));
+		assertNotEquals(0, copyTool.getStatusCode());
 
 		from.delete();
 	}
@@ -333,8 +333,8 @@ public class CopyToolTest {
 		};
 		copyTool = new CopyTool(args);
 
-		assertFalse(copyTool.execute(workingDir, null).equals(null));
-		assertTrue(copyTool.getStatusCode() != 0);
+		assertEquals("",copyTool.execute(workingDir, null));
+		assertNotEquals(0, copyTool.getStatusCode());
 
 		from.delete();
 		to1.delete();
