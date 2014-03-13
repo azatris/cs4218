@@ -6,13 +6,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.hamcrest.core.IsEqual;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import sg.edu.nus.comp.cs4218.ITool;
-import sg.edu.nus.comp.cs4218.impl.ATool;
 import sg.edu.nus.comp.cs4218.impl.Shell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
@@ -66,7 +64,7 @@ public class ShellParse {
 	 * wrong input should be diffrent 
 	 */
 	@Test
-	public void Wrongnormal() {
+	public void wrongNormal() {
 		String args[] = new String[]{"cat", "asd.txt"};
 		ITool actual = new CatTool(args);
 		String input = prop.getProperty("normal");

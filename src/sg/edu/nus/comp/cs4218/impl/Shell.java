@@ -306,6 +306,12 @@ public class Shell implements IShell {
 			case 3:
 				message = "No Such File or Directory";
 				break;
+			case 4:
+				message = "IO Exception Caught";
+				break;
+			case 5:
+				message = "Invalid option is detected for this tool";
+				break;
 			case 55:
 				//55 is our team special defined code to notify the shell to change workingDirectory
 				workingDirectory = new File(executionResult);

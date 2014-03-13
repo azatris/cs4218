@@ -5,11 +5,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 
 import sg.edu.nus.comp.cs4218.extended2.IUniqTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class UniqTool extends ATool implements IUniqTool{
+	
+	private static PrintStream err = System.err;
 	/**
 	 * Constructor taking the arguments
 	 * @param	arguments	(args[0] is the command name)
@@ -99,8 +102,7 @@ public class UniqTool extends ATool implements IUniqTool{
 							try{
 								input = readFile(filename);
 							} catch (IOException e) {
-								System.err.print("IO Exception caught");
-								setStatusCode(1);
+								setStatusCode(4);
 								return null;
 							}
 							output = getUnique(true, input);
@@ -130,13 +132,13 @@ public class UniqTool extends ATool implements IUniqTool{
 								}
 								catch(NumberFormatException e){
 									setStatusCode(2);
-									System.err.println("-f needs to be followed with an int value");
+									err.println("-f needs to be followed with an int value");
 									return null;
 								}
 							}
 							else{
 								setStatusCode(2);
-								System.err.println("-f needs to be followed with skip number");
+								err.println("-f needs to be followed with skip number");
 								return null;
 							}
 						}
@@ -146,14 +148,12 @@ public class UniqTool extends ATool implements IUniqTool{
 						try{
 							Integer.parseInt(args[i]);
 							if(!(args[i-1].equals("-f"))){
-								setStatusCode(2);
-								System.err.println("Illegal Option");
+								setStatusCode(5);
 								return null;
 							}
 						}
 						catch(NumberFormatException e){
-							setStatusCode(2);
-							System.err.println("Illegal Option");
+							setStatusCode(5);
 							return null;
 						}
 					}
@@ -172,8 +172,7 @@ public class UniqTool extends ATool implements IUniqTool{
 						try {
 							input = readFile(filename);
 						} catch (IOException e) {
-							System.err.print("IO Exception caught");
-							setStatusCode(1);
+							setStatusCode(4);
 							return null;
 						}
 					}
@@ -293,7 +292,7 @@ public class UniqTool extends ATool implements IUniqTool{
 					//Set the offset
 					if(NUM <= 0){
 						setStatusCode(1);
-						System.err.println("Invalid Skip Number, Skip Number must be greater or equal to 0");
+						err.println("Invalid Skip Number, Skip Number must be greater or equal to 0");
 						return null;
 					}
 					else{

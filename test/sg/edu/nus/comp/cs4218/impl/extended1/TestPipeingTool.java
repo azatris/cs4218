@@ -142,7 +142,7 @@ public class TestPipeingTool {
 	
 	// TODO
 	@Test 
-	public void FailOnOneITools(){
+	public void failOnOneITools(){
 		String[] a = new String[] {"echo", null};
 		ITool echo = new EchoTool(a);
 		ITool[] set = new ITool[1];
@@ -155,7 +155,7 @@ public class TestPipeingTool {
 	
 	// TODO
 	@Test 
-	public void NullinITools(){
+	public void nullInITools(){
 		ITool[] set = new ITool[2];
 		set[0]=null;
 		set[1]=null;

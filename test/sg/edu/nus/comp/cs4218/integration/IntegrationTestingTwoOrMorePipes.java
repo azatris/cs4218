@@ -56,7 +56,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Cat, pass the output of wc to stdout
 	 */
 	@Test
-	public void TestSortAndUniqAndWcAndCat(){
+	public void testSortAndUniqAndWcAndCat(){
 		SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq","-"});
 		WcTool wcTool = new WcTool(new String[]{"wc","-"});
@@ -76,7 +76,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Cat, pass the output of wc to stdout
 	 */
 	@Test
-	public void TestUniqAndWcAndCat(){
+	public void testUniqAndWcAndCat(){
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq",tempFileName});
 		WcTool wcTool = new WcTool(new String[]{"wc","-"});
 		CatTool catTool = new CatTool(new String[]{"cat","-"});
@@ -95,7 +95,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Cat, pass the output of sort to stdout
 	 */
 	@Test
-	public void TestUniqAndSortAndCat(){
+	public void testUniqAndSortAndCat(){
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq",tempFileName});
 		SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
 		CatTool catTool = new CatTool(new String[]{"cat","-"});
@@ -114,7 +114,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Cat, pass the output of uniq to stdout
 	 */
 	@Test
-	public void TestSortAndUniqAndCat(){
+	public void testSortAndUniqAndCat(){
 		SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq","-"});
 		CatTool catTool = new CatTool(new String[]{"cat","-"});
@@ -133,7 +133,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Wc, count the number of character, word, and new line from previous wc result
 	 */
 	@Test
-	public void TestCatAndWcAndWc(){
+	public void testCatAndWcAndWc(){
 		CatTool catTool = new CatTool(new String[]{"cat",tempFileName});
 		WcTool wcTool1 = new WcTool(new String[]{"wc","-"});
 		WcTool wcTool2 = new WcTool(new String[]{"wc","-"});
@@ -152,7 +152,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Paste, paste the result from uniq to stdout (since it is only 1 file, its behaviour supposed to be the same with cat)
 	 */
 	@Test
-	public void TestUniqAndSortAndPaste(){
+	public void testUniqAndSortAndPaste(){
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq",tempFileName});
 		SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
 		PASTETool pasteTool = new PASTETool(new String[]{"paste","-"});
@@ -171,7 +171,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Paste, paste the result from cat to stdout (since it is only 1 file, its behaviour supposed to be the same with cat)
 	 */
 	@Test
-	public void TestPwdAndCatAndPaste(){
+	public void testPwdAndCatAndPaste(){
 		PWDTool pwdTool = new PWDTool(new String[]{"pwd"});
 		CatTool catTool = new CatTool(new String[]{"cat","-"});
 		PASTETool pasteTool = new PASTETool(new String[]{"paste","-"});
@@ -190,7 +190,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Cut (1-2), get the first two characters from the result of cat
 	 */
 	@Test
-	public void TestPwdAndCatAndCut(){
+	public void testPwdAndCatAndCut(){
 		PWDTool pwdTool = new PWDTool(new String[]{"pwd"});
 		CatTool catTool = new CatTool(new String[]{"cat","-"});
 		CutTool cutTool = new CutTool(new String[]{"cut","-c","1-2","-"});
@@ -209,7 +209,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Cut (1-11), get the first eleven characters from the result of sort
 	 */
 	@Test
-	public void TestUniqAndSortAndCut(){
+	public void testUniqAndSortAndCut(){
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq",tempFileName});
 		SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
 		CutTool cutTool = new CutTool(new String[]{"cut","-c","1-11","-"});
@@ -228,7 +228,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Uniq, get unique line from the result of the sort
 	 */
 	@Test
-	public void TestCommAndSortAndUniq(){
+	public void testCommAndSortAndUniq(){
 		try {
 			//temp file 1
 			String tempFileName1 = "dummyfile1";
@@ -267,7 +267,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Cut (1-10), get the first ten characters from the result of the sort
 	 */
 	@Test
-	public void TestCommAndSortAndCut(){
+	public void testCommAndSortAndCut(){
 		try {
 			//temp file 1
 			String tempFileName1 = "dummyfile1";
@@ -306,7 +306,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Cat, pass the result of the sort to stdout
 	 */
 	@Test
-	public void PasteAndSortAndCat(){
+	public void testPasteAndSortAndCat(){
 		try {
 			//We need two files for testing paste
 			//temp file 1
@@ -347,7 +347,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Wc, count the number of characters, words, and new lines from the result of the cat
 	 */
 	@Test
-	public void PasteAndSortAndCatAndWc(){
+	public void testPasteAndSortAndCatAndWc(){
 		try {
 			//We need two files for testing paste
 			//temp file 1
@@ -388,7 +388,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Cat, this tool will never been executed since the pipe is broken
 	 */
 	@Test
-	public void TestBrokenPipeWithInvalidInputInFirstToolUniq(){
+	public void testBrokenPipeWithInvalidInputInFirstToolUniq(){
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq","-f","dummy","-"});
 		SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
 		CatTool catTool = new CatTool(new String[]{"cat","-"});
@@ -405,7 +405,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Cat, this tool will never been executed since the pipe is broken
 	 */
 	@Test
-	public void TestBrokenPipeWithInvalidInputInSecondTool(){
+	public void testBrokenPipeWithInvalidInputInSecondTool(){
 		SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq","-f","dummy","-"});
 		CatTool catTool = new CatTool(new String[]{"cat","-"});
@@ -422,7 +422,7 @@ public class IntegrationTestingTwoOrMorePipes {
 	 * Uniq, this tool is given an invalid parameter for the -f option, should terminate here by returning error status code, the pipe breaks here
 	 */
 	@Test
-	public void TestBrokenPipeWithInvalidInputInThirdTool(){
+	public void testBrokenPipeWithInvalidInputInThirdTool(){
 		SORTTool sortTool = new SORTTool(new String[]{"sort",tempFileName});
 		CatTool catTool = new CatTool(new String[]{"cat","-"});
 		UniqTool uniqTool = new UniqTool(new String[]{"uniq","-f","dummy","-"});

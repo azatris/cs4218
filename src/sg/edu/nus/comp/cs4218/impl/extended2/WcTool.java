@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 
 import sg.edu.nus.comp.cs4218.extended2.IWcTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
@@ -14,6 +15,7 @@ public class WcTool extends ATool implements IWcTool{
 	 * Constructor taking the arguments
 	 * @param	arguments	(args[0] is the command name)
 	 */
+
 	public WcTool(String[] arguments) {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("wc")) {
@@ -74,8 +76,7 @@ public class WcTool extends ATool implements IWcTool{
 						try {
 							input = readFile(filename);
 						} catch (IOException e) {		
-							System.err.print("IO Exception caught");
-							setStatusCode(1);
+							setStatusCode(4);
 							return null;
 						}
 						characterCount = getCharacterCount(input);
@@ -103,8 +104,7 @@ public class WcTool extends ATool implements IWcTool{
 					try {
 						input = readFile(filename);
 					} catch (IOException e) {
-						System.err.print("IO Exception caught");
-						setStatusCode(1);
+						setStatusCode(4);
 						return null;
 					}
 					for(int i = 1; i < args.length - 1; i++){
@@ -120,8 +120,7 @@ public class WcTool extends ATool implements IWcTool{
 							}
 						}
 						else{
-							System.err.println("Illegal Option");
-							setStatusCode(2);
+							setStatusCode(5);
 							return null;
 						}
 					}
