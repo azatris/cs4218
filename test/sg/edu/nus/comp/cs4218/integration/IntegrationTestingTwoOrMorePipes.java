@@ -49,7 +49,11 @@ public class IntegrationTestingTwoOrMorePipes {
 	}
 
 	/**
-	 * Test Combination of Sort, Uniq, Wc, and Cat in this order
+	 * Test combination of sort, uniq, wc and cat in this order
+	 * Sort, sort the content of a dummy file
+	 * Uniq, get unique line from the result of the sort
+	 * Wc, count the char, word, and new line character from the input of the uniq
+	 * Cat, pass the output of wc to stdout
 	 */
 	@Test
 	public void TestSortAndUniqAndWcAndCat(){
@@ -66,7 +70,10 @@ public class IntegrationTestingTwoOrMorePipes {
 	}
 	
 	/**
-	 * Test Combination of Uniq, Wc, and Cat in this order
+	 * Test combination of uniq, wc, and cat in this order
+	 * Uniq, get unique line from the content of a dummy file
+	 * Wc, count the char, word, and new line character from the input of the uniq
+	 * Cat, pass the output of wc to stdout
 	 */
 	@Test
 	public void TestUniqAndWcAndCat(){
@@ -82,7 +89,10 @@ public class IntegrationTestingTwoOrMorePipes {
 	}
 
 	/**
-	 * Test Combination of Uniq, Sort, and Cat in this order
+	 * Test combination of uniq, sort, and cat in this order
+	 * Uniq, get unique line from the content of a dummy file
+	 * Sort, sort the result of the uniq
+	 * Cat, pass the output of sort to stdout
 	 */
 	@Test
 	public void TestUniqAndSortAndCat(){
@@ -99,6 +109,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Combination of Sort, Uniq, and Cat in this order
+	 * Sort, sort the content of the dummy file
+	 * Uniq, get unique line from the output of the sort
+	 * Cat, pass the output of uniq to stdout
 	 */
 	@Test
 	public void TestSortAndUniqAndCat(){
@@ -115,6 +128,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Combination of Cat, Wc, and another Wc in this order
+	 * Cat, pass the content of dummy file to stdout
+	 * Wc, count the number of character, word, and new line from the result of cat
+	 * Wc, count the number of character, word, and new line from previous wc result
 	 */
 	@Test
 	public void TestCatAndWcAndWc(){
@@ -131,6 +147,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Combination of Uniq, Sort, and Paste in this order
+	 * Uniq, get unique line from the content of a dummy file
+	 * Sort, sort the result of the uniq
+	 * Paste, paste the result from uniq to stdout (since it is only 1 file, its behaviour supposed to be the same with cat)
 	 */
 	@Test
 	public void TestUniqAndSortAndPaste(){
@@ -147,6 +166,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Combination of Pwd, Cat, and Paste in this order
+	 * Pwd, get current abs path working directory
+	 * Cat, pass the abs path of current working directory to stdout
+	 * Paste, paste the result from cat to stdout (since it is only 1 file, its behaviour supposed to be the same with cat)
 	 */
 	@Test
 	public void TestPwdAndCatAndPaste(){
@@ -163,6 +185,9 @@ public class IntegrationTestingTwoOrMorePipes {
 	
 	/**
 	 * Test Combination of Pwd, Cat and Cut in this order
+	 * Pwd, get current abs path working directory
+	 * Cat, pass the abs path of current working directory to stdout
+	 * Cut (1-2), get the first two characters from the result of cat
 	 */
 	@Test
 	public void TestPwdAndCatAndCut(){
@@ -179,6 +204,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Combination of Uniq, Sort, and Cut in this order
+	 * Uniq, get unique line from the content of a dummy file
+	 * Sort, sort the result of the uniq
+	 * Cut (1-11), get the first eleven characters from the result of sort
 	 */
 	@Test
 	public void TestUniqAndSortAndCut(){
@@ -195,6 +223,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Combination of Comm, Sort, and Uniq in this order
+	 * Comm, compare two dummy files (dummy file 1 and dummy file 2)
+	 * Sort, sort the result of comparing two files
+	 * Uniq, get unique line from the result of the sort
 	 */
 	@Test
 	public void TestCommAndSortAndUniq(){
@@ -231,6 +262,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Combination of Comm, Sort, and Cut in this order
+	 * Comm, compare two dummy files (dummy file 1 and dummy file 2)
+	 * Sort, sort the result of comparing two files
+	 * Cut (1-10), get the first ten characters from the result of the sort
 	 */
 	@Test
 	public void TestCommAndSortAndCut(){
@@ -267,6 +301,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Combination of Paste, Sort, and Cat in this order
+	 * Paste, combine the content of two dummy files (dummy file 1 and dummy file 2) line by line separated by tab
+	 * Sort, sort the result of comparing two files
+	 * Cat, pass the result of the sort to stdout
 	 */
 	@Test
 	public void PasteAndSortAndCat(){
@@ -304,6 +341,10 @@ public class IntegrationTestingTwoOrMorePipes {
 	
 	/**
 	 * Test Combination of Paste, Sort, Cat and Wc in this order
+	 * Paste, combine the content of two dummy files (dummy file 1 and dummy file 2) line by line separated by tab
+	 * Sort, sort the result of comparing two files
+	 * Cat, pass the result of the sort to stdout
+	 * Wc, count the number of characters, words, and new lines from the result of the cat
 	 */
 	@Test
 	public void PasteAndSortAndCatAndWc(){
@@ -342,6 +383,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Broken Pipe, Invalid Input in First Tool in this case
+	 * Uniq, this tool is given an invalid parameter for the -f option, should terminate here by returning error status code, the pipe breaks here
+	 * Sort, this tool will never been executed since the pipe is broken
+	 * Cat, this tool will never been executed since the pipe is broken
 	 */
 	@Test
 	public void TestBrokenPipeWithInvalidInputInFirstToolUniq(){
@@ -356,6 +400,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Broken Pipe, Invalid Input in Second Tool in this case
+	 * Sort, sort the content of the dummy file
+	 * Uniq, this tool is given an invalid parameter for the -f option, should terminate here by returning error status code, the pipe breaks here
+	 * Cat, this tool will never been executed since the pipe is broken
 	 */
 	@Test
 	public void TestBrokenPipeWithInvalidInputInSecondTool(){
@@ -370,6 +417,9 @@ public class IntegrationTestingTwoOrMorePipes {
 
 	/**
 	 * Test Broken Pipe, Invalid Input in Third Tool in this case
+	 * Sort, sort the content of the dummy file
+	 * Cat, pass the result of sort to stdout
+	 * Uniq, this tool is given an invalid parameter for the -f option, should terminate here by returning error status code, the pipe breaks here
 	 */
 	@Test
 	public void TestBrokenPipeWithInvalidInputInThirdTool(){
