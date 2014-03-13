@@ -194,13 +194,11 @@ public class CommTool extends ATool implements ICommTool {
 						);
 			}else if (args.length == 4){
 				if (args[1].equals("-c")){
-					setStatusCode(0);
 					return compareFilesCheckSortStatus (
 							Common.concatenateDirectory(workingDir.getAbsolutePath(), args[2]), 
 							Common.concatenateDirectory(workingDir.getAbsolutePath(), args[3])
 							);
 				}else if (args[1].equals("-d")){
-					setStatusCode(0);
 					return compareFilesDoNotCheckSortStatus(
 							Common.concatenateDirectory(workingDir.getAbsolutePath(), args[2]), 
 							Common.concatenateDirectory(workingDir.getAbsolutePath(), args[3])
@@ -210,11 +208,11 @@ public class CommTool extends ATool implements ICommTool {
 					return "";
 				}
 			}else{
-				setStatusCode(98);
+				setStatusCode(2);
 				return "";
 			}
 		}else{
-			setStatusCode(1);
+			setStatusCode(2);
 			return "";
 		}
 	}
