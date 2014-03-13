@@ -74,7 +74,6 @@ public class CatTool extends ATool implements ICatTool {
 					strForFile = getStringForFile(new File(args[i]));
 				}else{
 					strForFile = getStringForFile(new File(Common.concatenateDirectory(workingDir.getAbsolutePath(), args[i])));
-					System.out.println(Common.concatenateDirectory(workingDir.getAbsolutePath(), args[i]));
 				}
 				if (strForFile == null){ 
 					strForFile = "cat: " + args[i] +": No such file or directory\n";
