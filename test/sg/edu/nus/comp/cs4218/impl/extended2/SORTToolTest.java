@@ -143,16 +143,24 @@ public class SORTToolTest {
 		assertEquals(result, "sort: unSortFile.txt:2 disorder: bbb\n");
 	}
 
-	//test checkIfSorted method on unsorted file
+	/**
+	 * test checkIfSorted method on unsorted file
+	 */
 	@Test
 	public void checkIfSortedTestForSortedFile() {
 		String result = sortTool.checkIfSorted("sortFile.txt");
 		assertEquals(result, "");
 	}
-		
-	public static void writeFile(String fileName, String s) throws IOException {
+	
+	/**
+	 * Writes a string str into a file (helper method)
+	 * @param fileName
+	 * @param str
+	 * @throws IOException
+	 */
+	public static void writeFile(String fileName, String str) throws IOException {
 		BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-		out.write(s);
+		out.write(str);
 		out.close();
 	}
 	

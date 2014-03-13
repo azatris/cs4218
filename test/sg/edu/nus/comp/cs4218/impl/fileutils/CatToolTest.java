@@ -24,7 +24,10 @@ public class CatToolTest {
 		catTool = null;
 	}
 	
-	//Testing String getStringForFile(File toRead)
+	/**
+	 * Testing String getStringForFile(File toRead)
+	 * @throws IOException
+	 */
 	@Test
 	public void getStringForEmptyFileTest() throws IOException {
 		File fileToRead = File.createTempFile("emptyfile", "cattmp");
@@ -36,6 +39,7 @@ public class CatToolTest {
 		fileToRead.delete();
 	}
 	
+	// TODO
 	@Test
 	public void getStringForExistingFileTest() throws IOException {
 		File fileToRead = File.createTempFile("random", "cattmp");
@@ -48,6 +52,7 @@ public class CatToolTest {
 		fileToRead.delete();
 	}
 	
+	// TODO
 	@Test
 	public void getStringForNonExistingFileTest() throws IOException {
 		File fileNonExists = File.createTempFile("nonExists", "cattmp");
@@ -60,6 +65,7 @@ public class CatToolTest {
 		assertTrue(catTool.getStatusCode() != 0);
 	}
 	
+	// TODO
 	@Test
 	public void getStringForExistingDirectoryTest() throws IOException {
 		File dirExists = Files.createTempDirectory("cattmpfolder").toFile();
@@ -73,6 +79,7 @@ public class CatToolTest {
 		dirExists.delete();
 	}
 	
+	// TODO
 	@Test
 	public void getStringForNonExistingDirectoryTest() throws IOException {
 		File dirNonExists = Files.createTempDirectory("cattmpfolder").toFile();
@@ -85,6 +92,7 @@ public class CatToolTest {
 		assertTrue(catTool.getStatusCode() != 0);
 	}
 	
+	// TODO
 	@Test
 	public void getStringForNullDirectoryTest() {
 		String[] args = {"cat", null};
@@ -93,8 +101,10 @@ public class CatToolTest {
 		assertTrue(catTool.getStatusCode() != 0);
 	}
 	
-	/*Testing String execute(File workingDir, String stdin)*/
-	// Test "cat -"
+	/**
+	 * Testing String execute(File workingDir, String stdin)
+	 * Test "cat -"
+	 */
 	@Test
 	public void catStdinTest() {
 		String[] args = {"cat", "-"};
@@ -105,7 +115,9 @@ public class CatToolTest {
 		assertTrue(result.equals(stdin));
 	}
 	
-	// Test cat one file in current directory "cat file1"
+	/**
+	 *  Test cat one file in current directory "cat file1"
+	 */
 	@Test
 	public void catOneFileInCurDirTest() {
 		String dummyFileName = "file1.txt";
@@ -123,7 +135,9 @@ public class CatToolTest {
 		}
 	}
 	
-	// Test cat one file in current directory but with dot "cat ./file1"
+	/**
+	 *  Test cat one file in current directory but with dot "cat ./file1"
+	 */
 	@Test
 	public void catOneFileInCurDirWithDotInPathTest() {
 		String dummyFileName = "file1.txt";
@@ -141,7 +155,9 @@ public class CatToolTest {
 		fileToRead.delete();
 	}
 	
-	// Test cat more than one (maybe three) file in current directory "cat file1 file2 file3"
+	/**
+	 *  Test cat more than one (maybe three) file in current directory "cat file1 file2 file3"
+	 */
 	@Test
 	public void catMoreThanOneFilesInCurDirTest() {
 		String dummyFileName1 = "file1.txt";
@@ -168,7 +184,9 @@ public class CatToolTest {
 		fileToRead3.delete();
 	}
 	
-	// Test cat file in parent directory "cat ../file1"
+	/**
+	 *  Test cat file in parent directory "cat ../file1"
+	 */
 	@Test
 	public void catFileInParentDirTest() {
 		String dummyFileName = "file1.txt";
@@ -186,7 +204,9 @@ public class CatToolTest {
 		fileToRead.delete();
 	}
 	
-	// Test cat files in Home Dir: Should fail, since we only consider relative directory
+	/**
+	 *  Test cat files in Home Dir: Should fail, since we only consider relative directory
+	 */
 	@Test
 	public void catFileInHomeDirTest() {
 		String dummyFileName = "file1.txt";
@@ -196,7 +216,9 @@ public class CatToolTest {
 		assertTrue(catTool.getStatusCode() != 0);
 	}
 	
-	// Test cat file in child directory "cat folder/file1"
+	/**
+	 *  Test cat file in child directory "cat folder/file1"
+	 */
 	@Test
 	public void catFileInChildDirTest() {
 		String dummyFileName = "file1.txt";
@@ -219,7 +241,9 @@ public class CatToolTest {
 
 	}
 	
-	// Test cat no arguments "cat"
+	/**
+	 *  Test cat no arguments "cat"
+	 */
 	@Test
 	public void catNoArgumentTest() {
 		String[] args = {"cat"};

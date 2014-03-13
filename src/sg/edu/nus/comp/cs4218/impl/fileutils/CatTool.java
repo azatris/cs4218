@@ -11,7 +11,6 @@ import sg.edu.nus.comp.cs4218.fileutils.ICatTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class CatTool extends ATool implements ICatTool {	
-
 	public CatTool(String[] arguments) {
 		super(arguments);
 		if (args == null ||args.length == 0 || !args[0].equals("cat")) {
@@ -20,6 +19,7 @@ public class CatTool extends ATool implements ICatTool {
 		}
 	}
 
+	// TODO
 	@Override
 	public String getStringForFile(File toRead) {
 		// Error Handling
@@ -56,6 +56,7 @@ public class CatTool extends ATool implements ICatTool {
 		return fileContents;
 	}
 
+	// TODO
 	@Override
 	public String execute(File workingDir, String stdin) {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -73,7 +74,6 @@ public class CatTool extends ATool implements ICatTool {
 					strForFile = getStringForFile(new File(args[i]));
 				}else{
 					strForFile = getStringForFile(new File(Common.concatenateDirectory(workingDir.getAbsolutePath(), args[i])));
-					System.out.println(Common.concatenateDirectory(workingDir.getAbsolutePath(), args[i]));
 				}
 				if (strForFile == null){ 
 					strForFile = "cat: " + args[i] +": No such file or directory\n";

@@ -16,9 +16,9 @@ import org.junit.Test;
 import sg.edu.nus.comp.cs4218.extended2.ICommTool;
 
 public class COMMToolTest {
-
 	private static ICommTool commTool; 
 	private static File myFile1, myFile2, myFile3, myFile4;
+	
 	public static void writeFile(File file, String s) throws IOException {
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 		out.write(s);
@@ -87,7 +87,9 @@ public class COMMToolTest {
 				result);
 	}
 
-	//test compareFiles method, without sorted file
+	/**
+	 * test compareFiles method, without sorted file
+	 */
 	@Test
 	public void compareFilesUnSortedFile1() {
 		String result = commTool.compareFiles(
@@ -102,22 +104,27 @@ public class COMMToolTest {
 				result);
 	}
 	
-	//test compareFiles method, without sorted file
-		@Test
-		public void compareFilesUnSortedFile2() {
-			String result = commTool.compareFiles(
-					myFile1.getAbsolutePath(), 
-					myFile3.getAbsolutePath());
-			assertEquals(
-					"aaa"+System.lineSeparator()+"\tzzz"+System.lineSeparator()+
-					"comm: File 2 is not in sorted order "+System.lineSeparator()+
-					"bbb"+System.lineSeparator()+"\tccc"+System.lineSeparator()+
-					"ccc"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
-					"ddd"+System.lineSeparator()+"\tbbb"+System.lineSeparator(),
-					result);
-		}
+	/**
+	 * test compareFiles method, without sorted file
+	 */
+	@Test
+	public void compareFilesUnSortedFile2() {
+		String result = commTool.compareFiles(
+				myFile1.getAbsolutePath(), 
+				myFile3.getAbsolutePath());
+		assertEquals(
+				"aaa"+System.lineSeparator()+"\tzzz"+System.lineSeparator()+
+				"comm: File 2 is not in sorted order "+System.lineSeparator()+
+				"bbb"+System.lineSeparator()+"\tccc"+System.lineSeparator()+
+				"ccc"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
+				"ddd"+System.lineSeparator()+"\tbbb"+System.lineSeparator(),
+				result);
+	}
 	
-	//test compareFiles method, with non-existing file
+	/**
+	 * test compareFiles method, with non-existing file
+	 * @throws IOException
+	 */
 	@Test
 	public void compareNonExistingFiles() throws IOException {
 		File nonExist = File.createTempFile("commNonExist", "");
@@ -131,7 +138,10 @@ public class COMMToolTest {
 		assertEquals(3, commTool.getStatusCode());
 	}
 		
-	//test compareFilesCheckSortStatus method, with sorted
+	/**
+	 * test compareFilesCheckSortStatus method, with sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesCheckSortStatusSortedFile() throws IOException { 
 		String result = commTool.compareFilesCheckSortStatus(
@@ -147,7 +157,10 @@ public class COMMToolTest {
 	}
 
 
-	//test compareFilesCheckSortStatus method, one not sorted
+	/**
+	 * test compareFilesCheckSortStatus method, one not sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesCheckSortStatusOneNotSorted() throws IOException { 
 		String result = commTool.compareFilesCheckSortStatus(
@@ -161,7 +174,10 @@ public class COMMToolTest {
 				result);
 	}
 	
-	//test compareFilesCheckSortStatus method, neither sorted
+	/**
+	 * test compareFilesCheckSortStatus method, neither sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesCheckSortStatusBothNotSorted() throws IOException { 
 		String result = commTool.compareFilesCheckSortStatus(
@@ -175,7 +191,10 @@ public class COMMToolTest {
 				result);
 	}
 	
-	//test compareFilesCheckSortStatus method, with non-existing file
+	/**
+	 * test compareFilesCheckSortStatus method, with non-existing file
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesCheckSortStatus() throws IOException {
 		File nonExist = File.createTempFile("commNonExist", "");
@@ -190,7 +209,10 @@ public class COMMToolTest {
 		assertEquals(3, commTool.getStatusCode());
 	}
 	
-	//test compareFilesDoNotCheckSortStatus method, with sorted
+	/**
+	 * test compareFilesDoNotCheckSortStatus method, with sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesDoNotCheckSortStatusSortedFile() throws IOException { 
 
@@ -205,7 +227,10 @@ public class COMMToolTest {
 				result);
 	}
 	
-	//test compareFilesDoNotCheckSortStatus method, without sorted
+	/**
+	 * test compareFilesDoNotCheckSortStatus method, without sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesDoNotCheckSortStatusNotSortedFile() throws IOException { 
 		String result = commTool.compareFilesDoNotCheckSortStatus(
@@ -221,7 +246,10 @@ public class COMMToolTest {
 
 	}
 	
-	//test compareFilesDoNotCheckSortStatus method, neither sorted
+	/**
+	 * test compareFilesDoNotCheckSortStatus method, neither sorted
+	 * @throws IOException
+	 */
 	@Test
 	public void compareFilesDoNotCheckSortStatusNeitherSortedFile() throws IOException { 
 		String result = commTool.compareFilesDoNotCheckSortStatus(
@@ -235,7 +263,9 @@ public class COMMToolTest {
 				result);
 	}
 
-	// test getHelp
+	/**
+	 *  test getHelp
+	 */
 	@Test
 	public void testGetHelp(){
 		String commHelp="comm : Compares two sorted files line by line. "

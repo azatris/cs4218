@@ -8,7 +8,6 @@ import sg.edu.nus.comp.cs4218.fileutils.IDeleteTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class DeleteTool extends ATool implements IDeleteTool {
-
 	public DeleteTool(String[] arguments) {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("delete")) {
@@ -16,6 +15,7 @@ public class DeleteTool extends ATool implements IDeleteTool {
 		}
 	}
 
+	// TODO
 	@Override
 	public boolean delete(File toDelete) {
 		if(toDelete != null && toDelete.delete()){
@@ -27,6 +27,7 @@ public class DeleteTool extends ATool implements IDeleteTool {
 		}
 	}
 	
+	// TODO
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if(args.length==1){

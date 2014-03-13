@@ -5,17 +5,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 
 import sg.edu.nus.comp.cs4218.extended2.IUniqTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class UniqTool extends ATool implements IUniqTool{
-
+	
+	private static PrintStream err = System.err;
 	/**
 	 * Constructor taking the arguments
 	 * @param	arguments	(args[0] is the command name)
 	 */
-	public UniqTool(String[] arguments) {
+	public UniqTool(final String[] arguments) {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("uniq")) {
 			setStatusCode(127);
@@ -27,13 +29,9 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * @param	filename	the given filename
 	 * @return	true if the file exists
 	 */
-	public static boolean checkFileExistence(String filename){
-		if(new File(filename).exists()){
-			return true;
-		}
-		else{
-			return false;
-		}
+	public static boolean checkFileExistence(final String filename){
+		File f = new File(filename);
+		return f.exists();
 	}
 
 	/**
@@ -41,17 +39,16 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * @param the name of the file
 	 * @return the content of the file
 	 */
-	public static String readFile(String filename) throws IOException{
-			FileInputStream inputStream = new FileInputStream(filename);
-			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-			StringBuilder builder = new StringBuilder();
-			int currentChar = br.read();
+	public static String readFile(final String filename) throws IOException{
+			final FileInputStream inputStream = new FileInputStream(filename);
+			final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			final StringBuilder builder = new StringBuilder();
+			int currentChar = reader.read();
 			while(currentChar != -1){
 				builder.append((char)currentChar);
-				currentChar = br.read();
+				currentChar = reader.read();
 			}
-			br.close();
-
+			reader.close();
 			inputStream.close();
 			return builder.toString();
 		}
@@ -62,7 +59,7 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * @param	NUM	number of token need to be skipped
 	 * @return	line with skipped tokens
 	 */
-		private String skipFields(String line, int NUM){
+		private String skipFields(final String line, final int NUM){
 			if(line == null || line.equals("")){
 				return "";
 			}
@@ -85,8 +82,9 @@ public class UniqTool extends ATool implements IUniqTool{
 			}
 		}
 
+		// TODO
 		@Override
-		public String execute(File workingDir, String stdin) {
+		public String execute(final File workingDir, final String stdin) {
 			String output = null;
 			if(args.length == 2){
 				if(args[1].equals("-help")){
@@ -104,8 +102,7 @@ public class UniqTool extends ATool implements IUniqTool{
 							try{
 								input = readFile(filename);
 							} catch (IOException e) {
-								System.err.print("IO Exception caught");
-								setStatusCode(1);
+								setStatusCode(4);
 								return null;
 							}
 							output = getUnique(true, input);
@@ -135,13 +132,13 @@ public class UniqTool extends ATool implements IUniqTool{
 								}
 								catch(NumberFormatException e){
 									setStatusCode(2);
-									System.err.println("-f needs to be followed with an int value");
+									err.println("-f needs to be followed with an int value");
 									return null;
 								}
 							}
 							else{
 								setStatusCode(2);
-								System.err.println("-f needs to be followed with skip number");
+								err.println("-f needs to be followed with skip number");
 								return null;
 							}
 						}
@@ -151,14 +148,12 @@ public class UniqTool extends ATool implements IUniqTool{
 						try{
 							Integer.parseInt(args[i]);
 							if(!(args[i-1].equals("-f"))){
-								setStatusCode(2);
-								System.err.println("Illegal Option");
+								setStatusCode(5);
 								return null;
 							}
 						}
 						catch(NumberFormatException e){
-							setStatusCode(2);
-							System.err.println("Illegal Option");
+							setStatusCode(5);
 							return null;
 						}
 					}
@@ -177,8 +172,7 @@ public class UniqTool extends ATool implements IUniqTool{
 						try {
 							input = readFile(filename);
 						} catch (IOException e) {
-							System.err.print("IO Exception caught");
-							setStatusCode(1);
+							setStatusCode(4);
 							return null;
 						}
 					}
@@ -202,7 +196,8 @@ public class UniqTool extends ATool implements IUniqTool{
 			return output;
 		}
 
-		/**Check the given input, and eliminate any duplicate line
+		/**
+		 * Check the given input, and eliminate any duplicate line
 		 * @param	checkCase	false if ignore checking the case
 		 * @param	input	the input to be checked
 		 * @return	the unique line
@@ -259,12 +254,13 @@ public class UniqTool extends ATool implements IUniqTool{
 			}
 		}
 
-		/**Check the given input, and eliminate any duplicate line (considering skipping some tokens)
+		/**
+		 * Check the given input, and eliminate any duplicate line (considering skipping some tokens)
 		 * @param	checkCase	false if ignore checking the case
 		 * @param	input	the input to be checked
 		 * @return	the unique line
 		 */
-		public String getUniqueSkipNum(int NUM, boolean checkCase, String input) {
+		public String getUniqueSkipNum(final int NUM, final boolean checkCase, final String input) {
 			if(input != null){
 				String[] line = null;
 				String lineSeparator = ""; //determine the line separator for the input (different OS different line separator)
@@ -296,7 +292,7 @@ public class UniqTool extends ATool implements IUniqTool{
 					//Set the offset
 					if(NUM <= 0){
 						setStatusCode(1);
-						System.err.println("Invalid Skip Number, Skip Number must be greater or equal to 0");
+						err.println("Invalid Skip Number, Skip Number must be greater or equal to 0");
 						return null;
 					}
 					else{

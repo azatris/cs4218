@@ -62,5 +62,6 @@ public class PrivateTestingExecutingCommandThread {
 		executingCommandThread.getMessage(statusCode, executionResult); //change the shell directory
 		String newDir = shell.getWorkingDirectory().getAbsolutePath(); //get new working directory
 		assertFalse(newDir.equals(oldWorkingDir)); //assert that the current working directory has been changed
+		dummyDirectory.delete();
 	}
 }

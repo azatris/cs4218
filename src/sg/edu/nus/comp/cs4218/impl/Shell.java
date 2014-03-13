@@ -34,10 +34,9 @@ public class Shell implements IShell {
 	private static final int THREE=3;
 	File workingDirectory = new File(System.getProperty("user.dir"));
 	private static PrintStream out = System.out;
-	static Thread executingThread = null; //Thread responsible for executing the command
 
 	/**
-	 * Get the corresponding tool depending on the given commmandline
+	 * Get the corresponding tool depending on the given command line
 	 * @param	commandline input typed by the user
 	 * @return	Tool that should be executed
 	 */
@@ -79,7 +78,7 @@ public class Shell implements IShell {
 	/**
 	 * Handle arguments differently for grep
 	 * @param	arguments Arguments given by the parser
-	 * @return	a string of arguments
+	 * @return	a string of arguments for the execution of the Tool
 	 */
 	public String[] getCommandArray(final String argument){
 		// Something could go wrong
@@ -108,11 +107,11 @@ public class Shell implements IShell {
 	 * The parser if a pattern and grep is the next running iTool
 	 * @param	hasPattern	A string array of length 3 with command and maybe option it there is any
 	 * as first parameter, The pattern as is second and the filename as the third paramenter.
-	 * @return	A argument array ready to process by grep.(args[0] == grep)
+	 * @return	An argument array ready to process by grep.(args[0] == grep)
 	 */
 	public String[] patternForGrep(final String[] hasPattern){
 		final String commandAndOption = hasPattern[0];
-		final String pattern=hasPattern[ONE];
+		final String pattern = hasPattern[ONE];
 		final String file = hasPattern[TWO];
 		final String[] firstPart = commandAndOption.split(" ");
 		final String[] files = file.split(" ");
@@ -177,9 +176,6 @@ public class Shell implements IShell {
 			break;
 		case "paste":
 			newCommand = new PASTETool(arguments);
-			for(String args: arguments){
-				System.out.println(args);
-			}
 			break;
 		case "sort":
 			newCommand = new SORTTool(arguments);
@@ -189,7 +185,7 @@ public class Shell implements IShell {
 			break;
 		case "Parsing failed":
 			newCommand = new WrongParsingTool(arguments);
-			System.out.println("Wrong parsing");
+			out.println("Wrong parsing");
 		default:
 			newCommand = null;
 		}
@@ -202,7 +198,7 @@ public class Shell implements IShell {
 	 * @return	thread which handles the execution of the given tool
 	 */
 	@Override
-	public Runnable execute(ITool tool) {
+	public Runnable execute(final ITool tool) {
 		String stdin = "";
 		final Thread runningThread = new ExecutingCommandThread(tool, stdin);
 		runningThread.start();
@@ -214,7 +210,7 @@ public class Shell implements IShell {
 	 * @param	toolExecution	a thread currently executing the tool
 	 */
 	@Override
-	public void stop(Runnable toolExecution) {
+	public void stop(final Runnable toolExecution) {
 		final Thread runningThread = (Thread)toolExecution;
 		if (runningThread != null){
 			if(runningThread.isAlive()){
@@ -234,6 +230,7 @@ public class Shell implements IShell {
 	 * 4. Execute the command and its arguments on the newly created thread. Exit with the status code of the executed command
 	 * 5. In the shell, wait for the thread to complete execution
 	 * 6. Report the exit status of the command to the user
+	 * We limit the number of tool that can be executed to 1 for each time, since ctrl-z can only stop the execution of the latest tool
 	 */
 	public static void main(final String[] args){
 		final Shell shell = new Shell(); //constructor
@@ -243,6 +240,7 @@ public class Shell implements IShell {
 		ITool parseResult;
 		final BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
+		Thread executingThread = null; //Thread responsible for executing the tool
 		do{
 			try {
 				commandLine = input.readLine(); //Get the command line
@@ -250,14 +248,14 @@ public class Shell implements IShell {
 						commandLine.equalsIgnoreCase("ctrl z")||
 						commandLine.equalsIgnoreCase("ctrlz")){
 					out.println("Stopping the running thread");
-					shell.stop(Shell.executingThread); //stop the execution when it reads ctrl-z
+					shell.stop(executingThread); //stop the execution when it reads ctrl-z
 				}
 				else if(commandLine.equalsIgnoreCase("exit")){
 					System.exit(0); //exit the shell
 				}
 				else{
 					parseResult = shell.parse(commandLine); //return the result of parsing
-					Shell.executingThread = (Thread)shell.execute(parseResult); //run the thread
+					executingThread = (Thread)shell.execute(parseResult); //run the thread
 				}
 			} catch (IOException e) {
 				out.print("IO Exception Caught\n");
@@ -308,6 +306,12 @@ public class Shell implements IShell {
 			case 3:
 				message = "No Such File or Directory";
 				break;
+			case 4:
+				message = "IO Exception Caught";
+				break;
+			case 5:
+				message = "Invalid option is detected for this tool";
+				break;
 			case 55:
 				//55 is our team special defined code to notify the shell to change workingDirectory
 				workingDirectory = new File(executionResult);
@@ -339,14 +343,13 @@ public class Shell implements IShell {
 			//check whether there is any tool to be executed here
 			if(executionTool != null){
 				final String executionResult = executionTool.execute(workingDirectory, standardIn);
-				int statusCode = executionTool.getStatusCode();
-				String message = getMessage(statusCode, executionResult);
+				final int statusCode = executionTool.getStatusCode();
+				final String message = getMessage(statusCode, executionResult);
 				if(message != null){
 					out.println(message);     
 					if(statusCode == 0 || statusCode == 55){
 						out.println("Program Execution Finishes, Exit Succesfully");
 					}
-					
 				}
 			}
 			else{

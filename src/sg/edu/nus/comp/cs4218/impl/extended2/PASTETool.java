@@ -14,7 +14,6 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
 
 public class PASTETool extends ATool implements IPasteTool {
-
 	public PASTETool(String[] arguments) {
 		super(arguments);
 		if (args.length == 0 || !args[0].equals("paste")) {

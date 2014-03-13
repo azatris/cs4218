@@ -34,6 +34,7 @@ public class CutTool extends ATool implements ICutTool {
 		}
 	}
 
+	// TODO
 	@Override
 	public String execute(File workingDir, String stdin) {
 		final String DELIM = "-d";
@@ -77,7 +78,7 @@ public class CutTool extends ATool implements ICutTool {
 	}
 
 
-
+	// TODO
 	@Override
 	public String cutSpecfiedCharacters(String list, String input) {
 		if(list == null || input ==null){
@@ -122,6 +123,7 @@ public class CutTool extends ATool implements ICutTool {
 
 	
 	
+	// TODO
 	private boolean[] listToPossitions(String list, int inputLenght){
 		LinkedList<Integer> allBlockNumbers = new LinkedList<Integer>();
 		boolean[] output = new boolean[inputLenght+1];
@@ -142,6 +144,7 @@ public class CutTool extends ATool implements ICutTool {
 		return new boolean[inputLenght+1];
 	}
 
+	// TODO
 	private LinkedList<Integer> parseString(String currentPart) {
 		String[] partsOfString= currentPart.split("-");
 		Integer firstPart;
@@ -172,6 +175,7 @@ public class CutTool extends ATool implements ICutTool {
 		return returnList;
 	}
 
+	// TODO
 	private Integer parseSingelNumber(String number) {
 		if(number.length() == 0){
 			setStatusCode(67);
@@ -188,11 +192,40 @@ public class CutTool extends ATool implements ICutTool {
 		return Integer.parseInt(number);
 	}
 
+	// TODO
+	@Override
+	public String cutSpecifiedCharactersUseDelimiter(String list, String delim,
+			String input) {
+		if(list == null || input ==null || delim==null){
+			setStatusCode(210);
+			return "";
+		}
+		if(!validDelim(delim)){
+			setStatusCode(83);
+			return "";
+		}
+		StringBuilder endResult = new StringBuilder();
+		String[] fieldArray = input.split(delim);
+		boolean[] possitions = listToPossitions(list, fieldArray.length);
+		for(int i=1; i<possitions.length; i++){
+			if(possitions[i]){
+				endResult.append(fieldArray[i-1]);
+				endResult.append(delim);
+			}
+		}
+		if(endResult.length()>0){
+		endResult.replace(endResult.length()-delim.length(), endResult.length(), "");
+		}
+		return endResult.toString();
+	}
+
+	// TODO
 	private boolean validDelim(String delim) {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
+	// TODO
 	@Override
 	public String getHelp() {
 		Properties prop = new Properties();

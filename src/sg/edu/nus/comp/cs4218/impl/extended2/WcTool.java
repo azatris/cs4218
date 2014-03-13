@@ -5,16 +5,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 
 import sg.edu.nus.comp.cs4218.extended2.IWcTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class WcTool extends ATool implements IWcTool{
-
 	/**
 	 * Constructor taking the arguments
 	 * @param	arguments	(args[0] is the command name)
 	 */
+
 	public WcTool(String[] arguments) {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("wc")) {
@@ -27,20 +28,18 @@ public class WcTool extends ATool implements IWcTool{
 	 * @param	filename	the name of the file
 	 * @return	the content of the file
 	 */
-	public static String readFile(String filename) throws IOException{
-			FileInputStream inputStream = new FileInputStream(filename);
-			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-			StringBuilder builder = new StringBuilder();
-			int currentChar = br.read();
-			while(currentChar != -1){
-				builder.append((char)currentChar);
-				currentChar = br.read();
-			}
-			br.close();
-
-			inputStream.close();
-			return builder.toString();
-
+	public static String readFile(final String filename) throws IOException{
+		final FileInputStream inputStream = new FileInputStream(filename);
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+		final StringBuilder builder = new StringBuilder();
+		int currentChar = reader.read();
+		while(currentChar != -1){
+			builder.append((char)currentChar);
+			currentChar = reader.read();
+		}
+		reader.close();
+		inputStream.close();
+		return builder.toString();
 	}
 
 	/**
@@ -49,16 +48,13 @@ public class WcTool extends ATool implements IWcTool{
 	 * @return	true if the file exists
 	 */
 	public static boolean checkFileExistence(String filename){
-		if(new File(filename).exists()){
-			return true;
-		}
-		else{
-			return false;
-		}
+		File f = new File(filename);
+		return f.exists();
 	}
 
+	// TODO
 	@Override
-	public String execute(File workingDir, String stdin) {
+	public String execute(final File workingDir, final String stdin) {
 		String characterCount = null;
 		String wordCount = null;
 		String newLineCount = null;
@@ -80,8 +76,7 @@ public class WcTool extends ATool implements IWcTool{
 						try {
 							input = readFile(filename);
 						} catch (IOException e) {		
-							System.err.print("IO Exception caught");
-							setStatusCode(1);
+							setStatusCode(4);
 							return null;
 						}
 						characterCount = getCharacterCount(input);
@@ -109,8 +104,7 @@ public class WcTool extends ATool implements IWcTool{
 					try {
 						input = readFile(filename);
 					} catch (IOException e) {
-						System.err.print("IO Exception caught");
-						setStatusCode(1);
+						setStatusCode(4);
 						return null;
 					}
 					for(int i = 1; i < args.length - 1; i++){
@@ -126,8 +120,7 @@ public class WcTool extends ATool implements IWcTool{
 							}
 						}
 						else{
-							System.err.println("Illegal Option");
-							setStatusCode(2);
+							setStatusCode(5);
 							return null;
 						}
 					}
@@ -164,7 +157,7 @@ public class WcTool extends ATool implements IWcTool{
 	 * @return	number of characters in the input
 	 */
 	@Override
-	public String getCharacterCount(String input) {
+	public String getCharacterCount(final String input) {
 		int count = 0;
 		if(input!=null){
 			count = input.length();
@@ -181,7 +174,7 @@ public class WcTool extends ATool implements IWcTool{
 	 * @return	number of words in the input
 	 */
 	@Override
-	public String getWordCount(String input) {
+	public String getWordCount(final String input) {
 		int count = 0;
 		if(input!=null){
 			String[] token = (input.trim()).split("\\s+");
@@ -199,7 +192,7 @@ public class WcTool extends ATool implements IWcTool{
 	 * @return	number of newlines in the input
 	 */
 	@Override
-	public String getNewLineCount(String input) {
+	public String getNewLineCount(final String input) {
 		int count = 0;
 		for(int i=0; i< input.length(); i++){
 			if(input.charAt(i) == '\n'){

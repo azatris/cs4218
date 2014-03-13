@@ -18,6 +18,7 @@ public class PipingTool implements IPipingTool {
 		workingDir=getWorkingdir();
 	}
 
+	// TODO
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if(arguments.length<TWO){
@@ -33,11 +34,14 @@ public class PipingTool implements IPipingTool {
 		return result;
 	}
 
+	// TODO
 	@Override
 	public int getStatusCode() {
 		return statuscode;
 
 	}
+	
+	// TODO
 	@Override
 	public String pipe(ITool from, ITool to) {
 		if(from == null || to == null){
@@ -71,7 +75,7 @@ public class PipingTool implements IPipingTool {
 		return result;
 	}
 
-
+	// TODO
 	@Override
 	public String pipe(String stdout, ITool to) {
 		if(to == null){
@@ -91,17 +95,20 @@ public class PipingTool implements IPipingTool {
 		return result;
 	}
 	
+	// TODO
 	private void setStatusCode(int value){
 		if(value != 55){
 			statuscode =value;
 		}
 	}
 
+	// TODO
 	private File getWorkingdir(){
 		String workdir = System.getProperty( "user.dir" );
 		return  new File(workdir);
 	}
 
+	// TODO
 	@Override
 	public boolean equals(Object object){
 		PipingTool pipe =(PipingTool) object;

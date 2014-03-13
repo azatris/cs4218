@@ -6,9 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -56,9 +53,9 @@ public class ShellGetCommandArray {
 		assertArrayEquals("parsing went wrong", result, actual);
 	}
 	
-/**
- * Many spaces don't work as intended
- */
+	/**
+	 * Many spaces don't work as intended
+	 */
 	@Test
 	public void manySpaces() {
 		String[] actual = new String[]{"ls", "","", "Sleep", "-"};
@@ -90,7 +87,7 @@ public class ShellGetCommandArray {
 	}
 	
 	/**
-	 * PAttern in not grep 
+	 * Pattern in not grep 
 	 */
 	@Test
 	public void quetionMarkNotInGrep() {

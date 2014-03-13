@@ -6,13 +6,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.hamcrest.core.IsEqual;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import sg.edu.nus.comp.cs4218.ITool;
-import sg.edu.nus.comp.cs4218.impl.ATool;
 import sg.edu.nus.comp.cs4218.impl.Shell;
 import sg.edu.nus.comp.cs4218.impl.extended1.PipingTool;
 import sg.edu.nus.comp.cs4218.impl.fileutils.CatTool;
@@ -36,6 +34,7 @@ public class ShellParse {
 			e.printStackTrace();			
 		}
 	}
+	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
@@ -65,7 +64,7 @@ public class ShellParse {
 	 * wrong input should be diffrent 
 	 */
 	@Test
-	public void Wrongnormal() {
+	public void wrongNormal() {
 		String args[] = new String[]{"cat", "asd.txt"};
 		ITool actual = new CatTool(args);
 		String input = prop.getProperty("normal");
@@ -73,6 +72,7 @@ public class ShellParse {
 		assertNotEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test
 	public void pattern() {
 		String[] args = new String[]{"grep", "Sleep", "-"};
@@ -82,6 +82,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test
 	public void manySpaces() {
 		String[] args = new String[]{"ls", "","", "Sleep", "-"};	
@@ -91,6 +92,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test
 	public void onlySpace() {
 		ITool actual = null;
@@ -99,6 +101,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test 
 	public void pipe() {
 		String[] ettA = new String[]{"ls"};
@@ -110,6 +113,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test 
 	public void pipe2() {
 		String[] twoA = new String[]{"ls"};
@@ -123,6 +127,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test 
 	public void pipeNotSame() {
 		String[] twoA = new String[]{"ls"};
@@ -136,6 +141,7 @@ public class ShellParse {
 		assertNotEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test 
 	public void pipewithpipeinpattern() {
 		String[] twoA = new String[]{"ls"};
@@ -147,6 +153,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
+	// TODO
 	@Test
 	public void patternSpacePipeSpace() {
 		String[] twoA = new String[]{"ls"};

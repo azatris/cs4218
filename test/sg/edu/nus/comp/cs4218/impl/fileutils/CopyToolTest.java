@@ -25,7 +25,10 @@ public class CopyToolTest {
 		copyTool = null;
 	}
 
-	//Testing boolean copy(File from, File to)
+	/**
+	 * Testing boolean copy(File from, File to)
+	 * @throws IOException
+	 */
 	@Test
 	public void copyFileToExistFileTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
@@ -46,6 +49,7 @@ public class CopyToolTest {
 		to.delete();
 	}
 
+	// TODO
 	@Test
 	public void copyFileToNonExistFileTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
@@ -65,6 +69,7 @@ public class CopyToolTest {
 		to.delete();
 	}
 
+	// TODO
 	@Test
 	public void copyFileToExistDirTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
@@ -85,6 +90,7 @@ public class CopyToolTest {
 		to.delete();
 	}
 
+	// TODO
 	@Test
 	public void copyFileToNonExistDirTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
@@ -104,6 +110,7 @@ public class CopyToolTest {
 		to.delete();
 	}
 
+	// TODO
 	@Test
 	public void copyFileToNullDirTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
@@ -118,6 +125,7 @@ public class CopyToolTest {
 		from.delete();
 	}
 
+	// TODO
 	@Test
 	public void copyNonExistFileTest() throws IOException {
 		File from = File.createTempFile("from","copytmp");
@@ -136,6 +144,7 @@ public class CopyToolTest {
 		to.delete();
 	}
 
+	// TODO
 	@Test
 	public void copyExistDirTest() throws IOException {
 		File from = Files.createTempDirectory("fromFoldercopytmp").toFile();
@@ -153,6 +162,7 @@ public class CopyToolTest {
 		to.delete();
 	}
 
+	// TODO
 	@Test
 	public void copyNonExistDirTest() throws IOException {
 		File from = Files.createTempDirectory("fromFoldercopytmp").toFile();
@@ -170,6 +180,7 @@ public class CopyToolTest {
 		to.delete();
 	}
 
+	// TODO
 	@Test
 	public void copyExecuteNullTest() {
 		String[] args = {"copy"};
@@ -178,8 +189,10 @@ public class CopyToolTest {
 		assertTrue(copyTool.getStatusCode()!=0);
 	}
 
-	/*String execute(File workingDir, String stdin)*/
-	// copy file1 file2 - in current directory
+	/**
+	 * String execute(File workingDir, String stdin)
+	 * copy file1 file2 - in current directory
+	 */
 	@Test
 	public void copyFileInCurDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -197,7 +210,10 @@ public class CopyToolTest {
 		to.delete();
 	}
 
-	// copy ../file1 ../file2
+	/**
+	 * copy ../file1 ../file2
+	 * @throws IOException
+	 */
 	@Test
 	public void copyFileInParentDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -219,7 +235,10 @@ public class CopyToolTest {
 		to.delete();
 	}
 
-	// copy dir1/file1 dir2/file2
+	/**
+	 * copy dir1/file1 dir2/file2
+	 * @throws IOException
+	 */
 	@Test
 	public void copyFileInChildDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -246,7 +265,10 @@ public class CopyToolTest {
 		toChild.delete();
 	}
 
-	// copy abs_path_file1 abs_path_file2
+	/**
+	 * copy abs_path_file1 abs_path_file2
+	 * @throws IOException
+	 */
 	@Test
 	public void copyAbsPathTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
@@ -269,7 +291,11 @@ public class CopyToolTest {
 		to.delete();
 	}
 
-	// copy file1
+	/**
+	 * copy file1
+	 * @throws IOException
+	 */
+	@Test
 	public void copyNoToDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","copytmp");
@@ -287,7 +313,11 @@ public class CopyToolTest {
 		from.delete();
 	}
 
-	// copy file1 file2 file3
+	/**
+	 * copy file1 file2 file3
+	 * @throws IOException
+	 */
+	@Test
 	public void copyToTwoDestiantionTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","copytmp");

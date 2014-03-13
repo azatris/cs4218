@@ -14,6 +14,7 @@ public class PWDTool extends ATool implements IPwdTool{
 		}
 	}
 
+	// TODO
 	@Override
 	public String getStringForDirectory(File directory) {
 		//Error Handling
@@ -25,6 +26,7 @@ public class PWDTool extends ATool implements IPwdTool{
 		return directory.getAbsolutePath();
 	}
 
+	// TODO
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length == 1){
