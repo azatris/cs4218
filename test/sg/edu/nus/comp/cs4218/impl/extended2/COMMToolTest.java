@@ -376,14 +376,14 @@ public class COMMToolTest {
 	 */
 	@Test
 	public void testExecuteWihtThreeWrongArgs() throws IOException{
-		File non_exist_1 = File.createTempFile("comm", "nonExist");
-		File non_exist_2 = File.createTempFile("comm", "nonExist");
-		commTool = new CommTool(new String[]{"comm", non_exist_1.getAbsolutePath(), non_exist_2.getAbsolutePath()});
+		File nonExist1 = File.createTempFile("comm", "nonExist");
+		File nonExist2 = File.createTempFile("comm", "nonExist");
+		commTool = new CommTool(new String[]{"comm", nonExist1.getAbsolutePath(), nonExist2.getAbsolutePath()});
 		
-		non_exist_1.delete();
-		non_exist_2.delete();
-		assertFalse(non_exist_1.exists());
-		assertFalse(non_exist_2.exists());
+		nonExist1.delete();
+		nonExist2.delete();
+		assertFalse(nonExist1.exists());
+		assertFalse(nonExist2.exists());
 		
 		assertEquals("", commTool.execute(workingDir, ""));
 		assertEquals(3, commTool.getStatusCode());
