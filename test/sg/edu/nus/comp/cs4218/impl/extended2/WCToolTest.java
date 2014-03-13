@@ -152,8 +152,7 @@ public class WCToolTest {
 			assertTrue(WcTool.checkFileExistence(tempFileName));
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 
@@ -174,8 +173,7 @@ public class WCToolTest {
 			tempFile.delete();
 			assertFalse(WcTool.checkFileExistence(tempFileName));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
@@ -231,8 +229,7 @@ public class WCToolTest {
 			assertEquals(0, tempWcTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
@@ -259,8 +256,7 @@ public class WCToolTest {
 			assertEquals(0, tempWcTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
@@ -287,8 +283,7 @@ public class WCToolTest {
 			assertEquals(0, tempWcTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	
@@ -312,8 +307,7 @@ public class WCToolTest {
 			assertNotEquals(0, tempWcTool.getStatusCode());
 			tempFile.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 	}
 	

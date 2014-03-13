@@ -97,7 +97,11 @@ public class CopyTool extends ATool implements ICopyTool {
 	}
 	
 	/**
-	 * Execute the copy
+	 * The general go-to method for using the tool that calls
+	 * the suitable submethods.
+	 * @param workingDir current working directory
+	 * @param stdin optional standard input from e.g. pipe tool
+	 * @return output
 	 */
 	@Override
 	public String execute(File workingDir, String stdin) {
