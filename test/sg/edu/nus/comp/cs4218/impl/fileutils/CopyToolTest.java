@@ -295,6 +295,7 @@ public class CopyToolTest {
 	 * copy file1
 	 * @throws IOException
 	 */
+	@Test
 	public void copyNoToDirTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","copytmp");
@@ -316,6 +317,7 @@ public class CopyToolTest {
 	 * copy file1 file2 file3
 	 * @throws IOException
 	 */
+	@Test
 	public void copyToTwoDestiantionTest() throws IOException {
 		File workingDir = new File(System.getProperty("user.dir"));
 		File from = File.createTempFile("from","copytmp");
