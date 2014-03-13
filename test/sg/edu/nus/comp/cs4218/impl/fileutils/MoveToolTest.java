@@ -262,7 +262,7 @@ public class MoveToolTest {
 		String[] args = {"move", from.getName(), to.getName()};
 		moveTool = new MoveTool(args);
 
-		assertNull(moveTool.execute(workingDir, null));
+		assertEquals("", moveTool.execute(workingDir, null));
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		
@@ -287,7 +287,7 @@ public class MoveToolTest {
 		};
 		moveTool = new MoveTool(args);
 
-		assertNull(moveTool.execute(workingDir, null));
+		assertEquals("", moveTool.execute(workingDir, null));
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		
@@ -315,7 +315,7 @@ public class MoveToolTest {
 		};
 		moveTool = new MoveTool(args);
 
-		assertNull(moveTool.execute(workingDir, null));
+		assertEquals("", moveTool.execute(workingDir, null));
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 
@@ -343,7 +343,7 @@ public class MoveToolTest {
 		};
 		moveTool = new MoveTool(args);
 
-		assertNull(moveTool.execute(workingDir, null));
+		assertEquals("", moveTool.execute(workingDir, null));
 		assertEquals(0, moveTool.getStatusCode());
 		assertFalse(from.exists());
 		
