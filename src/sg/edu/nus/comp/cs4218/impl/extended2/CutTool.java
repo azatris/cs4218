@@ -46,12 +46,15 @@ public class CutTool extends ATool implements ICutTool {
 		boolean haveDelim = false;
 		String input;
 		String returnvalue = "" ;
+		if(getStatusCode()!=0){
+			return "";
+		}
 		if(args[1]==HELP){
 			return getHelp();
 		}
 		if(args.length<4){
 			setStatusCode(127);
-			return "";
+			return"";
 		}
 		CatTool catTool = new CatTool(new String[]{"cat"});
 		int filePosistion = 3;

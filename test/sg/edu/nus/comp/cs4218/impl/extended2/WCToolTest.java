@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sg.edu.nus.comp.cs4218.extended2.IWcTool;
-import sg.edu.nus.comp.cs4218.helper.MessageHelper;
 
 public class WCToolTest {
 	private IWcTool wcTool;

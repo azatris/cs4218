@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sg.edu.nus.comp.cs4218.extended2.IUniqTool;
-import sg.edu.nus.comp.cs4218.helper.MessageHelper;
 
 public class UNIQToolTest {
 	private IUniqTool uniqTool;
