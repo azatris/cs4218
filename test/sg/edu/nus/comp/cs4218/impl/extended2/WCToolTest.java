@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -13,20 +12,35 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sg.edu.nus.comp.cs4218.extended2.IWcTool;
-import sg.edu.nus.comp.cs4218.helper.MessageHelper;
 
 public class WCToolTest {
 	private IWcTool wcTool;
+	private String fileContent;
+	private File tempFile;
+	private String tempFileName;
 
 	@Before
 	public void before() {
+		
 		String[] args = {"wc"};
 		wcTool = new WcTool(args);
+		try {
+		//Create a temp file and input some dummy content on it
+		tempFileName = "dummyfile";
+		tempFile = new File(tempFileName);
+		fileContent = "This is just a dummy file content \n The End\n";
+		DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+		out.writeBytes(fileContent);
+		out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@After
 	public void after() {
 		wcTool = null;
+		tempFile.delete();
 	}
 
 	/**
@@ -104,15 +118,7 @@ public class WCToolTest {
 	@Test
 	public void readFileValidFilenameTest() {
 		try {
-			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummyfile";
-			File tempFile = new File(tempFileName);
-			String fileContent = "This is just a dummy file content \n The End\n";
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
-			out.writeBytes(fileContent);
-			out.close();
 			assertEquals(fileContent, WcTool.readFile(tempFileName));
-			tempFile.delete();
 		} catch (IOException e) {
 			fail();
 		}
@@ -124,10 +130,9 @@ public class WCToolTest {
 	 */
 	@Test
 	public void readFileInvalidFilenameTest() {
-
-			String tempFileName = "invalidFilename";
+			String invalidFileName = "invalidFilename";
 			try {
-				WcTool.readFile(tempFileName);
+				WcTool.readFile(invalidFileName);
 				fail();
 			} catch (IOException e) {
 				//Exception Caught
@@ -141,19 +146,7 @@ public class WCToolTest {
 	 */
 	@Test
 	public void checkFileExistenceForExistingFile(){
-		try {
-			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummyfile";
-			File tempFile = new File(tempFileName);
-			String fileContent = "This is just a dummy file content \n The End\n";
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
-			out.writeBytes(fileContent);
-			out.close();
 			assertTrue(WcTool.checkFileExistence(tempFileName));
-			tempFile.delete();
-		} catch (IOException e) {
-			fail();
-		}
 	}
 
 	/**
@@ -162,19 +155,8 @@ public class WCToolTest {
 	 */
 	@Test
 	public void checkFileExistenceForNonExistingFile(){
-		try {
-			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummyfile";
-			File tempFile = new File(tempFileName);
-			String fileContent = "This is just a dummy file content \n The End\n";
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
-			out.writeBytes(fileContent);
-			out.close();
-			tempFile.delete();
-			assertFalse(WcTool.checkFileExistence(tempFileName));
-		} catch (IOException e) {
-			fail();
-		}
+			String invalidFileName = "invalidFilename";
+			assertFalse(WcTool.checkFileExistence(invalidFileName));
 	}
 	
 	/**
@@ -183,15 +165,6 @@ public class WCToolTest {
 	 */
 	@Test
 	public void executionTest(){
-		try {
-			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummyfile";
-			File tempFile = new File(tempFileName);
-			String fileContent = "This is just a dummy file content \n The End\n";
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
-			out.writeBytes(fileContent);
-			out.close();
-
 			WcTool tempWcTool = new WcTool(new String[]{"wc",tempFileName});
 			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
 			String expectedCharCount = tempWcTool.getCharacterCount(fileContent);
@@ -200,10 +173,6 @@ public class WCToolTest {
 			String expectedResult = "   Character: " + expectedCharCount + "   Word: " + expectedWordCount + "   New Line: " + expectedNewLineCount;
 			assertEquals(expectedResult, executionResult);
 			assertEquals(0, tempWcTool.getStatusCode());
-			tempFile.delete();
-		} catch (IOException e) {
-			fail();
-		}
 	}
 	
 	/**
@@ -212,25 +181,12 @@ public class WCToolTest {
 	 */
 	@Test
 	public void executionTestWithMOption(){
-		try {
-			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummyfile";
-			File tempFile = new File(tempFileName);
-			String fileContent = "This is just a dummy file content \n The End\n";
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
-			out.writeBytes(fileContent);
-			out.close();
-
 			WcTool tempWcTool = new WcTool(new String[]{"wc","-m",tempFileName});
 			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
 			String expectedCharCount = tempWcTool.getCharacterCount(fileContent);
 			String expectedResult = "   Character: " + expectedCharCount;
 			assertEquals(expectedResult, executionResult);
 			assertEquals(0, tempWcTool.getStatusCode());
-			tempFile.delete();
-		} catch (IOException e) {
-			fail();
-		}
 	}
 	
 	/**
@@ -239,25 +195,12 @@ public class WCToolTest {
 	 */
 	@Test
 	public void executionTestWithWOption(){
-		try {
-			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummyfile";
-			File tempFile = new File(tempFileName);
-			String fileContent = "This is just a dummy file content \n The End\n";
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
-			out.writeBytes(fileContent);
-			out.close();
-
 			WcTool tempWcTool = new WcTool(new String[]{"wc","-w",tempFileName});
 			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
 			String expectedWordCount = tempWcTool.getWordCount(fileContent);
 			String expectedResult = "   Word: " + expectedWordCount;
 			assertEquals(expectedResult, executionResult);
 			assertEquals(0, tempWcTool.getStatusCode());
-			tempFile.delete();
-		} catch (IOException e) {
-			fail();
-		}
 	}
 	
 	/**
@@ -266,25 +209,12 @@ public class WCToolTest {
 	 */
 	@Test
 	public void executionTestWithLOption(){
-		try {
-			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummyfile";
-			File tempFile = new File(tempFileName);
-			String fileContent = "This is just a dummy file content \n The End\n";
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
-			out.writeBytes(fileContent);
-			out.close();
-
 			WcTool tempWcTool = new WcTool(new String[]{"wc","-l",tempFileName});
 			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
 			String expectedNewLineCount = tempWcTool.getNewLineCount(fileContent);
 			String expectedResult = "   New Line: " + expectedNewLineCount;
 			assertEquals(expectedResult, executionResult);
 			assertEquals(0, tempWcTool.getStatusCode());
-			tempFile.delete();
-		} catch (IOException e) {
-			fail();
-		}
 	}
 	
 	/**
@@ -293,22 +223,9 @@ public class WCToolTest {
 	 */
 	@Test
 	public void executionTestWithIllegalOption(){
-		try {
-			//Create a temp file and input some dummy content on it
-			String tempFileName = "dummyfile";
-			File tempFile = new File(tempFileName);
-			String fileContent = "This is just a dummy file content \n The End\n";
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
-			out.writeBytes(fileContent);
-			out.close();
-
 			WcTool tempWcTool = new WcTool(new String[]{"wc","-z",tempFileName}); //-z is illegal option
 			tempWcTool.execute(new File(System.getProperty("user.dir")), null);
 			assertNotEquals(0, tempWcTool.getStatusCode());
-			tempFile.delete();
-		} catch (IOException e) {
-			fail();
-		}
 	}
 	
 	/**
