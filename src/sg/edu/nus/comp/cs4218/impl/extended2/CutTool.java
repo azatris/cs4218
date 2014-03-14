@@ -108,10 +108,14 @@ public class CutTool extends ATool implements ICutTool {
 	@Override
 	public String cutSpecifiedCharactersUseDelimiter(String list, String delim,
 			String input) {
+		if(delim==""){
+			return cutSpecfiedCharacters(list, input);
+		}
 		if(list == null || input ==null || delim==null){
 			setStatusCode(210);
 			return "";
 		}
+	
 		String splitdelim = java.util.regex.Pattern.quote(delim); 
 		StringBuilder endResult = new StringBuilder();
 		String[] fieldArray = input.split(splitdelim);

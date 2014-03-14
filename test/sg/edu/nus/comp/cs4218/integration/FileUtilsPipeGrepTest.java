@@ -191,8 +191,21 @@ public class FileUtilsPipeGrepTest {
 	public void testCatInvalidArguments() {
 		tool = new CatTool(new String[]{"cat"});
 		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
-		pipeTool.execute(Paths.get(".").toFile(), null);
+		String result =pipeTool.execute(Paths.get(".").toFile(), null);
+		assertEquals("Output not empty string", "", result);
 		assertNotEquals(0, pipeTool.getStatusCode());
 	}	
+
+	/**
+	 * Tests cat tool with pipe and grep with invalid number of arguments for Cat
+	 */
+	@Test
+	public void testCatInvalidArguments2() {
+		tool = new CutTool(new String[]{"NOT A TOOL"," -"});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		String result=pipeTool.execute(Paths.get(".").toFile(), null);
+		assertEquals("Output not empty string", "", result);
+		assertNotEquals(0, pipeTool.getStatusCode());
+	}
 	
 }

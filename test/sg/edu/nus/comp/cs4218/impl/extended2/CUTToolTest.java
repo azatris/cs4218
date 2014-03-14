@@ -137,6 +137,54 @@ public class CUTToolTest {
 		assertEquals("wrong statuscode", 127, cutTool.getStatusCode());
 	}
 	/**
+	 * Showes that regex specilla carecters is handel
+	 */
+	@Test
+	public void cutExecuteRegex(){
+		String [] args = new String[6];
+		args[0] = "cut";
+		args[1] = prop.getProperty("cutEReg1");
+		args[2] = prop.getProperty("cutEReg2");
+		args[3] = prop.getProperty("cutEReg3");
+		args[4] = prop.getProperty("cutEReg4");
+		args[5] = "-";
+		cutTool = new CutTool(args);
+		String output=cutTool.execute(new File("."), prop.getProperty("cutERegIn"));
+		assertEquals("wrong output", prop.getProperty("cutERegOut"), output);
+		assertEquals("Wrong statuscode", 0, cutTool.getStatusCode());
+	}
+	@Test
+	public void cutBadDelim(){
+		String [] args = new String[6];
+		args[0] = "cut";
+		args[1] = prop.getProperty("cutEBD1");
+		args[2] = prop.getProperty("cutEBD2");
+		args[3] = prop.getProperty("cutEBD3");
+		args[4] = prop.getProperty("cutEBd4");
+		args[5] = "-";
+		cutTool = new CutTool(args);
+		String output=cutTool.execute(new File("."), prop.getProperty("cutEBDIn"));
+		assertEquals("wrong output", prop.getProperty("cutEBDOut"), output);
+		assertNotEquals("Wrong statuscode", 0, cutTool.getStatusCode());
+	}
+	/**
+	 * Test what happens with empty string 
+	 */
+	@Test
+	public void cutDelimEmptyString(){
+		String [] args = new String[6];
+		args[0] = "cut";
+		args[1] = prop.getProperty("cutEES1");
+		args[2] = prop.getProperty("cutEES2");
+		args[3] = prop.getProperty("cutEES3");
+		args[4] = "";
+		args[5] = "-";
+		cutTool = new CutTool(args);
+		String output=cutTool.execute(new File("."), prop.getProperty("cutEESIn"));
+		assertEquals("wrong output", prop.getProperty("cutEESOut"), output);
+		assertEquals("Wrong statuscode", 0, cutTool.getStatusCode());
+	}
+	/**
 	 * Testing execute with inaccurate input.
 	 */
 	@Test
