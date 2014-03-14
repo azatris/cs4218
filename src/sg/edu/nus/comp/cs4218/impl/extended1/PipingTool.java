@@ -4,8 +4,10 @@ import java.io.File;
 
 import sg.edu.nus.comp.cs4218.ITool;
 import sg.edu.nus.comp.cs4218.extended1.IPipingTool;
+import sg.edu.nus.comp.cs4218.impl.ATool;
 
-public class PipingTool implements IPipingTool {
+
+public class PipingTool implements  IPipingTool {
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
 	private static final int TWO = 2;
@@ -15,33 +17,44 @@ public class PipingTool implements IPipingTool {
 	int statuscode=ZERO;
 	public PipingTool(ITool[] arguments){
 		this.arguments = arguments;
-		workingDir=getWorkingdir();
 	}
-
-	// TODO
+	
+/**
+ * Execute a pipeingtool
+ * @param Currentworiking directory 
+ * @param Stdin    
+ * @return A String 
+ * 
+ */
 	@Override
-	public String execute(File workingDir, String stdin) {
+	public String execute(File workingDirectory, String stdin) {
 		if(arguments.length<TWO){
 			setStatusCode(143);
 			return "";
 		}
-		
-		String result = pipe(arguments[ZERO], arguments[ONE]);
-
-		for(int loopValue=TWO; loopValue<arguments.length && statuscode==ZERO; loopValue++){
+		setWorkingdir(workingDirectory);
+		String result =stdin;
+		for(int loopValue=ZERO; loopValue<arguments.length && statuscode==ZERO; loopValue++){
 			result = pipe(result, arguments[loopValue]);
 		}
 		return result;
 	}
 
-	// TODO
+	/**
+	 * @return The statuscode
+	 */
 	@Override
 	public int getStatusCode() {
 		return statuscode;
 
 	}
-	
-	// TODO
+	/**
+	 * Running the first Tool with null as stdin
+	 * Then run the second Tool with the first tools output 
+	 * @param ATool
+	 * @param ATool
+	 * @return Output from the second Tool 
+	 */
 	@Override
 	public String pipe(ITool from, ITool to) {
 		if(from == null || to == null){
@@ -75,7 +88,12 @@ public class PipingTool implements IPipingTool {
 		return result;
 	}
 
-	// TODO
+	/**
+	 * @param String Stdout, A string from the last tool that was run
+	 * @param The next Tool to run
+	 * @retrun The result of the Tool
+	 *
+	 */
 	@Override
 	public String pipe(String stdout, ITool to) {
 		if(to == null){
@@ -95,20 +113,28 @@ public class PipingTool implements IPipingTool {
 		return result;
 	}
 	
-	// TODO
+	/**
+	 * Set statuscode
+	 * 55 should still be the same statuscode as before
+	 * @param value
+	 */
 	private void setStatusCode(int value){
 		if(value != 55){
 			statuscode =value;
 		}
 	}
 
-	// TODO
-	private File getWorkingdir(){
-		String workdir = System.getProperty( "user.dir" );
-		return  new File(workdir);
+	/**
+	 * Sets the working directory
+	 * @return
+	 */
+	private void setWorkingdir(File input){
+		workingDir = input;
 	}
 
-	// TODO
+	/**
+	 * Implements equals
+	 */
 	@Override
 	public boolean equals(Object object){
 		PipingTool pipe =(PipingTool) object;

@@ -60,7 +60,9 @@ public class TestPipeingTool {
 	public void setup(){
 	}
 	
-	// TODO
+	/**
+	 * Test echo|cat 
+	 */
 	@Test
 	public void canPipeTwoITools(){
 		String[] empty = new String[] {"cat", "-"};
@@ -76,7 +78,9 @@ public class TestPipeingTool {
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
 	
-	// TODO
+	/**
+	 * Test pipe with input 
+	 */
 	@Test
 	public void canPipeOneElement(){
 		String[] empty = new String[] {"cat", "-"};
@@ -89,8 +93,9 @@ public class TestPipeingTool {
 		assertEquals("Pipeing failed", result, actual);	
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
-	
-	// TODO
+	/**
+	 * test pipe with two inputs 
+	 */
 	@Test
 	public void excecuteWithTwoTools(){
 		String[] empty = new String[] {"cat", "-"};
@@ -105,8 +110,9 @@ public class TestPipeingTool {
 		assertEquals("Pipeing failed", "pipe.properties", actual);
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
-	
-	// TODO
+	/**
+	 * Test echo|cat|cat 
+	 */
 	@Test
 	public void excecuteWithThreeTools(){
 		String[] empty = new String[] {"cat", "-"};
@@ -123,7 +129,9 @@ public class TestPipeingTool {
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
 	
-	// TODO
+	/**
+	 * Test how it works to pass statuscodes 
+	 */
 	@Test 
 	public void passingOfsatusCode(){
 		String[] empty = new String[] {"cat", "-"};
@@ -139,8 +147,9 @@ public class TestPipeingTool {
 		assertEquals("Pipeing failed", "", actual);
 		assertTrue("Statuscode", 0 !=pipe.getStatusCode());
 	}
-	
-	// TODO
+	/**
+	 * Test that the pipingtool need more then 1 tool.
+	 */
 	@Test 
 	public void failOnOneITools(){
 		String[] a = new String[] {"echo", null};
@@ -153,7 +162,9 @@ public class TestPipeingTool {
 		assertTrue("Statuscode", 0 !=pipe.getStatusCode());
 	}
 	
-	// TODO
+	/**
+	 * Test what happens if null in Tools
+	 */
 	@Test 
 	public void nullInITools(){
 		ITool[] set = new ITool[2];

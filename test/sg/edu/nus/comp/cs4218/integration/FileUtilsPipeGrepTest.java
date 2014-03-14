@@ -83,7 +83,7 @@ public class FileUtilsPipeGrepTest {
 	 * Tests cd tool with pipe and grep
 	 */
 	@Test
-	public void testCs() {
+	public void testCd() {
 		tool = new CdTool(new String[]{"cd", "."});
 		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
 		String result = pipeTool.execute(Paths.get(".").toFile(), null);
@@ -180,8 +180,65 @@ public class FileUtilsPipeGrepTest {
 	public void testPwd() {
 		tool = new PWDTool(new String[]{"pwd"});
 		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
-		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+		String result = pipeTool.execute(new  File (System.getProperty("user.dir")), null);
 		assertEquals("Pwd pipe grep result incorrect", System.getProperty("user.dir"), result);
+	}	
+	
+	/**
+	 * Tests cat tool with pipe and grep with invalid number of arguments for Cat
+	 */
+	@Test
+	public void testCatInvalidArguments() {
+		tool = new CatTool(new String[]{"cat"});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		String result =pipeTool.execute(Paths.get(".").toFile(), null);
+		assertEquals("Output not empty string", "", result);
+		assertNotEquals(0, pipeTool.getStatusCode());
+	}	
+
+	/**
+	 * Tests cat tool with pipe and grep with invalid number of arguments for Cat
+	 */
+	@Test
+	public void testCatInvalidArguments2() {
+		tool = new CutTool(new String[]{"NOT A TOOL"," -"});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		String result=pipeTool.execute(Paths.get(".").toFile(), null);
+		assertEquals("Output not empty string", "", result);
+		assertNotEquals(0, pipeTool.getStatusCode());
+	}
+	
+	/**
+	 * Tests cd tool with pipe and grep with an invalid directory
+	 */
+	@Test
+	public void testCdInvalidArguments() {
+		tool = new CatTool(new String[]{"cd", "notAValidDirectory"});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		pipeTool.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(0, pipeTool.getStatusCode());
+	}	
+	
+	/**
+	 * Tests echo tool with pipe and grep with an invalid directory
+	 */
+	@Test
+	public void testEchoInvalidArguments() {
+		tool = new CatTool(new String[]{"echo"});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		pipeTool.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(0, pipeTool.getStatusCode());
+	}	
+	
+	/**
+	 * Tests pwd tool with pipe and grep with an invalid directory
+	 */
+	@Test
+	public void testPwdInvalidArguments() {
+		tool = new CatTool(new String[]{"pwd", "dummyArgument"});
+		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
+		pipeTool.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(0, pipeTool.getStatusCode());
 	}	
 	
 }

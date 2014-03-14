@@ -92,13 +92,12 @@ public class Shell implements IShell {
 		}
 		else if(hasPattern.length != ONE || hasPattern.length != THREE){
 			argumentArray = new String[ONE];
-			argumentArray[0] = "Parsing failed"; //TODO
+			argumentArray[0] = "Parsing failed"; 
 
 		}
 		else{
 			argumentArray = new String[ONE];
-			argumentArray[0] = "Parsing failed"; //TODO
-
+			argumentArray[0] = "Parsing failed"; 
 		}
 		return argumentArray;
 	}
@@ -185,7 +184,6 @@ public class Shell implements IShell {
 			break;
 		case "Parsing failed":
 			newCommand = new WrongParsingTool(arguments);
-			out.println("Wrong parsing");
 		default:
 			newCommand = null;
 		}
@@ -317,6 +315,8 @@ public class Shell implements IShell {
 				workingDirectory = new File(executionResult);
 				message = executionResult;
 				break;
+			case 67:
+				message = "List not right formated";
 			case 98:
 				message = "Parsing Failed";
 				break;

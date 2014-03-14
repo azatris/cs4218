@@ -44,8 +44,17 @@ public class CUTToolTest {
 		assertEquals(output11,cutTool.cutSpecfiedCharacters(list1,input1));
 
 	}
+	
+	@Test
+	public void cutWrongTool(){
+		cutTool = new CutTool(new String[]{"fail"});
+		assertEquals("They was strange", "", cutTool.execute(new File("."),"asd"));
+		assertEquals("Equals", 127, cutTool.getStatusCode());
+	}
 
-	// TODO
+	/**
+	 * Test shows that statuscode 67 is returned if no list is provided to CutSpecfiedcharacter
+	 */
 	@Test
 	public void cutSpecfiedCharactersListNoList(){
 		String list =prop.getProperty("cutSpecfiedCharactersListNoListLIST");
@@ -55,8 +64,10 @@ public class CUTToolTest {
 		assertEquals("Not empty string", result, actual);	
 		assertEquals("wrong status code", 67, cutTool.getStatusCode());
 	}
-	
-	// TODO
+	/**
+	 * Test shows that statuscode 67 is returned if the list isn't on this format
+	 * ([d]*[d1-d2],)+ where d,d1,d2 is a digit. 
+	 */
 	@Test
 	public void cutSpecfiedCharactersListNoNummerList(){
 		String list =prop.getProperty("cutSpecfiedCharactersListWrongListLIST");
@@ -102,7 +113,9 @@ public class CUTToolTest {
 		assertEquals(output1,cutTool.cutSpecifiedCharactersUseDelimiter(list1," ",input1));	
 	}
 
-	// TODO
+	/**
+	 * Testing execute with working input.
+	 */
 	@Test
 	public void cutExecuteInput(){
 		String [] args = new String[4];
@@ -115,7 +128,9 @@ public class CUTToolTest {
 		assertEquals("wrong output", prop.getProperty("output"), output);
 	}
 	
-	// TODO
+	/**
+	 * Testing execute with inaccurate input.
+	 */	
 	@Test
 	public void cutExecuteBadInput(){
 		String [] args = new String[4];
@@ -128,8 +143,57 @@ public class CUTToolTest {
 		assertEquals("wrong output", prop.getProperty("Boutput"), output);
 		assertEquals("wrong statuscode", 127, cutTool.getStatusCode());
 	}
-
-	// TODO
+	/**
+	 * Showes that regex specilla carecters is handel
+	 */
+	@Test
+	public void cutExecuteRegex(){
+		String [] args = new String[6];
+		args[0] = "cut";
+		args[1] = prop.getProperty("cutEReg1");
+		args[2] = prop.getProperty("cutEReg2");
+		args[3] = prop.getProperty("cutEReg3");
+		args[4] = prop.getProperty("cutEReg4");
+		args[5] = "-";
+		cutTool = new CutTool(args);
+		String output=cutTool.execute(new File("."), prop.getProperty("cutERegIn"));
+		assertEquals("wrong output", prop.getProperty("cutERegOut"), output);
+		assertEquals("Wrong statuscode", 0, cutTool.getStatusCode());
+	}
+	@Test
+	public void cutBadDelim(){
+		String [] args = new String[6];
+		args[0] = "cut";
+		args[1] = prop.getProperty("cutEBD1");
+		args[2] = prop.getProperty("cutEBD2");
+		args[3] = prop.getProperty("cutEBD3");
+		args[4] = prop.getProperty("cutEBd4");
+		args[5] = "-";
+		cutTool = new CutTool(args);
+		String output=cutTool.execute(new File("."), prop.getProperty("cutEBDIn"));
+		assertEquals("wrong output", prop.getProperty("cutEBDOut"), output);
+		assertNotEquals("Wrong statuscode", 0, cutTool.getStatusCode());
+	}
+	/**
+	 * Test what happens with empty string 
+	 */
+	@Test
+	public void cutDelimEmptyString(){
+		String [] args = new String[6];
+		args[0] = "cut";
+		args[1] = prop.getProperty("cutEES1");
+		args[2] = prop.getProperty("cutEES2");
+		args[3] = prop.getProperty("cutEES3");
+		args[4] = "";
+		args[5] = "-";
+		cutTool = new CutTool(args);
+		String output=cutTool.execute(new File("."), prop.getProperty("cutEESIn"));
+		assertEquals("wrong output", prop.getProperty("cutEESOut"), output);
+		assertEquals("Wrong statuscode", 0, cutTool.getStatusCode());
+	}
+	/**
+	 * Testing execute with inaccurate input.
+	 */
 	@Test
 	public void cutExecuteBad2Input(){
 		String [] args = new String[4];
@@ -143,7 +207,9 @@ public class CUTToolTest {
 		assertEquals("wrong statuscode", 67, cutTool.getStatusCode());
 	}
 	
-	// TODO
+	/**
+	 * Testing getHelp.
+	 */
 	@Test
 	public void cutGetHelp(){
 		String oracel = prop.getProperty("cutHelp");
