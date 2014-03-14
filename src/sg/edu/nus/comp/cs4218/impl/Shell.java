@@ -315,6 +315,8 @@ public class Shell implements IShell {
 				workingDirectory = new File(executionResult);
 				message = executionResult;
 				break;
+			case 67:
+				message = "List not right formated";
 			case 98:
 				message = "Parsing Failed";
 				break;
