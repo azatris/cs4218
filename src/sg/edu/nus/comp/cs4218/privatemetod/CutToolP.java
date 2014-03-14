@@ -191,7 +191,9 @@ public class CutToolP extends ATool implements ICutTool {
 	}
 
 
-
+	/**
+	 * Return the helpmessage 
+	 */
 	@Override
 	public String getHelp() {
 		Properties prop = new Properties();

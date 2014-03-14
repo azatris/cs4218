@@ -45,7 +45,9 @@ public class CUTToolTest {
 
 	}
 
-	// TODO
+	/**
+	 * Test shows that statuscode 67 is returned if no list is provided to CutSpecfiedcharacter
+	 */
 	@Test
 	public void cutSpecfiedCharactersListNoList(){
 		String list =prop.getProperty("cutSpecfiedCharactersListNoListLIST");
@@ -55,8 +57,10 @@ public class CUTToolTest {
 		assertEquals("Not empty string", result, actual);	
 		assertEquals("wrong status code", 67, cutTool.getStatusCode());
 	}
-	
-	// TODO
+	/**
+	 * Test shows that statuscode 67 is returned if the list isn't on this format
+	 * ([d]*[d1-d2],)+ where d,d1,d2 is a digit. 
+	 */
 	@Test
 	public void cutSpecfiedCharactersListNoNummerList(){
 		String list =prop.getProperty("cutSpecfiedCharactersListWrongListLIST");
@@ -102,7 +106,9 @@ public class CUTToolTest {
 		assertEquals(output1,cutTool.cutSpecifiedCharactersUseDelimiter(list1," ",input1));	
 	}
 
-	// TODO
+	/**
+	 * Testing execute with working input.
+	 */
 	@Test
 	public void cutExecuteInput(){
 		String [] args = new String[4];
@@ -115,7 +121,9 @@ public class CUTToolTest {
 		assertEquals("wrong output", prop.getProperty("output"), output);
 	}
 	
-	// TODO
+	/**
+	 * Testing execute with inaccurate input.
+	 */	
 	@Test
 	public void cutExecuteBadInput(){
 		String [] args = new String[4];
@@ -128,8 +136,9 @@ public class CUTToolTest {
 		assertEquals("wrong output", prop.getProperty("Boutput"), output);
 		assertEquals("wrong statuscode", 127, cutTool.getStatusCode());
 	}
-
-	// TODO
+	/**
+	 * Testing execute with inaccurate input.
+	 */
 	@Test
 	public void cutExecuteBad2Input(){
 		String [] args = new String[4];
@@ -143,7 +152,9 @@ public class CUTToolTest {
 		assertEquals("wrong statuscode", 67, cutTool.getStatusCode());
 	}
 	
-	// TODO
+	/**
+	 * Testing getHelp.
+	 */
 	@Test
 	public void cutGetHelp(){
 		String oracel = prop.getProperty("cutHelp");

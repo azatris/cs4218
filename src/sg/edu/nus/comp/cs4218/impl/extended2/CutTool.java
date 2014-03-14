@@ -33,21 +33,28 @@ public class CutTool extends ATool implements ICutTool {
 			setStatusCode(127);
 		}
 	}
-
+    
+    /**
+     * Run the execute of cut Tool
+     */
 	@Override
 	public String execute(File workingDir, String stdin) {
 		final String DELIM = "-d";
 		final String DASH = "-";
 		final String LIST = "-c";
+		final String HELP ="-help";
 		boolean haveDelim = false;
 		String input;
 		String returnvalue = "" ;
-		CatTool catTool = new CatTool(new String[]{"cat"});
-		int filePosistion = 3;
+		if(args[1]==HELP){
+			return getHelp();
+		}
 		if(args.length<4){
 			setStatusCode(127);
 			return "";
 		}
+		CatTool catTool = new CatTool(new String[]{"cat"});
+		int filePosistion = 3;
 		if(args.length == 6){
 			if(args[3].equalsIgnoreCase(DELIM)){
 				filePosistion = 5;
@@ -65,19 +72,20 @@ public class CutTool extends ATool implements ICutTool {
 		if(!args[1].equalsIgnoreCase(LIST)){
 			setStatusCode(127);
 		}
-		
 		if(haveDelim){
 			returnvalue = cutSpecifiedCharactersUseDelimiter(args[2], args[4], input);
 		}
 		else {
 			returnvalue = cutSpecfiedCharacters(args[2], input);
 		}
-		
 		return returnvalue;
 	}
 
 
-
+	/**
+	 * Cut a string after every char. Then take chars in the possitions
+	 * given in the list and rebuild it to a string; 
+	 */
 	@Override
 	public String cutSpecfiedCharacters(String list, String input) {
 		if(list == null || input ==null){
@@ -93,7 +101,10 @@ public class CutTool extends ATool implements ICutTool {
 		}
 		return endResult.toString();
 	}
-	
+	/**
+	 * Cut a string after every char. Then take chars in the possitions
+	 * given in the list and rebuild it to a string;
+	 */
 	@Override
 	public String cutSpecifiedCharactersUseDelimiter(String list, String delim,
 			String input) {
@@ -117,6 +128,14 @@ public class CutTool extends ATool implements ICutTool {
 		return endResult.toString();
 	}
 
+	/**
+	 * Transforms the a String to a boolean array where positons 
+	 * is true if it is in the list 
+	 * @param list on the format ([d]|[d1-d2])* d1<d2
+	 * @param inputLenght length of total position i text
+	 * @return boolean array where all positions in the list 
+	 * if they are shorter then inputlength
+	 */
 	
 	private boolean[] listToPossitions(String list, int inputLenght){
 		LinkedList<Integer> allBlockNumbers = new LinkedList<Integer>();
@@ -137,7 +156,12 @@ public class CutTool extends ATool implements ICutTool {
 		}
 		return new boolean[inputLenght+1];
 	}
-
+	
+	/**
+     * Parameter a string on fromation [d]|[d1-d2] where d is a int
+     * output a linkedlist with Integers d or d1-d2
+     */
+	
 	private LinkedList<Integer> parseString(String currentPart) {
 		String[] partsOfString= currentPart.split("-");
 		Integer firstPart;
@@ -165,7 +189,12 @@ public class CutTool extends ATool implements ICutTool {
 		}
 		return returnList;
 	}
-
+	/**
+	 * Check if the string can be parsed to a number [0-9]  
+	 * @param number
+	 * @return number as int 
+	 * @return -1 if number cannot be parsed   
+	 */
 	private Integer parseSingelNumber(String number) {
 		if(number.length() == 0){
 			setStatusCode(67);
@@ -181,12 +210,9 @@ public class CutTool extends ATool implements ICutTool {
 		}
 		return Integer.parseInt(number);
 	}
-
-	private boolean validDelim(String delim) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
+	/**
+	 * Returns help messsage
+	 */
 	@Override
 	public String getHelp() {
 		Properties prop = new Properties();
