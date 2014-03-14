@@ -342,7 +342,7 @@ public class ChangeingStateTest {
 		ITool ls = new LsTool(new String[] {"ls"});
 		String output =System.getProperty("user.dir")+ umapName;
 		String answer = ls.execute(new File(output), null);
-		assertEquals("error", "asd	hallo	sleep\\	",answer);
+		assertEquals("error", "asd	hallo	sleep"+File.separator+"\t",answer);
 		ITool pwd = new PWDTool(new String[]{"pwd"});
 		assertEquals("error", output, (pwd.execute(new File(output), "")));
 		
