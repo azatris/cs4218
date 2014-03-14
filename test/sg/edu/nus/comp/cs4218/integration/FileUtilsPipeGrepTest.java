@@ -180,7 +180,8 @@ public class FileUtilsPipeGrepTest {
 	public void testPwd() {
 		tool = new PWDTool(new String[]{"pwd"});
 		pipeTool = new PipingTool(new ITool[]{tool, grepTool});
-		String result = pipeTool.execute(Paths.get(".").toFile(), null);
+		String result = pipeTool.execute(new  File (System.getProperty("user.dir")), null);
+		System.out.println(Paths.get(".").toFile() + "Paths.get(\".\")");
 		assertEquals("Pwd pipe grep result incorrect", System.getProperty("user.dir"), result);
 	}	
 	

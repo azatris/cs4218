@@ -55,7 +55,6 @@ public class PipingTool implements  IPipingTool {
 	 * @param ATool
 	 * @return Output from the second Tool 
 	 */
-	// TODO
 	@Override
 	public String pipe(ITool from, ITool to) {
 		if(from == null || to == null){

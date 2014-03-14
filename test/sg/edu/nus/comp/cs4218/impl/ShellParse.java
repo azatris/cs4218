@@ -24,7 +24,7 @@ public class ShellParse {
 	public ShellParse(){
 		shell = new Shell();
 	}
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		prop = new Properties();
@@ -34,11 +34,11 @@ public class ShellParse {
 			e.printStackTrace();			
 		}
 	}
-	
+
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
-	
+
 	@Test
 	public void normal() {
 		String args[] = new String[]{"cat", "from.txt"};
@@ -47,7 +47,7 @@ public class ShellParse {
 		ITool result = shell.parse(input);
 		assertEquals("NOT THE SAME", actual, result);
 	}
-	
+
 	/**
 	 * as equals is define it can't find diffrence in what 
 	 * called the value
@@ -61,7 +61,7 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	/**
-	 * wrong input should be diffrent 
+	 * wrong input should be different 
 	 */
 	@Test
 	public void wrongNormal() {
@@ -71,8 +71,10 @@ public class ShellParse {
 		ITool result = shell.parse(input);
 		assertNotEquals("NOT THE SAME", actual, result);
 	}
-	
-	// TODO
+
+	/**
+	 * Test the pattern working with grepTool
+	 */
 	@Test
 	public void pattern() {
 		String[] args = new String[]{"grep", "Sleep", "-"};
@@ -81,8 +83,9 @@ public class ShellParse {
 		ITool result = shell.parse(input);
 		assertEquals("NOT THE SAME", actual, result);
 	}
-	
-	// TODO
+	/**
+	 * Testing parsing many spaces after each other.
+	 */
 	@Test
 	public void manySpaces() {
 		String[] args = new String[]{"ls", "","", "Sleep", "-"};	
@@ -91,8 +94,10 @@ public class ShellParse {
 		ITool result = shell.parse(input);
 		assertEquals("NOT THE SAME", actual, result);
 	}
-	
-	// TODO
+
+	/**
+	 * Testing parsing with only spaces as input
+	 */
 	@Test
 	public void onlySpace() {
 		ITool actual = null;
@@ -100,8 +105,9 @@ public class ShellParse {
 		ITool result = shell.parse(input);
 		assertEquals("NOT THE SAME", actual, result);
 	}
-	
-	// TODO
+	/**
+	 * Testing parsing a pipe command.
+	 */
 	@Test 
 	public void pipe() {
 		String[] ettA = new String[]{"ls"};
@@ -113,35 +119,41 @@ public class ShellParse {
 		assertEquals("NOT THE SAME", actual, result);
 	}
 	
-	// TODO
+	/**
+	 * Test parsing another pipecommand 
+	 * 
+	 */
 	@Test 
 	public void pipe2() {
 		String[] twoA = new String[]{"ls"};
 		String[] twoB = new String[]{"cat","txt.s"};
 		String[] twoc = new String[]{"ls"};
 		ITool[] args = new ITool[]{new LsTool(twoA), new CatTool(twoB)
-			, new LsTool(twoc)};
+		, new LsTool(twoc)};
 		PipingTool actual = new PipingTool(args);
 		String input = prop.getProperty("pipe2");
 		PipingTool result = (PipingTool) shell.parse(input);
 		assertEquals("NOT THE SAME", actual, result);
 	}
-	
-	// TODO
+
+	/**
+	 * Testing when pipe doesn't give the same data
+	 */
 	@Test 
 	public void pipeNotSame() {
 		String[] twoA = new String[]{"ls"};
 		String[] twoB = new String[]{"hallo","txt.s"};
 		String[] twoc = new String[]{"ls"};
 		ITool[] args = new ITool[]{new LsTool(twoA), new CatTool(twoB)
-			, new LsTool(twoc)};
+		, new LsTool(twoc)};
 		PipingTool actual = new PipingTool(args);
 		String input = prop.getProperty("pipe2");
 		PipingTool result = (PipingTool) shell.parse(input);
 		assertNotEquals("NOT THE SAME", actual, result);
 	}
-	
-	// TODO
+	/**
+	 * Test what happens if grep has a pipe in it's pattern
+	 */
 	@Test 
 	public void pipewithpipeinpattern() {
 		String[] twoA = new String[]{"ls"};
@@ -152,8 +164,10 @@ public class ShellParse {
 		PipingTool result = (PipingTool) shell.parse(input);
 		assertEquals("NOT THE SAME", actual, result);
 	}
-	
-	// TODO
+
+	/**
+	 * Test showing that patter with " | " does't work
+	 */ 
 	@Test
 	public void patternSpacePipeSpace() {
 		String[] twoA = new String[]{"ls"};
@@ -164,5 +178,5 @@ public class ShellParse {
 		PipingTool result = (PipingTool) shell.parse(input);
 		assertNotEquals("NOT THE SAME", actual, result);
 	}
-	
+
 }
