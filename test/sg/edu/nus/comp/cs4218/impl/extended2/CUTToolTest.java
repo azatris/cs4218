@@ -44,6 +44,13 @@ public class CUTToolTest {
 		assertEquals(output11,cutTool.cutSpecfiedCharacters(list1,input1));
 
 	}
+	
+	@Test
+	public void cutWrongTool(){
+		cutTool = new CutTool(new String[]{"fail"});
+		assertEquals("They was strange", "", cutTool.execute(new File("."),"asd"));
+		assertEquals("Equals", 127, cutTool.getStatusCode());
+	}
 
 	/**
 	 * Test shows that statuscode 67 is returned if no list is provided to CutSpecfiedcharacter

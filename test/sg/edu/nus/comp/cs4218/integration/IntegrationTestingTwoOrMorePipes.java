@@ -300,6 +300,84 @@ public class IntegrationTestingTwoOrMorePipes {
 	}
 
 	/**
+	 * Test Combination of Comm, Sort, and Cut in this order
+	 * Comm, compare two dummy files (dummy file 1 and dummy file 2)
+	 * Sort, sort the result of comparing two files
+	 * Wc, count the number of characters, words, and new lines from the result of sort
+	 */
+	@Test
+	public void testCommAndSortAndWc(){
+		try {
+			//temp file 1
+			String tempFileName1 = "dummyfile1";
+			File tempFile1 = new File(tempFileName1);
+			String fileContent1 = "The first line of first file\nThe second line of first file\n";
+			DataOutputStream out1 = new DataOutputStream(new FileOutputStream(tempFile1));
+			out1.writeBytes(fileContent1);
+			out1.close();
+			//temp file 2
+			String tempFileName2 = "dummyfile2";
+			File tempFile2 = new File(tempFileName2);
+			String fileContent2 = "The first line of second file\nThe second line of second file\n";
+			DataOutputStream out2 = new DataOutputStream(new FileOutputStream(tempFile2));
+			out2.writeBytes(fileContent2);
+			out2.close();
+			CommTool commTool = new CommTool(new String[]{"comm",tempFileName1,tempFileName2});
+			SORTTool sortTool = new SORTTool(new String[]{"sort","-"});
+			WcTool wcTool = new WcTool(new String[]{"wc","-"});
+			ITool[] toolCollections = {commTool,sortTool,wcTool};
+			PipingTool pipingTool = new PipingTool(toolCollections);
+			String result = pipingTool.execute(workingDirectory,null);
+			String expectedResult = "   Character: 122   Word: 24   New Line: 4";
+			assertEquals(expectedResult,result);
+			assertEquals(0,pipingTool.getStatusCode());
+			tempFile1.delete();
+			tempFile2.delete();
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	/**
+	 * Test Combination of Comm, Sort, and Cut in this order
+	 * Comm, compare two dummy files (dummy file 1 and dummy file 2)
+	 * Cut (1-10), get the first ten characters from the result of the comm
+	 * Wc, count the number of characters, words, and new lines from the result of the cut
+	 */
+	@Test
+	public void testCommAndCutAndWc(){
+		try {
+			//temp file 1
+			String tempFileName1 = "dummyfile1";
+			File tempFile1 = new File(tempFileName1);
+			String fileContent1 = "The first line of first file\nThe second line of first file\n";
+			DataOutputStream out1 = new DataOutputStream(new FileOutputStream(tempFile1));
+			out1.writeBytes(fileContent1);
+			out1.close();
+			//temp file 2
+			String tempFileName2 = "dummyfile2";
+			File tempFile2 = new File(tempFileName2);
+			String fileContent2 = "The first line of second file\nThe second line of second file\n";
+			DataOutputStream out2 = new DataOutputStream(new FileOutputStream(tempFile2));
+			out2.writeBytes(fileContent2);
+			out2.close();
+			CommTool commTool = new CommTool(new String[]{"comm",tempFileName1,tempFileName2});
+			CutTool cutTool = new CutTool(new String[]{"cut","-c","1-10","-"});
+			WcTool wcTool = new WcTool(new String[]{"wc","-"});
+			ITool[] toolCollections = {commTool,cutTool,wcTool};
+			PipingTool pipingTool = new PipingTool(toolCollections);
+			String result = pipingTool.execute(workingDirectory,null);
+			String expectedResult = "   Character: 10   Word: 2   New Line: 0";
+			assertEquals(expectedResult,result);
+			assertEquals(0,pipingTool.getStatusCode());
+			tempFile1.delete();
+			tempFile2.delete();
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	/**
 	 * Test Combination of Paste, Sort, and Cat in this order
 	 * Paste, combine the content of two dummy files (dummy file 1 and dummy file 2) line by line separated by tab
 	 * Sort, sort the result of comparing two files

@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sg.edu.nus.comp.cs4218.extended2.IUniqTool;
-import sg.edu.nus.comp.cs4218.helper.MessageHelper;
 
 public class UNIQToolTest {
 	private IUniqTool uniqTool;
@@ -116,8 +115,7 @@ public class UNIQToolTest {
 				fail();
 			} catch (IOException e) {
 				//Exception Caught
-			}
-		
+			}	
 	}
 	
 	/**
@@ -292,7 +290,7 @@ public class UNIQToolTest {
 	}
 	
 	/**
-	 * Test executing with Illegal Option (Zero)
+	 * Test executing with Illegal Skip Number (Zero)
 	 * Method to be tested: execute(File workingDir, String stdin)
 	 */
 	@Test
