@@ -1,6 +1,7 @@
 package sg.edu.nus.comp.cs4218.impl.fileutils;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,8 +23,13 @@ public class LsTool extends ATool implements ILsTool {
 	 */
 	@Override
 	public List<File> getFiles(File directory) {
-		File[] files = directory.listFiles();
-		return Arrays.asList(files);
+		if (Files.exists(directory.toPath())) {
+			File[] files = directory.listFiles();
+			return Arrays.asList(files);
+		} else {
+			return null;
+		}
+
 	}
 
 	/**
@@ -62,6 +68,10 @@ public class LsTool extends ATool implements ILsTool {
 			if (args.length == 2) {
 				File targetDirectory = new File(args[1]);
 				files = getFiles(targetDirectory);
+				if (files == null) {
+					setStatusCode(127);
+					return null;
+				}
 			}
 			if (args.length == 1) {
 				files = getFiles(workingDir);

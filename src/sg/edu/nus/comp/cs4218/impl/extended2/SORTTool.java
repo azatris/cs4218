@@ -30,6 +30,11 @@ public class SORTTool extends ATool implements ISortTool {
 	 */
 	@Override
 	public String sortFile(String input) {
+		if (input == null) {
+			setStatusCode(127);
+			return null;
+		}
+		
 		// putting all of the rows in an array
 		ArrayList<String> sortList = new ArrayList<>();
 		Scanner scanner = new Scanner(input);
@@ -60,6 +65,11 @@ public class SORTTool extends ATool implements ISortTool {
 	 */
 	@Override
 	public String checkIfSorted(String input) {
+		if (input == null) {
+			setStatusCode(127);
+			return null;
+		}
+		
 		String firstUnsortedLine = "";
 		
 		CatTool catTool = new CatTool(new String[]{"cat"});
@@ -151,6 +161,10 @@ public class SORTTool extends ATool implements ISortTool {
 					input.append(stdin);
 				} else {
 					String fileContent = catTool.getStringForFile(new File(fileName));
+					if (fileContent == null) {
+						setStatusCode(127);
+						return null;
+					}
 					fileContent = fileContent.trim(); // for removing trailing newline
 					input.append(fileContent);
 				}

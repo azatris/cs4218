@@ -304,7 +304,11 @@ public class GrepTool extends ATool implements IGrepTool {
 			if (fileName.equals("-")) {
 				input = stdin;
 			} else {
-				input = catTool.getStringForFile(new File(args[4]));	
+				input = catTool.getStringForFile(new File(args[4]));
+				if (input == null) {
+					setStatusCode(127);
+					return null;
+				}
 			}
 			switch (argument) {
 				case "-A":
@@ -327,7 +331,11 @@ public class GrepTool extends ATool implements IGrepTool {
 			if (stdin != null) {
 				input = stdin;
 			} else {
-				input = catTool.getStringForFile(new File(args[3]));	
+				input = catTool.getStringForFile(new File(args[3]));
+				if (input == null) {
+					setStatusCode(127);
+					return null;
+				}
 			}
 			switch (argument) {
 				case "-c":
@@ -353,7 +361,11 @@ public class GrepTool extends ATool implements IGrepTool {
 				}
 				input = stdin;
 			} else {
-				input = catTool.getStringForFile(new File(fileName));	
+				input = catTool.getStringForFile(new File(fileName));
+				if (input == null) {
+					setStatusCode(127);
+					return null;
+				}
 			}
 			returnable = getOnlyMatchingLines(pattern, input);
 		} else if (args.length == 2) {
