@@ -23,6 +23,7 @@ public class LsToolTest {
 	final private static String FILE = "tempFile.txt";
 	final private static Path PATH = Paths.get(PARENTFOLDER + File.separator + CHILDFOLDER);
 	final private static Path PATHTOFILE = Paths.get(PARENTFOLDER + File.separator + FILE);
+	private static final Object DIRECTORY_ERROR_MSG = "Invalid directory should be handled.";
 	
 	// Creates the mock folders and file.
 	@BeforeClass
@@ -151,6 +152,24 @@ public class LsToolTest {
 	@Test
 	public void testExecuteWithInvalidTool() {
 		lsToolForExecute = new LsTool(new String[]{"dog", PARENTFOLDER});
+		lsToolForExecute.execute(Paths.get(".").toFile(), null);
+		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
+	}
+	
+	/**
+	 * Tests ls tool for invalid directory
+	 */
+	@Test
+	public void getFiles_InvalidDirectory_NullObjectReject() {
+		final File invalidDirectory = new File("invalid");
+		final List<File> returnStatement = lsTool.getFiles(invalidDirectory);
+		assertNull(returnStatement);
+	}
+	
+	@Test
+	public void execute_ListInCorrectRelativeDirectory_ErrorMessageReturned(){
+		final String[] arguments = {"ls", "sr"};
+		lsToolForExecute = new LsTool(arguments);
 		lsToolForExecute.execute(Paths.get(".").toFile(), null);
 		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}

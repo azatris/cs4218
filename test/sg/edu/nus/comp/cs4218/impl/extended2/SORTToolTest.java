@@ -252,4 +252,16 @@ public class SORTToolTest {
 		String result = sortToolForExecute.execute(Paths.get(".").toFile(), null);
 		assertEquals("Incorrect sort check.", correctResult, result);
 	}
+	
+	@Test
+	public void checkIfSorted_InvalidFile_FileNotFoundError(){
+		sortTool.checkIfSorted(null);
+		assertNotEquals("Invalid file should not return 0 status code.", 0, sortTool.getStatusCode());
+	}
+	
+	@Test
+	public void sortFile_NullObject_MissingOperand(){
+		sortTool.sortFile(null);
+		assertNotEquals("Invalid file should not return 0 status code.", 0, sortTool.getStatusCode());
+	}
 }
