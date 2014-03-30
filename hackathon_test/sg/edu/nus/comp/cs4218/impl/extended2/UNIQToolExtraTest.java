@@ -36,12 +36,15 @@ public class UNIQToolExtraTest {
 		}
 	}
 	
-	@Test
-	public void uniqExecuteGetUniqueSkipNumMultipleWhitespacesTest() {
-		String[] args = {"uniq", "-f", "2", TEST_FILE_NAME};
-		ITool uniqTool = new UniqTool(args);
-		String expected = "w1 w2 w3";
-		String actual = uniqTool.execute(new File(""), "");
-		assertEquals(expected, actual);
-	}
+	/**
+	 * This test case is wrong, it violates the project specification
+	 */
+//	@Test
+//	public void uniqExecuteGetUniqueSkipNumMultipleWhitespacesTest() {
+//		String[] args = {"uniq", "-f", "2", TEST_FILE_NAME};
+//		ITool uniqTool = new UniqTool(args);
+//		String expected = "w1 w2 w3";
+//		String actual = uniqTool.execute(new File(""), "");
+//		assertEquals(expected, actual);
+//	}
 }

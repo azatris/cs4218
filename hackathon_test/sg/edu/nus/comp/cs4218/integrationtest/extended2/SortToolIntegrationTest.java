@@ -1,4 +1,4 @@
-package sg.edu.nus.comp.cs4218.integration;
+package sg.edu.nus.comp.cs4218.integrationtest.extended2;
 
 import static org.junit.Assert.assertEquals;
 

@@ -183,8 +183,14 @@ public class WcTool extends ATool implements IWcTool{
 	public String getWordCount(final String input) {
 		int count = 0;
 		if(input!=null){
-			String[] token = (input.trim()).split("\\s+");
-			count = token.length;
+			//Special case for empty string
+			if(input == ""){
+				count = 0;
+			}
+			else{
+				String[] token = (input.trim()).split("\\s+");
+				count = token.length;
+			}
 		}
 		else{
 			setStatusCode(1);
@@ -200,9 +206,11 @@ public class WcTool extends ATool implements IWcTool{
 	@Override
 	public String getNewLineCount(final String input) {
 		int count = 0;
-		for(int i=0; i< input.length(); i++){
-			if(input.charAt(i) == '\n'){
-				count++;
+		if(input!=null){
+			for(int i=0; i< input.length(); i++){
+				if(input.charAt(i) == '\n'){
+					count++;
+				}
 			}
 		}
 		return Integer.toString(count);
