@@ -201,12 +201,7 @@ public class WCToolTest {
 			tempFile.delete(); // delete the temp file, so it doesn't texist
 			WcTool tempWcTool = new WcTool(new String[]{"wc",tempFileName});
 			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
-			String expectedCharCount = tempWcTool.getCharacterCount(fileContent);
-			String expectedWordCount = tempWcTool.getWordCount(fileContent);
-			String expectedNewLineCount = tempWcTool.getNewLineCount(fileContent);
-			String expectedResult = "   Character: " + expectedCharCount + "   Word: " + expectedWordCount + "   New Line: " + expectedNewLineCount;
-			assertEquals(expectedResult, executionResult);
-			assertEquals(0, tempWcTool.getStatusCode());
+			assertNotEquals(0, tempWcTool.getStatusCode());
 	}
 	
 	/**
