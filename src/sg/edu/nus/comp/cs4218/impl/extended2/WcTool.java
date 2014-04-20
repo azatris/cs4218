@@ -43,16 +43,6 @@ public class WcTool extends ATool implements IWcTool{
 	}
 
 	/**
-	 * Helper method to check whether the given filename exists in the system
-	 * @param	filename	the given filename
-	 * @return	true if the file exists
-	 */
-	public static boolean checkFileExistence(String filename){
-		File f = new File(filename);
-		return f.exists();
-	}
-
-	/**
 	 * The general go-to method for using the tool that calls
 	 * the suitable submethods.
 	 * @param workingDir current working directory
@@ -64,84 +54,91 @@ public class WcTool extends ATool implements IWcTool{
 		String characterCount = null;
 		String wordCount = null;
 		String newLineCount = null;
-		if(args.length == 2){
-			if(args[1].equals("-help")){
-				return getHelp();
-			}
-			else{
-				String filename = args[args.length-1];
-				if(filename.equals("-")){
-					String input = stdin;
-					characterCount = getCharacterCount(input);
-					wordCount = getWordCount(input);
-					newLineCount = getNewLineCount(input);
-				}
-				else{
-					if(checkFileExistence(filename)){
-						String input = null;
-						try {
-							input = readFile(filename);
-						} catch (IOException e) {		
-							setStatusCode(4);
-							return null;
-						}
-						characterCount = getCharacterCount(input);
-						wordCount = getWordCount(input);
-						newLineCount = getNewLineCount(input);
-					}
-					else{
-						setStatusCode(3);
-						return null;
-					}
-				}
-			}
+		String output = null;
+		if(args.length == 2 &&args[1].equals("-help")){
+			output = getHelp();
 		}
-		else if(args.length == 3 || args.length == 4 || args.length == 5){
+		else if(args.length >= 2 && args.length <= 5){
 			String filename = args[args.length-1];
-			if(filename.equals("-")){
-				String input = stdin;
+			String input;
+			try {
+				input = checkStdinOrFile(stdin, filename);
+			} catch (IOException e) {
+				setStatusCode(4); //IO Exception caught
+				return null;
+			}
+			//If arguments length is 2, then there is no option given, count the char, word, and new line
+			if(args.length == 2){
 				characterCount = getCharacterCount(input);
 				wordCount = getWordCount(input);
 				newLineCount = getNewLineCount(input);
 			}
+			//If there is argument(s), check which char/word/newline that need to be counted
 			else{
-				if(checkFileExistence(filename)){
-					String input = null;
-					try {
-						input = readFile(filename);
-					} catch (IOException e) {
-						setStatusCode(4);
+				for(int i = 1; i < args.length - 1; i++){
+					if(checkValidOption(i, args)){
+						if(args[i].equals("-m")){
+							characterCount = getCharacterCount(input);
+						}
+						if(args[i].equals("-w")){
+							wordCount = getWordCount(input);
+						}
+						if(args[i].equals("-l")){
+							newLineCount = getNewLineCount(input);
+						}
+					}
+					else{
+						//Invalid Option is detected
+						setStatusCode(5);
 						return null;
 					}
-					for(int i = 1; i < args.length - 1; i++){
-						if(args[i].equals("-m")||args[i].equals("-w")||args[i].equals("-l")){
-							if(args[i].equals("-m")){
-								characterCount = getCharacterCount(input);
-							}
-							if(args[i].equals("-w")){
-								wordCount = getWordCount(input);
-							}
-							if(args[i].equals("-l")){
-								newLineCount = getNewLineCount(input);
-							}
-						}
-						else{
-							setStatusCode(5);
-							return null;
-						}
-					}
-				}
-				else{
-					setStatusCode(3);
-					return null;
 				}
 			}
+			output = createOutput(characterCount, wordCount, newLineCount);
 		}
 		else{
-			setStatusCode(2);
-			return null;
+			setStatusCode(2); //normal # of args is 2-5, returns error if it doesn't obey this limit
+			output = null;
 		}
+		return output;
+	}
 
+	/**
+	 * Helper function to return the corresponding input, whether it is from stdin or from a file
+	 * @param 	stdin	standard in to the tool
+	 * @param 	filename	filename that need to be parsed ("-" denotes standard input)
+	 * @return	the corresponding input that needs to be fed to wc tool
+	 */
+	private String checkStdinOrFile(final String stdin, final String filename) throws IOException{
+		String input = null;
+		if(filename.equals("-")){
+			input = stdin;
+		}
+		else{
+			input = readFile(filename);
+		}
+		return input;
+	}
+
+	/**
+	 * Check valid options for wc tool
+	 * @param 	argIndex	index of the argument that need to be checked
+	 * @param 	arguments	array of arguments
+	 * @return	true or false depending the validity of the options
+	 */
+	private boolean checkValidOption(int argIndex, String[] arguments) {
+		String arg = arguments[argIndex];
+		return "-m".equals(arg)||"-w".equals(arg)||"-l".equals(arg);
+	}
+
+	/**
+	 * Concatenate all of the character count, word count, and new line count
+	 * @param characterCount
+	 * @param wordCount
+	 * @param newLineCount
+	 * @return	the concatenated output
+	 */
+	private String createOutput(String characterCount, String wordCount, String newLineCount) {
 		StringBuilder output = new StringBuilder();
 		//Print the output
 		if(characterCount != null){
@@ -154,7 +151,6 @@ public class WcTool extends ATool implements IWcTool{
 			output.append("   " + "New Line: "+ newLineCount);
 		}
 		return output.toString();
-
 	}
 
 	/**

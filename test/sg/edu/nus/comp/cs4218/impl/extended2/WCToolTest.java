@@ -81,6 +81,15 @@ public class WCToolTest {
 		assertEquals("3", wcTool.getWordCount(input));
 
 	}
+	
+	/**
+	 * test getWordCountTest for empty string
+	 */
+	@Test
+	public void getWordCountForEmptyString() {
+		String input = "";
+		assertEquals("0", wcTool.getWordCount(input));
+	}
 
 	/**
 	 * test getWordCountTest for null string
@@ -107,10 +116,19 @@ public class WCToolTest {
 	@Test
 	public void getNewLineCountForNullTest() {
 		String input = null;
-		assertEquals("0", wcTool.getWordCount(input));
+		assertEquals("0", wcTool.getNewLineCount(input));
+	}
+	
+	/**
+	 * Test getNewLineCount with null string
+	 */
+	@Test
+	public void getCharacterCountForNullTest() {
+		String input = null;
+		assertEquals("0", wcTool.getCharacterCount(input));
 	}
 
-	//==================Add additional test cases==========
+	//==========================Add additional test cases============================
 	/**
 	 * Test to read a file given a valid filename
 	 * Method to be tested: readFile(String filename)
@@ -141,25 +159,6 @@ public class WCToolTest {
 	}
 	
 	/**
-	 * Test to check the File Existence of Existing File
-	 * Method to be tested: checkFileExistence(String filename)
-	 */
-	@Test
-	public void checkFileExistenceForExistingFile(){
-			assertTrue(WcTool.checkFileExistence(tempFileName));
-	}
-
-	/**
-	 * Test to check the File Existence of NonExisting File
-	 * Method to be tested: checkFileExistence(String filename)
-	 */
-	@Test
-	public void checkFileExistenceForNonExistingFile(){
-			String invalidFileName = "invalidFilename";
-			assertFalse(WcTool.checkFileExistence(invalidFileName));
-	}
-	
-	/**
 	 * Test executing simple command
 	 * Method to be tested: execute(File workingDir, String stdin)
 	 */
@@ -175,6 +174,90 @@ public class WCToolTest {
 			assertEquals(0, tempWcTool.getStatusCode());
 	}
 	
+
+	/**
+	 * Test executing simple command from stdin
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+	@Test
+	public void executionTestFromStdin(){
+			String stdin = "This is just a dummy file content \n The End\n";
+			WcTool tempWcTool = new WcTool(new String[]{"wc","-"});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), stdin);
+			String expectedCharCount = tempWcTool.getCharacterCount(fileContent);
+			String expectedWordCount = tempWcTool.getWordCount(fileContent);
+			String expectedNewLineCount = tempWcTool.getNewLineCount(fileContent);
+			String expectedResult = "   Character: " + expectedCharCount + "   Word: " + expectedWordCount + "   New Line: " + expectedNewLineCount;
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempWcTool.getStatusCode());
+	}
+	
+	/**
+	 * Test executing with non existing file
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+	@Test
+	public void executionTestWithNonExistingFile(){
+			tempFile.delete(); // delete the temp file, so it doesn't texist
+			WcTool tempWcTool = new WcTool(new String[]{"wc",tempFileName});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedCharCount = tempWcTool.getCharacterCount(fileContent);
+			String expectedWordCount = tempWcTool.getWordCount(fileContent);
+			String expectedNewLineCount = tempWcTool.getNewLineCount(fileContent);
+			String expectedResult = "   Character: " + expectedCharCount + "   Word: " + expectedWordCount + "   New Line: " + expectedNewLineCount;
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempWcTool.getStatusCode());
+	}
+	
+	/**
+	 * Test executing simple command with filename missing
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+
+	@Test
+	public void executionTestWithFilenameMissing(){
+			WcTool tempWcTool = new WcTool(new String[]{"wc"});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+			assertNotEquals(0, tempWcTool.getStatusCode());
+	}
+	
+	/**
+	 * Test constructing with null arguments
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+
+	@Test
+	public void constructionTestWithNullArguments(){
+		WcTool tempWcTool = new WcTool(null);
+		assertEquals(127, tempWcTool.getStatusCode());
+
+
+	}
+	
+	/**
+	 * Test constructing with empty arguments
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+
+	@Test
+	public void constructionTestWithEmptyArguments(){
+			WcTool tempWcTool = new WcTool(new String[]{""});
+			assertEquals(127, tempWcTool.getStatusCode());
+
+	}
+	
+	/**
+	 * Test constructing with first argument is not wc
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+
+	@Test
+	public void constructionTestWithFirstArgumentIsNotWc(){
+			WcTool tempWcTool = new WcTool(new String[]{"ls"});
+			assertEquals(127, tempWcTool.getStatusCode());
+
+	}
+	
 	/**
 	 * Test executing with M option
 	 * Method to be tested: execute(File workingDir, String stdin)
@@ -183,6 +266,21 @@ public class WCToolTest {
 	public void executionTestWithMOption(){
 			WcTool tempWcTool = new WcTool(new String[]{"wc","-m",tempFileName});
 			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedCharCount = tempWcTool.getCharacterCount(fileContent);
+			String expectedResult = "   Character: " + expectedCharCount;
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempWcTool.getStatusCode());
+	}
+	
+	/**
+	 * Test executing with M option from stdin
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+	@Test
+	public void executionTestWithMOptionFromStdin(){
+			String stdin = "This is just a dummy file content \n The End\n";
+			WcTool tempWcTool = new WcTool(new String[]{"wc","-m","-"});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), stdin);
 			String expectedCharCount = tempWcTool.getCharacterCount(fileContent);
 			String expectedResult = "   Character: " + expectedCharCount;
 			assertEquals(expectedResult, executionResult);
@@ -204,6 +302,21 @@ public class WCToolTest {
 	}
 	
 	/**
+	 * Test executing with W option from stdin
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+	@Test
+	public void executionTestWithWOptionFromStdin(){
+		String stdin = "This is just a dummy file content \n The End\n";
+			WcTool tempWcTool = new WcTool(new String[]{"wc","-w","-"});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), stdin);
+			String expectedWordCount = tempWcTool.getWordCount(fileContent);
+			String expectedResult = "   Word: " + expectedWordCount;
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempWcTool.getStatusCode());
+	}
+	
+	/**
 	 * Test executing with L option
 	 * Method to be tested: execute(File workingDir, String stdin)
 	 */
@@ -218,12 +331,56 @@ public class WCToolTest {
 	}
 	
 	/**
+	 * Test executing with L option from stdin
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+	@Test
+	public void executionTestWithLOptionFromStdin(){
+			String stdin = "This is just a dummy file content \n The End\n";
+			WcTool tempWcTool = new WcTool(new String[]{"wc","-l","-"});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), stdin);
+			String expectedNewLineCount = tempWcTool.getNewLineCount(fileContent);
+			String expectedResult = "   New Line: " + expectedNewLineCount;
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempWcTool.getStatusCode());
+	}
+	
+	/**
+	 * Test executing with M, W, and L option
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+	@Test
+	public void executionTestWithMWLOption(){
+			WcTool tempWcTool = new WcTool(new String[]{"wc","-m", "-w","-l",tempFileName});
+			String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+			String expectedCharCount = tempWcTool.getCharacterCount(fileContent);
+			String expectedWordCount = tempWcTool.getWordCount(fileContent);
+			String expectedNewLineCount = tempWcTool.getNewLineCount(fileContent);
+			String expectedResult = "   Character: " + expectedCharCount + "   Word: " + expectedWordCount + "   New Line: " + expectedNewLineCount;
+			assertEquals(expectedResult, executionResult);
+			assertEquals(0, tempWcTool.getStatusCode());
+	}
+	
+	
+	/**
 	 * Test executing with Illegal Option
 	 * Method to be tested: execute(File workingDir, String stdin)
 	 */
 	@Test
 	public void executionTestWithIllegalOption(){
 			WcTool tempWcTool = new WcTool(new String[]{"wc","-z",tempFileName}); //-z is illegal option
+			tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+			assertNotEquals(0, tempWcTool.getStatusCode());
+	}
+	
+	
+	/**
+	 * Test executing with too many arguments
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+	@Test
+	public void executionTestWithTooManyArguments(){
+			WcTool tempWcTool = new WcTool(new String[]{"wc","-m","-w", "-l", "-m", "-w", "-l", tempFileName}); 
 			tempWcTool.execute(new File(System.getProperty("user.dir")), null);
 			assertNotEquals(0, tempWcTool.getStatusCode());
 	}
@@ -241,8 +398,10 @@ public class WCToolTest {
 				+ "-w : Print only the word counts\n"
 				+ "-l : Print only the newline counts\n"
 				+ "-help : Brief information about supported options";
-		String executionResult = wcTool.getHelp();
+		WcTool tempWcTool = new WcTool(new String[]{"wc","-help"});
+		String executionResult = tempWcTool.execute(new File(System.getProperty("user.dir")), null);
+		
 		assertEquals(textOfHelp,executionResult);
-		assertEquals(wcTool.getStatusCode(),0);
+		assertEquals(tempWcTool.getStatusCode(),0);
 	}
 }
