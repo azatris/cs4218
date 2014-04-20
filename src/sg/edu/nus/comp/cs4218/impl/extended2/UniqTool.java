@@ -11,10 +11,11 @@ import sg.edu.nus.comp.cs4218.extended2.IUniqTool;
 import sg.edu.nus.comp.cs4218.impl.ATool;
 
 public class UniqTool extends ATool implements IUniqTool{
-	
+
 	private static PrintStream err = System.err;
 	/**
 	 * Constructor taking the arguments
+	 * Multiple files are not supported by this UniqTool
 	 * @param	arguments	(args[0] is the command name)
 	 */
 	public UniqTool(final String[] arguments) {
@@ -24,15 +25,6 @@ public class UniqTool extends ATool implements IUniqTool{
 		}
 	}
 
-	/**
-	 * Helper method to check whether the given filename exists in the system
-	 * @param	filename	the given filename
-	 * @return	true if the file exists
-	 */
-	public static boolean checkFileExistence(final String filename){
-		File f = new File(filename);
-		return f.exists();
-	}
 
 	/**
 	 * Helper method to open a stream to a file and read its content
@@ -40,18 +32,19 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * @return the content of the file
 	 */
 	public static String readFile(final String filename) throws IOException{
-			final FileInputStream inputStream = new FileInputStream(filename);
-			final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-			final StringBuilder builder = new StringBuilder();
-			int currentChar = reader.read();
-			while(currentChar != -1){
-				builder.append((char)currentChar);
-				currentChar = reader.read();
-			}
-			reader.close();
-			inputStream.close();
-			return builder.toString();
+		final FileInputStream inputStream = new FileInputStream(filename);
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+		final StringBuilder builder = new StringBuilder();
+		int currentChar = reader.read();
+		while(currentChar != -1){
+			builder.append((char)currentChar);
+			currentChar = reader.read();
 		}
+		reader.close();
+		inputStream.close();
+		return builder.toString();
+
+	}
 
 	/**
 	 * Helper method to skip NUM tokens from the line
@@ -59,295 +52,305 @@ public class UniqTool extends ATool implements IUniqTool{
 	 * @param	NUM	number of token need to be skipped
 	 * @return	line with skipped tokens
 	 */
-		private String skipFields(final String line, final int NUM){
-			if(line == null || line.equals("")){
-				return "";
+	private String skipFields(final String line, final int NUM){
+		if(line == null || line.equals("")){
+			return line;
+		}
+		else{
+			int skipCount = 0;
+			//normalize the counting, in case the first character is the null
+			String currentLine = line.trim();
+			for(int i = 0; i < currentLine.length()-1; i++){
+				if(((currentLine.charAt(i) == ' ')||(currentLine.charAt(i) == '\t'))&&
+						!((currentLine.charAt(i+1) == ' ')||(currentLine.charAt(i+1) == '\t'))){
+					skipCount++;
+				}
+				if(skipCount == NUM){
+					return currentLine.substring(i+1);
+				}
 			}
-			else{
-				int skipCount = 0;
-				//normalize the counting, in case the first character is the null
-				if((line.charAt(0) == ' ')||(line.charAt(0) == '\t')){
-					skipCount--;
-				}
-				for(int i = 0; i < line.length()-1; i++){
-					if(((line.charAt(i) == ' ')||(line.charAt(i) == '\t'))&&((line.charAt(i+1) != ' ')||(line.charAt(i+1) != '\t'))){
-						skipCount++;
+
+			//return empty string when the NUM > skipCount (number of tokens available in this line)
+			return "";
+		}
+	}
+
+	/**
+	 * The general go-to method for using the tool that calls
+	 * the suitable submethods.
+	 * @param workingDir current working directory
+	 * @param stdin optional standard input from e.g. pipe tool
+	 * @return output
+	 */
+	@Override
+	public String execute(final File workingDir, final String stdin) {
+		String output = null;
+		//case number of arguments is 2, then we only consider -help option
+		if(args.length == 2 && args[1].equals("-help")){
+			output = getHelp();
+		}
+		else if(args.length >= 2 && args.length <= 5){
+			boolean checkCase = true; //default value
+			boolean skipChar = false; //default value
+			int offSet = 0;
+
+			//check the option and set the flag
+			for(int i = 1; i < args.length - 1; i++){
+				if(checkValidArguments(args[i], i, args)){
+					if(args[i].equals("-i")){
+						checkCase = false;
 					}
-					if(skipCount == NUM){
-						return line.substring(i+1);
+					if(args[i].equals("-f")){
+						try{
+							offSet = getOffSetNumber(i, args.length-2, args);
+							skipChar = true;
+						}
+						catch(Exception e){
+							setStatusCode(2);
+							err.println("-f needs to be followed with an int value");
+							return null;
+						}
 					}
 				}
-				//return empty string when the NUM > skipCount (number of tokens available in this line)
-				return "";
+				else{
+					setStatusCode(2);
+					err.println("Invalid Arguments detected");
+					return null;
+				}
+			}
+
+			//Determine the input
+			String filename = args[args.length-1];
+			String input = checkStdinOrFile(stdin, filename);
+
+			//Determine whether we need to skip some char
+			output = makeTheInputUnique(checkCase, skipChar, offSet, input);
+		}
+		else{
+			setStatusCode(2); //normal # of args is 2-5, returns error if it doesn't obey this limit
+			output = null;
+		}
+		return output;
+	}
+
+	private String makeTheInputUnique(boolean checkCase, boolean skipChar, int offSet, String input) {
+		String output = null;
+		if(skipChar == true){
+			output = getUniqueSkipNum(offSet, checkCase, input);
+		}
+		else{
+			output = getUnique(checkCase, input);
+		}
+		return output;
+	}
+
+	private boolean checkValidArguments(String arg, int argIndex, String[] arguments) {
+		boolean valid = false;
+		if ("-i".equals(arg) || "-f".equals(arg)){
+			valid = true; //if it is -f or -i, we consider it as valid arguments
+		}
+		//other case for valid argument is that it is integer that follows after -f
+		else{
+			try{
+				Integer.parseInt(arguments[argIndex]);
+				if("-f".equals(arguments[argIndex-1])){
+					valid = true;
+				}
+			}
+			catch(NumberFormatException e){
+				setStatusCode(5);
+				valid = false;
 			}
 		}
+		return valid;
+	}
 
-		/**
-		 * The general go-to method for using the tool that calls
-		 * the suitable submethods.
-		 * @param workingDir current working directory
-		 * @param stdin optional standard input from e.g. pipe tool
-		 * @return output
-		 */
-		@Override
-		public String execute(final File workingDir, final String stdin) {
-			String output = null;
-			if(args.length == 2){
-				if(args[1].equals("-help")){
-					return getHelp();
-				}
-				else{
-					String filename = args[args.length-1];
-					if(filename.equals("-")){
-						String input = stdin;
-						output = getUnique(true, input);
-					}
-					else{
-						if(checkFileExistence(filename)){
-							String input = null;
-							try{
-								input = readFile(filename);
-							} catch (IOException e) {
-								setStatusCode(4);
-								return null;
-							}
-							output = getUnique(true, input);
-						}
-						else{
-							setStatusCode(3);
-							return null;
-						}
-					}
-				}
-			}
-			else if(args.length > 2 && args.length <= 5){
-				boolean checkCase = true;
-				boolean skipChar = false;
-				int offSet = 0;
-
-				for(int i = 1; i < args.length - 1; i++){
-					if(args[i].equals("-i")||args[i].equals("-f")){
-						if(args[i].equals("-i")){
-							checkCase = false;
-						}
-						if(args[i].equals("-f")){
-							if(i != args.length-1){
-								try{
-									offSet = Integer.parseInt(args[i+1]);
-									skipChar = true;
-								}
-								catch(NumberFormatException e){
-									setStatusCode(2);
-									err.println("-f needs to be followed with an int value");
-									return null;
-								}
-							}
-							else{
-								setStatusCode(2);
-								err.println("-f needs to be followed with skip number");
-								return null;
-							}
-						}
-					}
-					else{
-						//if it is not option -i, -f, we can consider this argument is illegal if it is integer and followed by -f
-						try{
-							Integer.parseInt(args[i]);
-							if(!(args[i-1].equals("-f"))){
-								setStatusCode(5);
-								return null;
-							}
-						}
-						catch(NumberFormatException e){
-							setStatusCode(5);
-							return null;
-						}
-					}
-
-				}
-
-				String input = null;
-				String filename = args[args.length-1];
-
-				//Determine the input
-				if(filename.equals("-")){
-					input = stdin;
-				}
-				else{
-					if(checkFileExistence(filename)){
-						try {
-							input = readFile(filename);
-						} catch (IOException e) {
-							setStatusCode(4);
-							return null;
-						}
-					}
-					else{
-						setStatusCode(3);
-						return null;
-					}
-				}
-				//Determine whether we need to skip some char
-				if(skipChar == true){
-					output = getUniqueSkipNum(offSet, checkCase, input);
-				}
-				else{
-					output = getUnique(checkCase, input);
-				}
-			}
-			else{
-				setStatusCode(2);
+	private String checkStdinOrFile(final String stdin, final String filename) {
+		String input = null;
+		if(filename.equals("-")){
+			input = stdin;
+		}
+		else{
+			try{
+				input = readFile(filename);
+			} catch (IOException e) {
+				setStatusCode(4);
 				return null;
 			}
-			return output;
 		}
+		return input;
+	}
 
-		/**
-		 * Check the given input, and eliminate any duplicate line
-		 * @param	checkCase	false if ignore checking the case
-		 * @param	input	the input to be checked
-		 * @return	the unique line
-		 */
-		public String getUnique(boolean checkCase, String input) {
-			if(input != null){
-				String[] line = null;
-				String lineSeparator = ""; //determine the line separator for the input (different OS different line separator)
-				if(input.contains("\r\n")){
-					lineSeparator = "\r\n";
-					line = input.split("\\r\\n");
-				}
-				else if(input.contains("\n")){
-					lineSeparator = "\n";
-					line = input.split("\\n");
-				}
-				else{
-					line = input.split("\\n");
-				}
+	private int getOffSetNumber(int argIndex, int lengthOfArgsForOptions, String[] arguments) throws Exception{
+		int offSet = 0;
+		//check if there is still another argument after -f
+		if(argIndex != lengthOfArgsForOptions){
+			offSet = Integer.parseInt(arguments[argIndex+1]);
+			return offSet;
+		}
+		else{
+			throw new Exception();
+		}
+	}
 
-				String currentLine = null;
-				String currentLineConsideringCase = null;
-				String prev = null;
-				StringBuilder output = new StringBuilder();
-				for (int i = 0; i < line.length; i++){
-					currentLine = line[i];
-					if(!checkCase){
-						currentLineConsideringCase = currentLine.toLowerCase(); //ignore case
-					}
-					else{
-						currentLineConsideringCase = currentLine;
-					}
+	/**
+	 * Check the given input, and eliminate any duplicate line
+	 * @param	checkCase	false if ignore checking the case
+	 * @param	input	the input to be checked
+	 * @return	the unique line
+	 */
+	public String getUnique(boolean checkCase, String input) {
+		if(input != null){
+			String lineSeparator = getLineSeparator(input);; //determine the line separator for the input (different OS different line separator)
+			String[] line = input.split(lineSeparator);
 
-					//Check similarity with previous line
-					if(!currentLineConsideringCase.equals(prev)){
-						output.append(currentLine);
-						//Add line separator if this is not the last line 
-						if(i != line.length-1){
-							output.append(lineSeparator);
-						}
-						else{
-							//add line separator if the original input ends with new line
-							if(input.endsWith(lineSeparator)){
-								output.append(lineSeparator);
-							}
-						}
-					}
-					prev = currentLineConsideringCase;
+			String currentLine = null;
+			String prevLine = null;
+			StringBuilder output = new StringBuilder();
+			for (int i = 0; i < line.length; i++){
+				currentLine = line[i];
+				currentLine = considerCase(checkCase, currentLine);
+				prevLine = considerCase(checkCase, prevLine);
+
+				//Check similarity with previous line
+				if(!currentLine.equals(prevLine)){
+					output.append(line[i]);
+					boolean isLastLine = (i == line.length-1);
+					boolean inputEndsWithLineSeparator = input.endsWith(lineSeparator);
+					appendLineSeparatorAsNeeded(output, lineSeparator, isLastLine, inputEndsWithLineSeparator);
 				}
-				return output.toString();
+				prevLine = line[i];
+			}
+			return output.toString();
+		}
+		else{
+			return ""; //input is null
+		}
+	}
+
+	/**
+	 * Helper function to convert a sentence to lower case when the case is unimportant
+	 * @param	checkCase	false if ignore checking the case
+	 * @param	line	line that needed to be converted
+	 * @return	the line in lower case (if it needs to be converted) or the original line
+	 */
+	private String considerCase(boolean checkCase, String line){
+		if(line != null){
+			if(!checkCase){
+				return line.toLowerCase();
 			}
 			else{
-				return "";
+				return line;
 			}
 		}
+		else{
+			return null;
+		}
+	}
 
-		/**
-		 * Check the given input, and eliminate any duplicate line (considering skipping some tokens)
-		 * @param	checkCase	false if ignore checking the case
-		 * @param	input	the input to be checked
-		 * @return	the unique line
-		 */
-		public String getUniqueSkipNum(final int NUM, final boolean checkCase, final String input) {
-			if(input != null){
-				String[] line = null;
-				String lineSeparator = ""; //determine the line separator for the input (different OS different line separator)
-				if(input.contains("\r\n")){
-					lineSeparator = "\r\n";
-					line = input.split("\\r\\n");
-				}
-				else if(input.contains("\n")){
-					lineSeparator = "\n";
-					line = input.split("\\n");
+	/**
+	 * Check the line separator of the given input (depending on the os)
+	 * @param	input	the input to be checked
+	 * @return	the line separator
+	 */
+	private String getLineSeparator(String input) {
+		String lineSeparator;
+		if(input.contains("\r\n")){
+			lineSeparator = "\r\n";
+		}
+		else if(input.contains("\n")){
+			lineSeparator = "\n";
+		}
+		else{
+			lineSeparator = "\n"; //by default
+		}
+		return lineSeparator;
+	}
+
+	/**
+	 * Check the given input, and eliminate any duplicate line (considering skipping some tokens)
+	 * @param	checkCase	false if ignore checking the case
+	 * @param	input	the input to be checked
+	 * @return	the unique line
+	 */
+	public String getUniqueSkipNum(final int NUM, final boolean checkCase, final String input) {
+		if(input != null){
+			String lineSeparator = getLineSeparator(input);; //determine the line separator for the input (different OS different line separator)
+			String[] line = input.split(lineSeparator);
+
+			String currentLine = null;
+			String prevLine = null;
+			StringBuilder output = new StringBuilder();
+			for (int i = 0; i < line.length; i++){
+				currentLine = line[i];
+				currentLine = considerCase(checkCase, currentLine);
+				prevLine = considerCase(checkCase, prevLine);
+
+				//Set the offset
+				if(NUM <= 0){
+					setStatusCode(1);
+					err.println("Invalid Skip Number, Skip Number must be greater or equal to 0");
+					return null;
 				}
 				else{
-					line = input.split("\\n");
+					currentLine = skipFields(currentLine, NUM);
+					prevLine = skipFields(prevLine,NUM);
 				}
-				String currentLine = null;
-				String currentLineConsideringCase = null;
-				String prev = null;
-				StringBuilder output = new StringBuilder();
-				for (int i = 0; i < line.length; i++){
-					currentLine = line[i];
-					if(!checkCase){
-						currentLineConsideringCase = currentLine.toLowerCase(); //ignore case
-					}
-					else{
-						currentLineConsideringCase = currentLine;
-					}
-					String offSetCurrentLine = currentLineConsideringCase;
-					String offSetPrev = prev;
-					//Set the offset
-					if(NUM <= 0){
-						setStatusCode(1);
-						err.println("Invalid Skip Number, Skip Number must be greater or equal to 0");
-						return null;
-					}
-					else{
-						offSetCurrentLine = skipFields(currentLineConsideringCase, NUM);
-						if(prev != null){
-							offSetPrev = skipFields(prev,NUM);
-						}
-					}
 
-					//Check similarity with previous line
-					if(!offSetCurrentLine.equals(offSetPrev)){
-						output.append(currentLine);
-						//Add line separator if this is not the last line
-						if(i != line.length-1){
-							output.append(lineSeparator);
-						}
-						else{
-							//add line separator if the original input ends with new line
-							if(input.endsWith(lineSeparator)){
-								output.append(lineSeparator);
-							}
-						}
-					}
-
-					prev = currentLineConsideringCase;
+				//Check similarity with previous line
+				if(!currentLine.equals(prevLine)){
+					output.append(line[i]);
+					boolean isLastLine = (i == line.length-1);
+					boolean inputEndsWithLineSeparator = input.endsWith(lineSeparator);
+					appendLineSeparatorAsNeeded(output, lineSeparator, isLastLine, inputEndsWithLineSeparator);
 				}
-				return output.toString();
-			}
-			else{
-				return "";
-			}
 
+				prevLine = line[i];
+			}
+			return output.toString();
 		}
-
-		/**
-		 * Get Help Explanation
-		 * @return	the help explanation
-		 */
-		public String getHelp() {
-			String help = "Command Format - uniq [OPTIONS] [FILE]\n"
-					+ "FILE - Name of the file, when no file is present (denoted by \"-\") use standard input\n"
-					+ "OPTIONS\n"
-					+ "f NUM : Skips NUM fields on each line before checking for uniqueness. Use a null\n"
-					+ "string for comparison if a line has fewer than n fields. Fields are sequences of\n"
-					+ "non-space non-tab characters that are separated from each other by at least one\n"
-					+ "space or tab.\n"
-					+ "-i : Ignore differences in case when comparing lines.\n"
-					+ "-help : Brief information about supported options";
-			return help;
+		else{
+			return ""; //input is null
 		}
 
 	}
+
+	/**
+	 * Helper function to append line separator if it is needed
+	 * @param	output	builder for output
+	 * @param	lineSeparator	line separator used in the input
+	 * @param	isLastLine	boolean operator to tell if the currentLine is the last line of the input
+	 * @param	inputEndsWithLineSeparator	boolean operator to tell that the original input ends with line separator
+	 */
+
+	private void appendLineSeparatorAsNeeded(StringBuilder output, String lineSeparator, boolean isLastLine, boolean inputEndsWithLineSeparator) {
+		//Add line separator if this is not the last line
+		if(!isLastLine){
+			output.append(lineSeparator);
+		}
+		else{
+			//add line separator if the original input ends with new line
+			if(inputEndsWithLineSeparator){
+				output.append(lineSeparator);
+			}
+		}
+	}
+
+	/**
+	 * Get Help Explanation
+	 * @return	the help explanation
+	 */
+	public String getHelp() {
+		String help = "Command Format - uniq [OPTIONS] [FILE]\n"
+				+ "FILE - Name of the file, when no file is present (denoted by \"-\") use standard input\n"
+				+ "OPTIONS\n"
+				+ "f NUM : Skips NUM fields on each line before checking for uniqueness. Use a null\n"
+				+ "string for comparison if a line has fewer than n fields. Fields are sequences of\n"
+				+ "non-space non-tab characters that are separated from each other by at least one\n"
+				+ "space or tab.\n"
+				+ "-i : Ignore differences in case when comparing lines.\n"
+				+ "-help : Brief information about supported options";
+		return help;
+	}
+
+}
