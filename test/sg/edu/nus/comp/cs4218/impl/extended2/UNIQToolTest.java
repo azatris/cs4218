@@ -78,7 +78,7 @@ public class UNIQToolTest {
 		assertEquals("",uniqTool.getUniqueSkipNum(1,true, null));
 	}
 
-	//=======================Add additional test cases======================
+	//==========================Add additional test cases=========================
 
 	/**
 	 * Helper function to create dummy file
@@ -152,39 +152,36 @@ public class UNIQToolTest {
 	
 
 	/**
-	 * Test executing with null arguments
+	 * Test constructing tool with null arguments
 	 * Method to be tested: execute(File workingDir, String stdin)
 	 */
 
 	@Test
-	public void executionTestWithNullArguments(){
-			//Create a temp file and input some dummy content on it
+	public void constructionTestWithNullArguments(){
 			UniqTool tempUniqTool = new UniqTool(null);
 			assertEquals(127, tempUniqTool.getStatusCode());
 
 	}
 	
 	/**
-	 * Test executing with empty arguments
+	 * Test constructing tool with empty arguments
 	 * Method to be tested: execute(File workingDir, String stdin)
 	 */
 
 	@Test
-	public void executionTestWithEmptyArguments(){
-			//Create a temp file and input some dummy content on it
+	public void constructionTestWithEmptyArguments(){
 			UniqTool tempUniqTool = new UniqTool(new String[]{""});
 			assertEquals(127, tempUniqTool.getStatusCode());
 
 	}
 	
 	/**
-	 * Test executing with first argument is not uniq
+	 * Test constructing with first argument is not uniq
 	 * Method to be tested: execute(File workingDir, String stdin)
 	 */
 
 	@Test
-	public void executionTestWithFirstArgumentIsNotUniq(){
-			//Create a temp file and input some dummy content on it
+	public void constructionTestWithFirstArgumentIsNotUniq(){
 			UniqTool tempUniqTool = new UniqTool(new String[]{"ls"});
 			assertEquals(127, tempUniqTool.getStatusCode());
 
@@ -216,6 +213,27 @@ public class UNIQToolTest {
 		assertEquals(expectedResult, executionResult);
 		assertEquals(0, tempUniqTool.getStatusCode());
 
+	}
+	
+	/**
+	 * Test executing with non existing file
+	 * Method to be tested: execute(File workingDir, String stdin)
+	 */
+
+	@Test
+	public void executionTestWithNonExistingFile(){
+		try {
+			//Create a temp file and input some dummy content on it
+			String tempFileName = "dummyfile";
+			String fileContent = "a dummy file content \na dummy file content \n The End\n";
+			File tempFile = createDummyFile(tempFileName, fileContent);
+			tempFile.delete();
+			UniqTool tempUniqTool = new UniqTool(new String[]{"uniq",});
+			String executionResult = tempUniqTool.execute(new File(System.getProperty("user.dir")), null);
+			assertNotEquals(0, tempUniqTool.getStatusCode());
+		} catch (IOException e) {
+			fail();
+		}
 	}
 
 	/**
@@ -617,7 +635,7 @@ public class UNIQToolTest {
 		String executionResult = tempUniqTool.execute(new File(System.getProperty("user.dir")), null);
 		
 		assertEquals(textOfHelp,executionResult);
-		assertEquals(uniqTool.getStatusCode(),0);
+		assertEquals(tempUniqTool.getStatusCode(),0);
 	}
 }
 

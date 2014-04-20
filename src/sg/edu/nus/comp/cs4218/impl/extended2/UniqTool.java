@@ -96,7 +96,7 @@ public class UniqTool extends ATool implements IUniqTool{
 
 			//check the option and set the flag
 			for(int i = 1; i < args.length - 1; i++){
-				if(checkValidArguments(args[i], i, args)){
+				if(checkValidOption(i, args)){
 					if(args[i].equals("-i")){
 						checkCase = false;
 					}
@@ -113,15 +113,21 @@ public class UniqTool extends ATool implements IUniqTool{
 					}
 				}
 				else{
-					setStatusCode(2);
-					err.println("Invalid Arguments detected");
+					//Invalid Option is detected
+					setStatusCode(5);
 					return null;
 				}
 			}
 
 			//Determine the input
 			String filename = args[args.length-1];
-			String input = checkStdinOrFile(stdin, filename);
+			String input;
+			try {
+				input = checkStdinOrFile(stdin, filename);
+			} catch (IOException e) {
+				setStatusCode(4); //IO Exception caught
+				return null;
+			}
 
 			//Determine whether we need to skip some char
 			output = makeTheInputUnique(checkCase, skipChar, offSet, input);
@@ -144,8 +150,15 @@ public class UniqTool extends ATool implements IUniqTool{
 		return output;
 	}
 
-	private boolean checkValidArguments(String arg, int argIndex, String[] arguments) {
+	/**
+	 * Check valid options for uniq tool
+	 * @param 	argIndex	index of the argument that need to be checked
+	 * @param 	arguments	array of arguments
+	 * @return	true or false depending the validity of the options
+	 */
+	private boolean checkValidOption(int argIndex, String[] arguments) {
 		boolean valid = false;
+		String arg = arguments[argIndex];
 		if ("-i".equals(arg) || "-f".equals(arg)){
 			valid = true; //if it is -f or -i, we consider it as valid arguments
 		}
@@ -165,18 +178,19 @@ public class UniqTool extends ATool implements IUniqTool{
 		return valid;
 	}
 
-	private String checkStdinOrFile(final String stdin, final String filename) {
+	/**
+	 * Helper function to return the corresponding input, whether it is from stdin or from a file
+	 * @param 	stdin	standard in to the tool
+	 * @param 	filename	filename that need to be parsed ("-" denotes standard input)
+	 * @return	the corresponding input that needs to be fed to uniq tool
+	 */
+	private String checkStdinOrFile(final String stdin, final String filename) throws IOException{
 		String input = null;
 		if(filename.equals("-")){
 			input = stdin;
 		}
 		else{
-			try{
-				input = readFile(filename);
-			} catch (IOException e) {
-				setStatusCode(4);
-				return null;
-			}
+			input = readFile(filename);
 		}
 		return input;
 	}
