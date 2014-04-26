@@ -32,7 +32,7 @@ public class CopyToolExtraTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.copyTool = new CopyTool(null);
+		this.copyTool = new CopyTool(new String[]{"copy"});
 		this.workingDir = new File(System.getProperty("user.dir"));
 		this.sourceDir = createDir("sourceDir");
 		this.destDir = createDir("testDir");
@@ -65,7 +65,7 @@ public class CopyToolExtraTest {
 		File source = File.createTempFile("newFileToCopy", ".txt",
 				this.sourceDir);
 
-		String[] args = { source.toString(), this.destDir.toString() };
+		String[] args = { "copy",source.toString(), this.destDir.toString() };
 
 		this.copyTool = new CopyTool(args);
 		String returnMessage = this.copyTool.execute(this.workingDir, null);
@@ -80,9 +80,10 @@ public class CopyToolExtraTest {
 
 		File aFile = null;
 
-		String[] args = new String[5];
+		String[] args = new String[6];
+		args[0] = "copy";
 
-		for (int i = 0; i < args.length - 1; i++) {
+		for (int i = 1; i < args.length - 1; i++) {
 			aFile = File.createTempFile("newFileToCopy_" + i + "_", ".txt",
 					this.sourceDir);
 			args[i] = aFile.toString();

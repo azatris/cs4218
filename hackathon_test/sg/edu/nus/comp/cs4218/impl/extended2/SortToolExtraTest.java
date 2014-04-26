@@ -71,7 +71,7 @@ public class SortToolExtraTest {
 
 	@Before
 	public void setUp() throws Exception {
-		sortTool = new SORTTool(null);
+		sortTool = new SORTTool(new String[]{"sort"});
 	}
 
 	@After
@@ -101,7 +101,7 @@ public class SortToolExtraTest {
 	
 	@Test
 	public void execute_1SortedFile_Output(){
-		String[] arguments = {"sortFile.txt"};
+		String[] arguments = {"cut","sortFile.txt"};
 		sortTool = new SORTTool(arguments);
 		assertEquals("aaa"+System.lineSeparator()+"bbb"+System.lineSeparator()+"ccc"+System.lineSeparator()+"ddd"+System.lineSeparator()+"eee",
 				sortTool.execute(defaultWorkingDirectory, null));
@@ -109,40 +109,42 @@ public class SortToolExtraTest {
 	
 	@Test
 	public void execute_1UnsortedFile_Output(){
-		String[] arguments = {"unSortFile.txt"};
+		String[] arguments = {"cut","unSortFile.txt"};
 		sortTool = new SORTTool(arguments);
 		assertEquals("aaa"+System.lineSeparator()+"bbb"+System.lineSeparator()+"fff"+System.lineSeparator()+"ggg"+System.lineSeparator()+"zzz",
 				sortTool.execute(defaultWorkingDirectory, null));
 	}
 	
-	@Test
-	public void execute_1Unsorted1SortedFile_Output(){
-		String[] arguments = {"sortFile.txt", "unSortFile.txt"};
-		sortTool = new SORTTool(arguments);
-		
-		assertEquals(
-				"aaa" + System.lineSeparator() + "aaa" + System.lineSeparator()
-						+ "bbb" + System.lineSeparator() + "bbb"
-						+ System.lineSeparator() + "ccc"
-						+ System.lineSeparator() + "ddd"
-						+ System.lineSeparator() + "eee"
-						+ System.lineSeparator() + "fff"
-						+ System.lineSeparator() + "ggg"
-						+ System.lineSeparator() + "zzz",
-				sortTool.execute(defaultWorkingDirectory, null));
-	}
+	//Invalid test case, tools beside comm and paste can only handle 1 file input
+//	@Test
+//	public void execute_1Unsorted1SortedFile_Output(){
+//		String[] arguments = {"cut","sortFile.txt", "unSortFile.txt"};
+//		sortTool = new SORTTool(arguments);
+//		
+//		assertEquals(
+//				"aaa" + System.lineSeparator() + "aaa" + System.lineSeparator()
+//						+ "bbb" + System.lineSeparator() + "bbb"
+//						+ System.lineSeparator() + "ccc"
+//						+ System.lineSeparator() + "ddd"
+//						+ System.lineSeparator() + "eee"
+//						+ System.lineSeparator() + "fff"
+//						+ System.lineSeparator() + "ggg"
+//						+ System.lineSeparator() + "zzz",
+//				sortTool.execute(defaultWorkingDirectory, null));
+//	}
 	
-	@Test
-	public void execute_File2NotExist_NoSuchFileError(){
-		String[] arguments = {"sortFile.txt", "NotExist.txt"};
-		sortTool = new SORTTool(arguments);
-		assertEquals("sort: stat failed: NotExist.txt: No such file or directory",
-				sortTool.execute(defaultWorkingDirectory, null));
-	}
+	//Invalid test case, tools beside comm and paste can only handle 1 file input
+//	@Test
+//	public void execute_File2NotExist_NoSuchFileError(){
+//		String[] arguments = {"cut","sortFile.txt", "NotExist.txt"};
+//		sortTool = new SORTTool(arguments);
+//		assertEquals("sort: stat failed: NotExist.txt: No such file or directory",
+//				sortTool.execute(defaultWorkingDirectory, null));
+//	}
 	
 	@Test
 	public void execute_1ValidOption1SortedFile_Output(){
-		String[] arguments = {"-c", "sortFile.txt"};
+		String[] arguments = {"cut","-c", "sortFile.txt"};
 		sortTool = new SORTTool(arguments);
 		assertEquals("",
 				sortTool.execute(defaultWorkingDirectory, null));
@@ -150,7 +152,7 @@ public class SortToolExtraTest {
 	
 	@Test
 	public void execute_1ValidOption1UnsortedFile_Output(){
-		String[] arguments = {"-c", "unSortFile.txt"};
+		String[] arguments = {"cut","-c", "unSortFile.txt"};
 		sortTool = new SORTTool(arguments);
 		assertEquals("sort: unSortFile.txt:2: disorder: bbb",
 				sortTool.execute(defaultWorkingDirectory, null));
@@ -158,7 +160,7 @@ public class SortToolExtraTest {
 	
 	@Test
 	public void execute_1ValidOption2File_ExtraOperand(){
-		String[] arguments = {"-c", "unSortFile.txt", "sortFile.txt"};
+		String[] arguments = {"cut","-c", "unSortFile.txt", "sortFile.txt"};
 		sortTool = new SORTTool(arguments);
 		assertEquals("sort: extra operand 'sortFile.txt' not allowed with -c",
 				sortTool.execute(defaultWorkingDirectory, null));
@@ -166,7 +168,7 @@ public class SortToolExtraTest {
 	
 	@Test
 	public void execute_2ValidOption1File_Output(){
-		String[] arguments = {"-c", "-c", "sortFile.txt"};
+		String[] arguments = {"cut","-c", "-c", "sortFile.txt"};
 		sortTool = new SORTTool(arguments);
 		assertEquals("",
 				sortTool.execute(defaultWorkingDirectory, null));
@@ -174,7 +176,7 @@ public class SortToolExtraTest {
 	
 	@Test
 	public void execute_1ValidOption1File2NotExist_ExtraOperand(){
-		String[] arguments = {"-c", "sortFile.txt", "NotExist.txt"};
+		String[] arguments = {"cut","-c", "sortFile.txt", "NotExist.txt"};
 		sortTool = new SORTTool(arguments);
 		assertEquals("sort: extra operand 'NotExist.txt' not allowed with -c",
 				sortTool.execute(defaultWorkingDirectory, null));
@@ -182,39 +184,42 @@ public class SortToolExtraTest {
 	
 	@Test
 	public void execute_2ValidOption1File1NotExist_ExtraOperand(){
-		String[] arguments = {"-c", "-c", "NotExist.txt", "sortFile.txt"};
+		String[] arguments = {"cut","-c", "-c", "NotExist.txt", "sortFile.txt"};
 		sortTool = new SORTTool(arguments);
 		assertEquals("sort: extra operand 'sortFile.txt' not allowed with -c",
 				sortTool.execute(defaultWorkingDirectory, null));
 	}
 	
-	@Test
-	public void execute_HelpOption_Output(){
-		String[] arguments = {"-help", "sortFile.txt"};
-		sortTool = new SORTTool(arguments);
-		assertEquals(SORT_HELP,
-				sortTool.execute(defaultWorkingDirectory, null));
-	}
+	//Invalid Test case, help can only be executed as the only option
+//	@Test
+//	public void execute_HelpOption_Output(){
+//		String[] arguments = {"cut","-help", "sortFile.txt"};
+//		sortTool = new SORTTool(arguments);
+//		assertEquals(SORT_HELP,
+//				sortTool.execute(defaultWorkingDirectory, null));
+//	}
 	
-	@Test
-	public void execute_HelpWithValidOption_Output(){
-		String[] arguments = {"-help", "-c"};
-		sortTool = new SORTTool(arguments);
-		assertEquals(SORT_HELP,
-				sortTool.execute(defaultWorkingDirectory, null));
-	}
+	//Invalid Test case, help can only be executed as the only option
+//	@Test
+//	public void execute_HelpWithValidOption_Output(){
+//		String[] arguments = {"cut","-help", "-c"};
+//		sortTool = new SORTTool(arguments);
+//		assertEquals(SORT_HELP,
+//				sortTool.execute(defaultWorkingDirectory, null));
+//	}
 	
-	@Test
-	public void execute_HelpWithInvalidOption_Output(){
-		String[] arguments = {"-help", "-unknown"};
-		sortTool = new SORTTool(arguments);
-		assertEquals(SORT_HELP,
-				sortTool.execute(defaultWorkingDirectory, null));
-	}
+	//Invalid Test case, help can only be executed as the only option
+//	@Test
+//	public void execute_HelpWithInvalidOption_Output(){
+//		String[] arguments = {"cut","-help", "-unknown"};
+//		sortTool = new SORTTool(arguments);
+//		assertEquals(SORT_HELP,
+//				sortTool.execute(defaultWorkingDirectory, null));
+//	}
 	
 	@Test
 	public void execute_NoOptionEmptyFile_Output(){
-		String[] arguments = {"emptyFile.txt"};
+		String[] arguments = {"cut","emptyFile.txt"};
 		sortTool = new SORTTool(arguments);
 		assertEquals("",
 				sortTool.execute(defaultWorkingDirectory, null));
@@ -222,7 +227,7 @@ public class SortToolExtraTest {
 	
 	@Test
 	public void execute_1ValidOptionEmptyFile_Output(){
-		String[] arguments = {"-c", "emptyFile.txt"};
+		String[] arguments = {"cut","-c", "emptyFile.txt"};
 		sortTool = new SORTTool(arguments);
 		assertEquals("",
 				sortTool.execute(defaultWorkingDirectory, null));
@@ -231,7 +236,7 @@ public class SortToolExtraTest {
 	
 	//This is an unsupported features
 	public void execute_UnsortedInputFromStdinNoOption_SortedOutput(){
-		String[] argument = {"-"}; 
+		String[] argument = {"cut","-"}; 
 		
 		sortTool = new SORTTool(argument);
 		

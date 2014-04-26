@@ -81,7 +81,7 @@ public class CutToolExtraTest {
 
  @Before
  public void setUp() {
-  cutTool = new CutTool(null);
+  cutTool = new CutTool(new String[]{"cut"});
  }
 
  @After

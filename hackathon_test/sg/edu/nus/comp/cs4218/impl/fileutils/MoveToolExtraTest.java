@@ -32,7 +32,7 @@ public class MoveToolExtraTest {
 
  @Before
  public void setUp() throws Exception {
-  this.moveTool = new MoveTool(null);
+  this.moveTool = new MoveTool(new String[]{"move"});
   this.workingDir = new File(System.getProperty("user.dir"));
   this.sourceDir = createDir("_source_dir");
   this.destDir = createDir("_dest_dir");
@@ -75,9 +75,10 @@ public class MoveToolExtraTest {
 
   File aFile = null;
 
-  String[] args = new String[5];
+  String[] args = new String[6];
+  args[0] = "move";
 
-  for (int i = 0; i < args.length - 1; i++) {
+  for (int i = 1; i < args.length - 1; i++) {
    aFile = File.createTempFile("newFileToMove_" + i + "_", ".txt",
      this.sourceDir);
    args[i] = aFile.toString();
@@ -100,9 +101,10 @@ public class MoveToolExtraTest {
 
   File aFile = null;
 
-  String[] args = new String[5];
+  String[] args = new String[6];
+  args[0] = "move";
 
-  for (int i = 0; i < args.length - 1; i++) {
+  for (int i = 1; i < args.length - 1; i++) {
    aFile = File.createTempFile("newFileToMove_" + i + "_", ".txt",
      this.sourceDir);
    args[i] = aFile.toString();

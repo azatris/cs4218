@@ -28,7 +28,7 @@ public class CdToolExtraTest {
 	public void setUp() throws Exception {
 		defaultWorkingDirectory = System.getProperty(USER_DIRECTORY);
 		
-		cdTool= new CdTool(null);
+		cdTool= new CdTool(new String[]{"cd"});
 		workingDirectory = new File(defaultWorkingDirectory);
 	}
 
@@ -87,7 +87,7 @@ public class CdToolExtraTest {
 		File directory = new File(defaultWorkingDirectory);
 		File[] currentDirectoryFiles = directory.listFiles();
 
-		final String[] argument = { currentDirectoryFiles[0].getAbsolutePath() }; 
+		final String[] argument = {"cd", currentDirectoryFiles[0].getAbsolutePath() }; 
 
 		cdTool = new CdTool(argument);
 		cdTool.execute(workingDirectory, null);
@@ -100,7 +100,7 @@ public class CdToolExtraTest {
 	@Test
 	public void execute_sameDirectory_StatusCodeZero(){
 		final String newDirectory = defaultWorkingDirectory;
-		final String[] argument = {newDirectory}; 
+		final String[] argument = {"cd",newDirectory}; 
 		cdTool = new CdTool(argument);
 
 		cdTool = new CdTool(argument);
@@ -112,7 +112,7 @@ public class CdToolExtraTest {
 
 	@Test
 	public void execute_emptyString_StatusCodeZero(){
-		final String[] argument = {""};
+		final String[] argument = {"cd",""};
 		cdTool = new CdTool(argument);
 		cdTool.execute(workingDirectory, null);
 
@@ -136,7 +136,7 @@ public class CdToolExtraTest {
 
 	@Test 
 	public void execute_ValidNavigateBack_StatusCodeZero(){
-		String[] argument = {"src"};
+		String[] argument = {"cd","src"};
 		cdTool = new CdTool(argument);
 		cdTool.execute(workingDirectory, null);
 		
@@ -157,10 +157,11 @@ public class CdToolExtraTest {
 //		assertNotEquals(0, cdTool.getStatusCode());
 //	}
 	
-	@Test
-	public void execute_NullArgument_StatusCodeNonZero(){
-		cdTool = new CdTool(null);
-		cdTool.execute(workingDirectory, null);
-		assertNotEquals(0, cdTool.getStatusCode());
-	}
+	//Invalid test case, all arguments must define args[0] as the tool name
+//	@Test
+//	public void execute_NullArgument_StatusCodeNonZero(){
+//		cdTool = new CdTool(null);
+//		cdTool.execute(workingDirectory, null);
+//		assertNotEquals(0, cdTool.getStatusCode());
+//	}
 }

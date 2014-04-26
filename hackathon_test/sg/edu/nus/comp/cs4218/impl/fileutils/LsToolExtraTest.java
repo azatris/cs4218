@@ -37,7 +37,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void getFiles_CurrentDirectory_DirectoryListMatch() {
-		lsTool = new LsTool(null);
+		lsTool = new LsTool(new String[]{"ls"});
 		final File[] fileList = currentWorkingDirectory.listFiles();
 
 		final List<File> returnStatement = lsTool.getFiles(currentWorkingDirectory);
@@ -51,7 +51,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void getFiles_EmptyDirectory_EmptyList() {
-		lsTool = new LsTool(null);
+		lsTool = new LsTool(new String[]{"ls"});
 		final String newFolderName = "newFolder"; 
 		new File(newFolderName).mkdir();
 		
@@ -75,7 +75,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void getFiles_SingleDirectory_ListOfDirectoryMatched() {
-		lsTool = new LsTool(null);
+		lsTool = new LsTool(new String[]{"ls"});
 		final File singleFileDirectroy = new File("bin");
 		final List<File> fileList = lsTool.getFiles(singleFileDirectroy);
 
@@ -86,7 +86,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void getFiles_NullDirectory_NullObjectReturned() {
-		lsTool = new LsTool(null);
+		lsTool = new LsTool(new String[]{"ls"});
 		final List<File> returnStatement = lsTool.getFiles(null);
 
 		assertNull(returnStatement);
@@ -94,7 +94,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void getFiles_InvalidDirectory_NullObjectReject() {
-		lsTool = new LsTool(null);
+		lsTool = new LsTool(new String[]{"ls"});
 		final File invalidDirectory = new File("invalid");
 		final List<File> returnStatement = lsTool.getFiles(invalidDirectory);
 
@@ -103,7 +103,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void getFiles_MultipleFileNames_ListofDirectoryMatched() {
-		lsTool = new LsTool(null);
+		lsTool = new LsTool(new String[]{"ls"});
 		final File singleFileDirectory = new File("src" + File.separator + "sg"
 				+ File.separator + "edu" + File.separator + "nus"
 				+ File.separator + "comp" + File.separator + "cs4218"
@@ -118,7 +118,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void getStringForFiles_NullObject_Error() {
-		lsTool = new LsTool(null);
+		lsTool = new LsTool(new String[]{"ls"});
 		final String returnStatement = lsTool.getStringForFiles(null);
 
 		assertEquals("", returnStatement);
@@ -126,7 +126,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void getStringForFiles_EmptyList_EmptyStringReturned() {
-		lsTool = new LsTool(null);
+		lsTool = new LsTool(new String[]{"ls"});
 		final List<File> emptyList = new ArrayList<File>();
 		final String returnStatement = lsTool.getStringForFiles(emptyList);
 
@@ -135,7 +135,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void execute_CurrentDirectory_ListOfDirectoryMatched() {
-		String[] argument = {""};
+		String[] argument = {"ls",""};
 		lsTool = new LsTool(argument);
 		
 		final File[] fileList = currentWorkingDirectory.listFiles();
@@ -155,12 +155,13 @@ public class LsToolExtraTest {
 		assertEquals(0, lsTool.getStatusCode());
 	}
 	
-	@Test
-	public void execute_NullArgument_StatusCodeNonZero(){
-		lsTool = new LsTool(null);
-		
-		assertNotEquals(0, lsTool.execute(currentWorkingDirectory, null));
-	}
+	//Invalid test case, args[0] must always be defined as tool name
+//	@Test
+//	public void execute_NullArgument_StatusCodeNonZero(){
+//		lsTool = new LsTool(null);
+//		
+//		assertNotEquals(0, lsTool.execute(currentWorkingDirectory, null));
+//	}
 
 	@Test
 	public void execute_EmptyDirectory_EmptyStringReturned() {
@@ -168,7 +169,7 @@ public class LsToolExtraTest {
 
 		new File(newFolderName).mkdir();
 		
-		final String[] arguement = {newFolderName};
+		final String[] arguement = {"ls",newFolderName};
 		lsTool = new LsTool(arguement);
 
 		final String returnStatement = lsTool.execute(currentWorkingDirectory, null);
@@ -179,7 +180,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void execute_InvalidDirectory_ErrorMessageReturned() {
-		final String[] arguement = {"invalid"};
+		final String[] arguement = {"ls","invalid"};
 		lsTool = new LsTool(arguement);
 		final String returnStatement = lsTool.execute(currentWorkingDirectory, null);
 
@@ -196,7 +197,7 @@ public class LsToolExtraTest {
 			counter++;
 		}
 		
-		String[] argument = {pwdFiles[counter].getAbsolutePath()};
+		String[] argument = {"ls",pwdFiles[counter].getAbsolutePath()};
 		lsTool = new LsTool(argument);
 
 		final String returnStatement = lsTool.execute(currentWorkingDirectory, null);
@@ -216,7 +217,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void execute_ListIncorrectAbsoluteDirectory_ErrorMessageReturned(){
-		final String[] arguments = {"/us"};
+		final String[] arguments = {"ls","/us"};
 		lsTool = new LsTool(arguments);
 
 		final String returnStatement = lsTool.execute(currentWorkingDirectory, null);
@@ -226,7 +227,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void execute_ListCorrectRelativeDirectory_CorrectListofDirectoryReturned(){
-		final String[] arguments = {"src"};
+		final String[] arguments = {"ls","src"};
 		lsTool = new LsTool(arguments);
 
 		final String returnStatement = lsTool.execute(currentWorkingDirectory, null);
@@ -237,7 +238,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void execute_ListInCorrectRelativeDirectory_ErrorMessageReturned(){
-		final String[] arguments = {"sr"};
+		final String[] arguments = {"ls","sr"};
 		lsTool = new LsTool(arguments);
 
 		final String returnStatement = lsTool.execute(currentWorkingDirectory, null);
@@ -253,7 +254,7 @@ public class LsToolExtraTest {
 				+ File.separator + "fileutils" + File.separator
 				+ "ILsTool.java";
 
-		final String[] arguments = {arguementDirectoryList};
+		final String[] arguments = {"ls",arguementDirectoryList};
 
 		lsTool = new LsTool(arguments);
 		final String returnStatement = lsTool.execute(currentWorkingDirectory, null);
@@ -266,7 +267,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void execute_ListIncorrectFileName__ErrorMessageReturned(){
-		final String[] arguments = {"src.java"};
+		final String[] arguments = {"ls","src.java"};
 		lsTool = new LsTool(arguments);
 
 		final String returnStatement = lsTool.execute(currentWorkingDirectory, null);
@@ -276,7 +277,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void execute_ListMultipleDirectoryFirstDirCorrect_CorrectListofDirectoryReturned(){
-		final String[] arguments = {"src", "test"};
+		final String[] arguments = {"ls","src", "test"};
 		lsTool = new LsTool(arguments);
 
 		final String returnStatement = lsTool.execute(currentWorkingDirectory, null);
@@ -289,7 +290,7 @@ public class LsToolExtraTest {
 
 	@Test
 	public void execute_ListMultipleDirectoryFirstDirIncorrect_ErrorMsgThenCorrectListOfDirectoryReturned(){
-		final String[] arguments = {"sr", "test"};
+		final String[] arguments = {"ls","sr", "test"};
 		lsTool = new LsTool(arguments);
 
 		final String returnStatement = lsTool.execute(currentWorkingDirectory, null);
@@ -303,7 +304,7 @@ public class LsToolExtraTest {
 	
 	@Test
 	public void execute_NullPresentWorkingDirectory_NonZeroStatusCode(){
-		final String[] argument = {""};
+		final String[] argument = {"ls",""};
 		lsTool = new LsTool(argument);
 		
 		lsTool.execute(null, null);

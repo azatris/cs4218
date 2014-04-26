@@ -98,7 +98,7 @@ public class CommToolExtraTest1 {
 
 	@Before
 	public void before() throws IOException {
-		commTool = new CommTool(null);
+		commTool = new CommTool(new String[]{"comm"});
 	}
 
 	@After
@@ -249,7 +249,7 @@ public class CommToolExtraTest1 {
 	// Swap result and expected
 	@Test
 	public void withoutOptionsfileNotExist() throws IOException {
-		String[] argument2 = { "notExist.txt", "testFile2.txt" };
+		String[] argument2 = { "comm","notExist.txt", "testFile2.txt" };
 		commTool = new CommTool(argument2);
 		File myFile = new File("user.dir");
 		String result2 = commTool.execute(myFile, null);
@@ -261,7 +261,7 @@ public class CommToolExtraTest1 {
 	@Test
 	public void execute_WithoutOptionsSecondfileNotExist_FileNotExistError()
 			throws IOException {
-		String[] argument = { "testFile1.txt", "notExist.txt" };
+		String[] argument = { "comm","testFile1.txt", "notExist.txt" };
 		commTool = new CommTool(argument);
 		File myFile = new File("user.dir");
 		String result = commTool.execute(myFile, null);
@@ -276,7 +276,7 @@ public class CommToolExtraTest1 {
 	// Swap result and expected
 	@Test
 	public void printHelp() throws IOException {
-		String[] argument = { "-help" };
+		String[] argument = {"comm", "-help" };
 		commTool = new CommTool(argument);
 		File myFile = new File("user.dir");
 		String result = commTool.execute(myFile, null);
@@ -289,7 +289,7 @@ public class CommToolExtraTest1 {
 	@Test
 	public void withCorrectOptionsFileNotExist() throws IOException {
 
-		String[] argument = { "-c", "testFile1.txt", "notExist.txt" };
+		String[] argument = { "comm","-c", "testFile1.txt", "notExist.txt" };
 
 		commTool = new CommTool(argument);
 
@@ -310,7 +310,7 @@ public class CommToolExtraTest1 {
 	@Test
 	public void optionsErrorFileExisted() throws IOException {
 
-		String[] argument = { "unreadable", "testFile1.txt", "testFile2.txt" };
+		String[] argument = { "comm","unreadable", "testFile1.txt", "testFile2.txt" };
 		commTool = new CommTool(argument);
 		String result = commTool.execute(new File("user.dir"), null);
 		assertEquals("comm: extra operand '" + "testFile2.txt" + "'" + ""
@@ -323,7 +323,7 @@ public class CommToolExtraTest1 {
 	@Test
 	public void optionsErrorFileNotExist() throws IOException {
 
-		String[] argument = { "unreadable", "notExist.txt", "notExist.txt" };
+		String[] argument = { "comm","unreadable", "notExist.txt", "notExist.txt" };
 
 		commTool = new CommTool(argument);
 		String result = commTool.execute(new File("user.dir"), null);
@@ -338,7 +338,7 @@ public class CommToolExtraTest1 {
 	@Test
 	public void unknowOptionsFileNotExist() throws IOException {
 
-		String[] argument = { "unreadable", "notExist.txt", "notExist.txt" };
+		String[] argument = { "comm","unreadable", "notExist.txt", "notExist.txt" };
 
 		commTool = new CommTool(argument);
 		String result = commTool.execute(new File("user.dir"), null);
@@ -353,7 +353,7 @@ public class CommToolExtraTest1 {
 	@Test
 	public void moreThanThreeArgument() throws IOException {
 
-		String[] argument = { "notExist1.txt", "notExist2.txt",
+		String[] argument = {"comm", "notExist1.txt", "notExist2.txt",
 				"notExist3.txt", "notExist4.txt" };
 
 		commTool = new CommTool(argument);

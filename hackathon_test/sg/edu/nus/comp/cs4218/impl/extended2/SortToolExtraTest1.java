@@ -51,7 +51,7 @@ public class SortToolExtraTest1 {
 
 	@Before
 	public void before() throws IOException {
-		sortTool = new SORTTool(null);
+		sortTool = new SORTTool(new String[]{"sort"});
 	}
 
 	@After
@@ -168,7 +168,7 @@ public class SortToolExtraTest1 {
 	@Test
 	public void fileNotExist() throws IOException {
 
-		String[] argument = { "notExist.txt" };
+		String[] argument = { "sort","notExist.txt" };
 
 		sortTool = new SORTTool(argument);
 
@@ -184,7 +184,7 @@ public class SortToolExtraTest1 {
 	// Split the test case into individual test case
 	@Test
 	public void execute_FileNotExistWithOption_OpenFailError() {
-		String[] argument2 = { "-c", "notExist.txt" };
+		String[] argument2 = { "sort","-c", "notExist.txt" };
 
 		sortTool = new SORTTool(argument2);
 
@@ -200,7 +200,7 @@ public class SortToolExtraTest1 {
 	@Test
 	public void invalidOptionFileExist() throws IOException {
 
-		String[] argument1 = { "unknown", "sortFile.txt" };
+		String[] argument1 = {"sort", "unknown", "sortFile.txt" };
 
 		sortTool = new SORTTool(argument1);
 
@@ -213,7 +213,7 @@ public class SortToolExtraTest1 {
 	//Use System.lineSeparator instead of \n
 	@Test
 	public void execute_InvalidOption_OptionError() {
-		String[] argument2 = { "-unknown", "sortFile.txt" };
+		String[] argument2 = {"sort", "-unknown", "sortFile.txt" };
 
 		sortTool = new SORTTool(argument2);
 		String result2 = sortTool.execute(new File("user.dir"), null);
@@ -228,7 +228,7 @@ public class SortToolExtraTest1 {
 	@Test
 	public void invalidArguments() throws IOException {
 
-		String[] argument1 = { "unknown", "unknown" };
+		String[] argument1 = { "sort","unknown", "unknown" };
 
 		sortTool = new SORTTool(argument1);
 
@@ -239,7 +239,7 @@ public class SortToolExtraTest1 {
 
 	@Test
 	public void execute_3InvalidFile_OpenFailError() {
-		String[] argument2 = { "unknown", "unknown", "unknown" };
+		String[] argument2 = { "sort","unknown", "unknown", "unknown" };
 
 		sortTool = new SORTTool(argument2);
 
@@ -253,7 +253,7 @@ public class SortToolExtraTest1 {
 	@Test
 	public void nullArguments() throws IOException {
 
-		String[] argument = {};
+		String[] argument = {"cut",};
 
 		sortTool = new SORTTool(argument);
 
