@@ -13,10 +13,10 @@ public class LsTool extends ATool implements ILsTool {
 		super(arguments);
 		if (args == null || args.length == 0 || !args[0].equals("ls")) {
 			setStatusCode(127);
-			
+
 		}
 	}
-	
+
 	/**
 	 * @param directory place to scan for files
 	 * @return list of files in the <code>directory</code>
@@ -63,24 +63,19 @@ public class LsTool extends ATool implements ILsTool {
 	 */
 	@Override
 	public String execute(File workingDir, String stdin) {
-		if (stdin == null) {
-			List<File> files = null;
-			if (args.length == 2) {
-				File targetDirectory = new File(args[1]);
-				files = getFiles(targetDirectory);
-				if (files == null) {
-					setStatusCode(127);
-					return null;
-				}
+		List<File> files = null;
+		if (args.length == 2) {
+			File targetDirectory = new File(args[1]);
+			files = getFiles(targetDirectory);
+			if (files == null) {
+				setStatusCode(127);
+				return null;
 			}
-			if (args.length == 1) {
-				files = getFiles(workingDir);
-			}
-			return getStringForFiles(files);
-		} else {
-			setStatusCode(127);
 		}
-		return null;
+		if (args.length == 1) {
+			files = getFiles(workingDir);
+		}
+		return getStringForFiles(files);
 	}
 
 }
