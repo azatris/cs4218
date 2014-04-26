@@ -251,8 +251,11 @@ public class Shell implements IShell {
 				else if(commandLine.equalsIgnoreCase("exit")){
 					System.exit(0); //exit the shell
 				}
+				else if(commandLine.equals("")){
+					continue; //continue to parse the next command line
+				}
 				else{
-					parseResult = shell.parse(commandLine); //return the result of parsing
+					parseResult = shell.parse(commandLine.trim()); //return the result of parsing
 					executingThread = (Thread)shell.execute(parseResult); //run the thread
 				}
 			} catch (IOException e) {
@@ -341,7 +344,8 @@ public class Shell implements IShell {
 		@Override
 		public void run() {
 			//check whether there is any tool to be executed here
-			if(executionTool != null){
+			//and assure that there is no error when construction the tool
+			if(executionTool != null && executionTool.getStatusCode() != 127){
 				final String executionResult = executionTool.execute(workingDirectory, standardIn);
 				final int statusCode = executionTool.getStatusCode();
 				final String message = getMessage(statusCode, executionResult);
