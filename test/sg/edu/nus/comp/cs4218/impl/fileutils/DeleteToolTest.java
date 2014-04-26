@@ -127,7 +127,7 @@ public class DeleteToolTest {
 		String[] args = {"delete", fileToDelete.getName()};
 		deleteTool = new DeleteTool(args);
 
-		assertNull(deleteTool.execute(workingDir, null));
+		deleteTool.execute(workingDir, null);
 		assertEquals(0, deleteTool.getStatusCode());
 		assertFalse(fileToDelete.exists());
 	}
@@ -143,7 +143,7 @@ public class DeleteToolTest {
 		String[] args = {"delete", ".." + File.separator + fileToDelete.getName()};
 		deleteTool = new DeleteTool(args);
 
-		assertNull(deleteTool.execute(workingDir, null));
+		deleteTool.execute(workingDir, null);
 		assertEquals(0, deleteTool.getStatusCode());
 		assertFalse(fileToDelete.exists());
 	}
@@ -160,7 +160,7 @@ public class DeleteToolTest {
 		String[] args = {"delete", folder.getName() + File.separator + fileToDelete.getName()};
 		deleteTool = new DeleteTool(args);
 
-		assertNull(deleteTool.execute(workingDir, null));
+		deleteTool.execute(workingDir, null);
 		assertEquals(0, deleteTool.getStatusCode());
 		assertFalse(fileToDelete.exists());
 		folder.delete();
@@ -177,7 +177,7 @@ public class DeleteToolTest {
 		String[] args = {"delete", fileToDelete.getAbsolutePath()};
 		deleteTool = new DeleteTool(args);
 
-		assertNull(deleteTool.execute(workingDir, null));
+		deleteTool.execute(workingDir, null);
 		assertEquals(0, deleteTool.getStatusCode());
 		assertFalse(fileToDelete.exists());
 	}
@@ -195,7 +195,7 @@ public class DeleteToolTest {
 		String[] args = {"delete", fileToDelete1.getName(), fileToDelete2.getName(), fileToDelete3.getName()};
 		deleteTool = new DeleteTool(args);
 
-		assertNull(deleteTool.execute(workingDir, null));
+		deleteTool.execute(workingDir, null);
 		assertEquals(0, deleteTool.getStatusCode());
 		assertFalse(fileToDelete1.exists());
 		assertFalse(fileToDelete2.exists());
@@ -217,7 +217,7 @@ public class DeleteToolTest {
 		
 		fileToDelete2.delete();
 		assertFalse(fileToDelete2.exists());
-		assertNotNull(deleteTool.execute(workingDir, null));
+		deleteTool.execute(workingDir, null);
 		assertNotEquals(0,deleteTool.getStatusCode());
 		assertFalse(fileToDelete1.exists());
 		assertFalse(fileToDelete2.exists());
@@ -235,7 +235,7 @@ public class DeleteToolTest {
 		String[] args = {"delete", emptyFolder.getName()};
 		deleteTool = new DeleteTool(args);
 
-		assertNull(deleteTool.execute(workingDir, null));
+		deleteTool.execute(workingDir, null);
 		assertEquals(0, deleteTool.getStatusCode());
 		assertFalse(emptyFolder.exists());
 	}
@@ -252,7 +252,7 @@ public class DeleteToolTest {
 		String[] args = {"delete", folder.getName()};
 		deleteTool = new DeleteTool(args);
 
-		assertNotNull(deleteTool.execute(workingDir, null));
+		deleteTool.execute(workingDir, null);
 		assertTrue(deleteTool.getStatusCode() != 0);
 		assertTrue(folder.exists());
 		fileInFolder.delete();

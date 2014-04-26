@@ -40,15 +40,14 @@ public class DeleteTool extends ATool implements IDeleteTool {
 	 */
 	@Override
 	public String execute(File workingDir, String stdin) {
-		if(args.length==1){
-			setStatusCode(1);
-			return "Error: Cannot find working directory";
+		if (workingDir == null || args.length==1){
+				setStatusCode(1);
 		}else{
 			StringBuilder returnMsg = new StringBuilder();
 			int status = 0;
 			for (int i=1; i<args.length; i++){
 				String filePath = null;
-				if (Paths.get(args[i]).isAbsolute()){
+				if (args[i]!=null && Paths.get(args[i]).isAbsolute()){
 					filePath = args[i];
 				}else{
 					filePath = Common.concatenateDirectory(workingDir.getAbsolutePath(), args[i]);
@@ -64,7 +63,7 @@ public class DeleteTool extends ATool implements IDeleteTool {
 			if (returnMsg.toString().length() > 0){
 				return returnMsg.toString();
 			}
-			return null;
 		}
+		return "";
 	}
 }

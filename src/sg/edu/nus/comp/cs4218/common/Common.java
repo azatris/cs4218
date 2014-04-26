@@ -25,29 +25,34 @@ public class Common {
 		if(File.separator.equals("\\")){
 			separator =("\\\\");
 		}
-
-		Stack<String> buildNewAbsDir = new Stack<String>();
-		buildNewAbsDir.addAll(Arrays.asList(curAbsDir.split(separator)));
-		
-		for(String str: Arrays.asList(newRelDir.split(separator))){
-			if (!str.equals("")){
-				if (str.equals("..")){ // parent directory
-					buildNewAbsDir.pop();
-				}else if ((str.equals("."))){ // current directory
-				}else{ // child directory
-					buildNewAbsDir.push(str);
+		if (curAbsDir != null ){
+			Stack<String> buildNewAbsDir = new Stack<String>();
+			buildNewAbsDir.addAll(Arrays.asList(curAbsDir.split(separator)));
+			if (newRelDir != null){
+				for(String str: Arrays.asList(newRelDir.split(separator))){
+					if (!str.equals("")){
+						if (str.equals("..")){ // parent directory
+							buildNewAbsDir.pop();
+						}else if ((str.equals("."))){ // current directory
+						}else{ // child directory
+							buildNewAbsDir.push(str);
+						}
+					}
 				}
 			}
-		}
-		StringBuilder newWorkingDir = new StringBuilder();
-		if (System.getProperty("os.name").toLowerCase().indexOf("mac") > 0){
-			newWorkingDir.append(File.separator);
-		}
-		for (int i = 0; i<buildNewAbsDir.size(); i++){
-			newWorkingDir.append(buildNewAbsDir.get(i));
+			
+			StringBuilder newWorkingDir = new StringBuilder();
+			if (System.getProperty("os.name").toLowerCase().indexOf("mac") > 0){
 				newWorkingDir.append(File.separator);
+			}
+			for (int i = 0; i<buildNewAbsDir.size(); i++){
+				newWorkingDir.append(buildNewAbsDir.get(i));
+					newWorkingDir.append(File.separator);
+			}
+			return newWorkingDir.toString();
+		}else{
+			return "";
 		}
-		return newWorkingDir.toString();
 	}
 	
 	/**
@@ -116,10 +121,6 @@ public class Common {
 				fileContents.append(line);
 				fileContents.append(System.lineSeparator());
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
