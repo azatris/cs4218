@@ -106,8 +106,14 @@ public class CopyTool extends ATool implements ICopyTool {
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length == 3){
-			String fromStr = null;
-			String toStr = null;
+			if (args[1] == args[2])
+			{
+				setStatusCode(211);
+				return "";
+			}
+			
+			String fromStr = "";
+			String toStr = "";
 			if (Paths.get(args[1]).isAbsolute()){
 				fromStr = args[1];
 			}else{
@@ -127,5 +133,4 @@ public class CopyTool extends ATool implements ICopyTool {
 		}
 		return "";
 	}
-
 }
