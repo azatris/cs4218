@@ -161,4 +161,11 @@ public class ConstructingToolFromShellCommandLineTest {
 		ITool instantiatedTool = shell.parse(commandline);
 		assertTrue(instantiatedTool instanceof GrepTool);
 	}
+	
+	@Test
+	public void ConstructingNonExistingToolFromCommandLineTest(){
+		String commandline = "dummy ";
+		ITool instantiatedTool = shell.parse(commandline);
+		assertNull(instantiatedTool);
+	}
 }
