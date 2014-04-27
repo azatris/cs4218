@@ -336,23 +336,4 @@ public class GrepToolTest {
 		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
 	}
 	
-	/**
-	 *  Tests execute with non-existing file
-	 */
-	@Test
-	public void testExecuteWithNonExistingFile() {
-		grepToolForExecute = new GrepTool(new String[]{"grep", IP_PATTERN, "abcdefg.prr"});
-		grepToolForExecute.execute(Paths.get(".").toFile(), null);
-		assertNotEquals(grepToolForExecute.getStatusCode(), 0);
-	}
-	
-	/**
-	 * Tests some found fault
-	 */
-	@Test
-	public void testGrepExecuteCountMatchingLines() {
-		grepToolForExecute = new GrepTool(new String[]{"grep", "-c", "l3", "a.txt"});
-		int result = Integer.valueOf(grepToolForExecute.execute(Paths.get(".").toFile(), null));
-		assertEquals(1, result);
-	}
 }
