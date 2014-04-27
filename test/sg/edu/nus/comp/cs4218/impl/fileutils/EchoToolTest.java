@@ -62,7 +62,7 @@ public class EchoToolTest {
 		File workingDir = new File(System.getProperty("user.dir"));
 		String[] args = {"echo", "str1"};
 		echoTool = new EchoTool(args);
-		assertEquals(echoTool.execute(workingDir, null), args[1]);
+		assertEquals(args[1]+System.lineSeparator(), echoTool.execute(workingDir, null));
 		assertEquals(0, echoTool.getStatusCode());
 	}
 	
@@ -81,7 +81,8 @@ public class EchoToolTest {
 				stringBuilder.append(" ");
 			}
 		}
-		assertEquals(echoTool.execute(workingDir, null), stringBuilder.toString());
+		stringBuilder.append(System.lineSeparator());
+		assertEquals(stringBuilder.toString(), echoTool.execute(workingDir, ""));
 		assertEquals(0, echoTool.getStatusCode());
 	}
 	
@@ -100,7 +101,8 @@ public class EchoToolTest {
 				stringBuilder.append(" ");
 			}
 		}
-		assertEquals(echoTool.execute(workingDir, null), stringBuilder.toString());
+		stringBuilder.append(System.lineSeparator());
+		assertEquals(stringBuilder.toString(), echoTool.execute(workingDir, null));
 		assertEquals(0, echoTool.getStatusCode());
 	}
 }

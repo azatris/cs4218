@@ -16,6 +16,7 @@ public class CommTool extends ATool implements ICommTool {
 			setStatusCode(127);
 		}
 	}
+	
 	private boolean checkSorted(String[] lines, int curIdx, boolean firstTimeCheck, int fileNum, StringBuilder output){
 		if (curIdx + 1 <lines.length && 
 				lines[curIdx].compareTo(lines[curIdx+1]) > 0 &&
@@ -26,6 +27,7 @@ public class CommTool extends ATool implements ICommTool {
 		}
 		return firstTimeCheck;
 	}
+	
 	@Override
 	public String compareFiles(String input1, String input2) {
 		File file1 = new File(input1);
