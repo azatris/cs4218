@@ -30,25 +30,30 @@ public class AdditionalEchoToolTest {
 		assertEquals(0, echoTool.getStatusCode());
 	}
 	
-//	@Test
-//	public void echoEmpytStringTest() {
-//		echoTool = new EchoTool(new String[]{"echo", " "});
-//		assertEquals(System.lineSeparator(), echoTool.execute(workingDir, ""));
-//		assertEquals(0, echoTool.getStatusCode());
-//	}
-	
+	/**
+	 * For constructor
+	 * pass null as arguments
+	 */
 	@Test
 	public void passNullToConstructorTest() {
 		echoTool = new EchoTool(null);
 		assertEquals(127, echoTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass empty array as arguments
+	 */
 	@Test
 	public void passEmptyArgumentToConstructorTest() {
 		echoTool = new EchoTool(new String[]{});
 		assertEquals(127, echoTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass wrong command as arguments
+	 */
 	@Test
 	public void passWrongArgumentToConstructorTest() {
 		echoTool = new EchoTool(new String[]{"ecdsgjl"});

@@ -23,6 +23,9 @@ public class AdditionalDeleteToolTest {
 		deleteTool = null;
 	}
 	
+	/**
+	 * Test passing null as workingDir
+	 */
 	@Test
 	public void executeNullWorkingDirTest() {
 		deleteTool = new DeleteTool(new String[]{"delete"});
@@ -30,6 +33,9 @@ public class AdditionalDeleteToolTest {
 		assertNotEquals(0, deleteTool.getStatusCode());
 	}
 	
+	/**
+	 * Test when arguments only contain "delete"
+	 */
 	@Test
 	public void executeWithOneArgumentDirTest() {
 		deleteTool = new DeleteTool(new String[]{"delete"});
@@ -37,18 +43,30 @@ public class AdditionalDeleteToolTest {
 		assertNotEquals(0, deleteTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass null as arguments
+	 */
 	@Test
 	public void passNullToConstructorTest() {
 		deleteTool = new DeleteTool(null);
 		assertEquals(127, deleteTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass empty array as arguments
+	 */
 	@Test
 	public void passEmptyArgumentToConstructorTest() {
 		deleteTool = new DeleteTool(new String[]{});
 		assertEquals(127, deleteTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass wrong command as arguments
+	 */
 	@Test
 	public void passWrongArgumentToConstructorTest() {
 		deleteTool = new DeleteTool(new String[]{"cdgs"});

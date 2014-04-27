@@ -82,7 +82,10 @@ public class AdditionalCommToolTest {
 		commTool = null;
 	}
 	
-	//For comparing files
+	/**
+	 * For comparing files
+	 * Both files start with an empty line
+	 */
 	@Test
 	public void compareFilesWithFirstLineEmptyTest() {
 		commTool = new CommTool(new String[]{"comm", file6.getName(), file7.getName()});
@@ -92,7 +95,11 @@ public class AdditionalCommToolTest {
 		assertEquals(0, commTool.getStatusCode());
 	}
 	
-	//For comparing files checking sorted
+	/**
+	 * For comparing files with checking sorted
+	 * file 1 is sorted
+	 * file 2 is unsorted
+	 */
 	@Test
 	public void executeFilesWithFirstLineEmptyTest() {
 		commTool = new CommTool(new String[]{"comm", "-c", file1.getName(), file3.getName()});
@@ -106,6 +113,11 @@ public class AdditionalCommToolTest {
 		assertEquals(0, commTool.getStatusCode());
 	}
 	
+	/**
+	 * For comparing files with checking sorted
+	 * file 1 is sorted
+	 * file 2 is empty
+	 */
 	@Test
 	public void checkingSortedWithSecondFileEmptyTest() {
 		commTool = new CommTool(new String[]{"comm", "-c", file2.getName(), file5.getName()});
@@ -117,6 +129,11 @@ public class AdditionalCommToolTest {
 		assertEquals(0, commTool.getStatusCode());
 	}
 	
+	/**
+	 * For comparing files with checking sorted
+	 * file 1 is empty
+	 * file 2 is sorted
+	 */
 	@Test
 	public void checkingSortedWithFirstFileEmptyTest() {
 		commTool = new CommTool(new String[]{"comm", "-c", file5.getName(), file2.getName()});
@@ -128,6 +145,10 @@ public class AdditionalCommToolTest {
 		assertEquals(0, commTool.getStatusCode());
 	}
 	
+	/**
+	 * For comparing files with checking sorted
+	 * Both files contain only one line 
+	 */
 	@Test
 	public void checkingSortedBothFilesOneLineTest() {
 		commTool = new CommTool(new String[]{"comm", "-c", file6.getName(), file7.getName()});
@@ -137,7 +158,10 @@ public class AdditionalCommToolTest {
 		assertEquals(0, commTool.getStatusCode());
 	}
 	
-	//For comparing not files checking sorted
+	/**
+	 * For comparing files with not checking sorted
+	 * Both files contain only one line 
+	 */
 	@Test
 	public void notCheckingSortedBothFilesOneLineTest() {
 		commTool = new CommTool(new String[]{"comm", "-d", file7.getName(), file6.getName()});
@@ -147,6 +171,10 @@ public class AdditionalCommToolTest {
 		assertEquals(0, commTool.getStatusCode());
 	}
 	
+	/**
+	 * For comparing files with not checking sorted
+	 * file 2 is non-existing 
+	 */
 	@Test
 	public void notCheckingSortedWithNonExistingFileTest() {
 		commTool = new CommTool(new String[]{"comm", "-d", file2.getName(), "nonexisting"});
@@ -154,6 +182,10 @@ public class AdditionalCommToolTest {
 		assertNotEquals(0, commTool.getStatusCode());
 	}
 	
+	/**
+	 * For comparing files with not checking sorted
+	 * file 2 is empty
+	 */
 	@Test
 	public void notCheckingSortedWithSecondFileEmptyTest() {
 		commTool = new CommTool(new String[]{"comm", "-d", file2.getName(), file5.getName()});
@@ -165,19 +197,30 @@ public class AdditionalCommToolTest {
 		assertEquals(0, commTool.getStatusCode());
 	}
 	
-	//For constructor
+	/**
+	 * For constructor
+	 * pass null as arguments
+	 */
 	@Test
 	public void passNullToConstructorTest() {
 		commTool = new CommTool(null);
 		assertEquals(127, commTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass empty array as arguments
+	 */
 	@Test
 	public void passEmptyArgumentToConstructorTest() {
 		commTool = new CommTool(new String[]{});
 		assertEquals(127, commTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass wrong command as arguments
+	 */
 	@Test
 	public void passWrongArgumentToConstructorTest() {
 		commTool = new CommTool(new String[]{"cp"});

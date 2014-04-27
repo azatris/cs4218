@@ -20,18 +20,30 @@ public class AdditionalMoveToolTest {
 		moveTool = null;
 	}
 
+	/**
+	 * For constructor
+	 * pass null as arguments
+	 */
 	@Test
 	public void passNullToConstructorTest() {
 		moveTool = new MoveTool(null);
 		assertEquals(127, moveTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass empty array as arguments
+	 */
 	@Test
 	public void passEmptyArgumentToConstructorTest() {
 		moveTool = new MoveTool(new String[]{});
 		assertEquals(127, moveTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass wrong command as arguments
+	 */
 	@Test
 	public void passWrongArgumentToConstructorTest() {
 		moveTool = new MoveTool(new String[]{"mv"});

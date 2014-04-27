@@ -23,16 +23,28 @@ public class AdditionalCommonTest {
 		fileToWrite.delete();
 	}
 
+	/**
+	 * Testing String concatenateDirectory(String curAbsDir, String newRelDir)
+	 * curAbsDir is null
+	 */
 	@Test
 	public void concatenateNull() {
 		assertEquals("", Common.concatenateDirectory(null, ""));
 	}
 	
+	/**
+	 * Testing String concatenateDirectory(String curAbsDir, String newRelDir)
+	 * newRelDir is ".."
+	 */
 	@Test
 	public void concatenatePathWithDotDot() {
-		assertEquals(Paths.get(System.getProperty("user.dir")).getParent().toString() + File.separator, Common.concatenateDirectory(System.getProperty("user.dir"), ".."));
+		assertEquals(Paths.get(System.getProperty("user.dir")).getParent().toString() + File.separator, 
+				Common.concatenateDirectory(System.getProperty("user.dir"), ".."));
 	}
 	
+	/**
+	 * Testing void writeFile(File file, String s)
+	 */
 	@Test
 	public void writeFileTestt() throws IOException {
 		Common.writeFile(fileToWrite, "Test writing to file");

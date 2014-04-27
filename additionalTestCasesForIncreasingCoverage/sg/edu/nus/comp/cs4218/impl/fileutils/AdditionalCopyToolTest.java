@@ -29,7 +29,9 @@ public class AdditionalCopyToolTest {
 		copyTool = null;
 		from.delete();
 	}
-	
+	/**
+	 * Test copying file to the same directory
+	 */
 	@Test
 	public void copyFileToSamePlace() {
 		String[] args = {"copy", from.getAbsolutePath(), from.getAbsolutePath()};
@@ -37,19 +39,31 @@ public class AdditionalCopyToolTest {
 		copyTool.execute(workingDir, null);
 		assertEquals(211, copyTool.getStatusCode());	
 	}
-
+	
+	/**
+	 * For constructor
+	 * pass null as arguments
+	 */
 	@Test
 	public void passNullToConstructorTest() {
 		copyTool = new CopyTool(null);
 		assertEquals(127, copyTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass empty array as arguments
+	 */
 	@Test
 	public void passEmptyArgumentToConstructorTest() {
 		copyTool = new CopyTool(new String[]{});
 		assertEquals(127, copyTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass wrong command as arguments
+	 */
 	@Test
 	public void passWrongArgumentToConstructorTest() {
 		copyTool = new CopyTool(new String[]{"cp"});

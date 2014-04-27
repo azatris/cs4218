@@ -31,18 +31,30 @@ public class AdditionalCdToolTest {
 		assertEquals(98, cdTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass null as arguments
+	 */
 	@Test
 	public void passNullToConstructorTest() {
 		cdTool = new CdTool(null);
 		assertEquals(127, cdTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass empty array as arguments
+	 */
 	@Test
 	public void passEmptyArgumentToConstructorTest() {
 		cdTool = new CdTool(new String[]{});
 		assertEquals(127, cdTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass wrong command as arguments
+	 */
 	@Test
 	public void passWrongArgumentToConstructorTest() {
 		cdTool = new CdTool(new String[]{"cdgs"});

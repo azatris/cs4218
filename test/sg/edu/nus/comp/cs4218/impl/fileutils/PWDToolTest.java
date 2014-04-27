@@ -13,34 +13,40 @@ import sg.edu.nus.comp.cs4218.fileutils.IPwdTool;
 
 public class PWDToolTest {
 	private IPwdTool pwdtool; 
+	private File fileAbs, fileAbsParDir;
 	
 	@Before
-	public void before(){
-		
+	public void before() throws IOException{
+		fileAbs = File.createTempFile("pwd", "");
+		fileAbsParDir = new File(fileAbs.getParent());
 	}
 
     @After
 	public void after(){
+    	fileAbs.delete();
+    	fileAbsParDir.delete();
 		pwdtool = null;
 	}
 	
-    // TODO
+    /**
+     * Testing String getStringForDirectory(File directory)
+     * directory is a folder
+     */
 	@Test
-	public void getStringForDirectoryTest() throws IOException {
+	public void getStringForDirectoryTest() {
 		String[] test = new String[] {"pwd"};
 		pwdtool = new PWDTool(test);
-		File tempFile = File.createTempFile("existspwd", "tmp");
-		String existsDirString = tempFile.getParent();
-		File existsDir = new File(existsDirString);
-		String dirString = pwdtool.getStringForDirectory(existsDir);
-		assertTrue(dirString.equals(existsDirString));
+		String dirString = pwdtool.getStringForDirectory(fileAbsParDir);
+		assertTrue(dirString.equals(fileAbsParDir.getAbsolutePath()));
 		assertEquals(pwdtool.getStatusCode(), 0);
-		tempFile.delete();
     }
 
-    // TODO
+	/**
+     * Testing String getStringForDirectory(File directory)
+     * directory is a non-existing folder
+     */
 	@Test
-	public void getStringForNonExistingDirectoryTest() throws IOException { 
+	public void getStringForNonExistingDirectoryTest() { 
 		String[] test = new String[] {"pwd"};
 		pwdtool = new PWDTool(test);
 		File notExistsDir = new File("notexists");
@@ -48,55 +54,55 @@ public class PWDToolTest {
 		assertNotEquals(pwdtool.getStatusCode(), 0);
     }
 		
-    // TODO
+	/**
+     * Testing String getStringForDirectory(File directory)
+     * directory is null
+     */
 	@Test
-	public void getStringForNullDirectoryTest() throws IOException { 
+	public void getStringForNullDirectoryTest(){ 
 		String[] test = new String[] {"pwd"};
 		pwdtool = new PWDTool(test);
 		pwdtool.getStringForDirectory(null);
 		assertNotEquals(pwdtool.getStatusCode(), 0);
 	}
 	
-    // TODO
+	/**
+     * Testing constructor
+     * pass null to constructor
+     */
 	@Test
-	public void getStringPWDNullinConstructor() throws IOException { 
+	public void getStringPWDNullInConstructor() { 
 		pwdtool = new PWDTool(null);
-		File tempFile = File.createTempFile("existspwd", "tmp");
-		String existsDirString = tempFile.getParent();
-		
-		File existsDir = new File(existsDirString);
-		String dirString = pwdtool.getStringForDirectory(existsDir);
-		assertTrue(dirString.equals(existsDirString));
+		String dirString = pwdtool.getStringForDirectory(fileAbsParDir);
+		assertTrue(dirString.equals(fileAbsParDir.getAbsolutePath()));
 		assertEquals(pwdtool.getStatusCode(), 127);
-		tempFile.delete();
 	}
 	
-    // TODO
+    /**
+     * Testing execute
+     * pass wrong input to constructor
+     */
 	@Test 
-	public void executeWrongInput() throws IOException{
+	public void executeWrongInput() {
 		String[] test = new String[] {"asd"};
 		pwdtool = new PWDTool(test);
-		File tempFile = File.createTempFile("existspwd", "tmp");
-		String existsDirString = tempFile.getParent();
-		File existsDir = new File(existsDirString);
-		String dirString = pwdtool.execute(existsDir, null);
-		assertTrue(dirString.equals(existsDirString));
+		
+		String dirString = pwdtool.execute(fileAbsParDir, null);
+		assertTrue(dirString.equals(fileAbsParDir.getAbsolutePath()));
 		assertEquals(pwdtool.getStatusCode(), 127);
-		tempFile.delete();
 	}
 	
-    // TODO
+	/**
+     * Testing execute
+     * pass wrong arguments to constructor
+     */
 	@Test 
 	public void executeToManyArgs() throws IOException{
 		String[] test = new String[] {"pwd" , "Hallo"};
 		pwdtool = new PWDTool(test);
-		File tempFile = File.createTempFile("existspwd", "tmp");
-		String existsDirString = tempFile.getParent();
-		
-		File existsDir = new File(existsDirString);
-		String dirString = pwdtool.execute(existsDir, null);
+
+		String dirString = pwdtool.execute(fileAbsParDir, null);
 		assertTrue("Not right dir", dirString.equals("Error: PWD command wrong"));
 		assertEquals("Not right statuscode ", pwdtool.getStatusCode(), 1);
-		tempFile.delete();
 	}
 }

@@ -15,99 +15,96 @@ import sg.edu.nus.comp.cs4218.fileutils.ICopyTool;
 
 public class CopyToolTest {
 	private ICopyTool copyTool;
-
+	private File fromAbs, toAbs, toDir, fromAbsInToDir;
+	private String fromStr, toStr;
 	@Before
 	public void setUp() throws Exception {
+		fromAbs = File.createTempFile("copy","");
+		fromStr = Common.writeRandomStringTo(fromAbs);
+		toAbs = File.createTempFile("copy","");
+		toStr = Common.writeRandomStringTo(toAbs);
+		
+		toDir = Files.createTempDirectory("copy").toFile();
+		fromAbsInToDir = new File(toDir + File.separator + fromAbs.getName());
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		fromAbs.delete();
+		toAbs.delete();
+		fromAbsInToDir.delete();
+		toDir.delete();
 		copyTool = null;
 	}
 
 	/**
 	 * Testing boolean copy(File from, File to)
+	 * copy to an existing file
+	 * @throws IOException 
+	 */
+	@Test
+	public void copyFileToExistFileTest() throws IOException{
+		String[] args = {"copy", fromAbs.getAbsolutePath(), toAbs.getAbsolutePath()};
+		copyTool = new CopyTool(args);
+
+		assertTrue(fromAbs.exists());
+		assertTrue(toAbs.exists());
+		assertTrue(copyTool.copy(fromAbs, toAbs));
+		assertEquals(0, copyTool.getStatusCode());
+		assertEquals(fromStr, Common.readFileByChar(toAbs));
+	}
+
+	/**
+	 * Testing boolean copy(File from, File to)
+	 * copy to a non-existing file
 	 * @throws IOException
 	 */
 	@Test
-	public void copyFileToExistFileTest() throws IOException {
-		File from = File.createTempFile("from","copytmp");
-		File to = File.createTempFile("tofile","copytmp");
-		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
-		copyTool = new CopyTool(args);
-		String fromStr = Common.writeRandomStringTo(from);
-		String toStr = Common.writeRandomStringTo(to);
-
-		assertFalse(fromStr.equals(toStr)); // It does have very small possibility that fromStr=toStr
-		assertTrue(from.exists());
-		assertTrue(to.exists());
-		assertTrue(copyTool.copy(from, to));
-		assertEquals(0, copyTool.getStatusCode());
-		assertEquals(fromStr, Common.readFileByChar(to));
-
-		from.delete();
-		to.delete();
-	}
-
-	// TODO
-	@Test
 	public void copyFileToNonExistFileTest() throws IOException {
-		File from = File.createTempFile("from","copytmp");
-		String fromStr = Common.writeRandomStringTo(from);
-		File to = File.createTempFile("tofile","copytmp");
-		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
+		String[] args = {"copy", fromAbs.getAbsolutePath(), toAbs.getAbsolutePath()};
 		copyTool = new CopyTool(args);
 
-		to.delete();
-		assertFalse(to.exists());
-		assertTrue(from.exists());
-		assertTrue(copyTool.copy(from, to));
+		toAbs.delete();
+		assertFalse(toAbs.exists());
+		assertTrue(fromAbs.exists());
+		assertTrue(copyTool.copy(fromAbs, toAbs));
 		assertEquals(0, copyTool.getStatusCode());
-		assertEquals(fromStr, Common.readFileByChar(to));
-
-		from.delete();
-		to.delete();
+		assertEquals(fromStr, Common.readFileByChar(toAbs));
 	}
 
-	// TODO
+	/**
+	 * Testing boolean copy(File from, File to)
+	 * copy to an existing folder
+	 * @throws IOException
+	 */
 	@Test
 	public void copyFileToExistDirTest() throws IOException {
-		File from = File.createTempFile("from","copytmp");
-		File to = Files.createTempDirectory("tocopytmp").toFile();
-		String fromStr = Common.writeRandomStringTo(from);
-		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
+		String[] args = {"copy", fromAbs.getAbsolutePath(), toDir.getAbsolutePath()};
 		copyTool = new CopyTool(args);
 
-		assertTrue(from.exists());
-		assertTrue(to.exists());
-		assertTrue(copyTool.copy(from, to));
+		assertTrue(fromAbs.exists());
+		assertTrue(toDir.exists());
+		assertTrue(copyTool.copy(fromAbs, toDir));
 		assertEquals(0, copyTool.getStatusCode());
-		File toFile = new File(to.getAbsolutePath() + File.separator +from.getName());
-		assertEquals(fromStr, Common.readFileByChar(toFile));
-
-		from.delete();
-		toFile.delete();
-		to.delete();
+		assertEquals(fromStr, Common.readFileByChar(fromAbsInToDir));
 	}
 
-	// TODO
+	/**
+	 * Testing boolean copy(File from, File to)
+	 * copy to a non-existing folder
+	 * @throws IOException
+	 */
 	@Test
 	public void copyFileToNonExistDirTest() throws IOException {
-		File from = File.createTempFile("from","copytmp");
-		String fromStr = Common.writeRandomStringTo(from);
-		File to = Files.createTempDirectory("tononexistcopytmp").toFile();
-		String[] args = {"copy", from.getAbsolutePath(), to.getAbsolutePath()};
+		String[] args = {"copy", fromAbs.getAbsolutePath(), toDir.getAbsolutePath()};
 		copyTool = new CopyTool(args);
-		to.delete();
+		toDir.delete();
 
-		assertFalse(to.exists());
-		assertTrue(from.exists());
-		assertTrue(copyTool.copy(from, to));
+		assertFalse(toDir.exists());
+		assertTrue(fromAbs.exists());
+		assertTrue(copyTool.copy(fromAbs, toDir));
 		assertEquals(0, copyTool.getStatusCode());
-		assertEquals(fromStr, Common.readFileByChar(to));
-		(new File(args[2] + File.separator + from.getName())).delete();
-		from.delete();
-		to.delete();
+		assertEquals(fromStr, Common.readFileByChar(toDir));
 	}
 
 	// TODO

@@ -14,7 +14,10 @@ import sg.edu.nus.comp.cs4218.fileutils.IDeleteTool;
  */
 public class TestBug24DeleteTool {
 	private IDeleteTool deleteTool;
-
+	
+	/**
+	 * Test passing null as working directory
+	 */
 	@Test
 	public void nullWorkingDirExecuteTest() {
 		String[] args = {"delete", "file1"};
@@ -23,6 +26,9 @@ public class TestBug24DeleteTool {
 		assertFalse(deleteTool.getStatusCode() == 0);
 	}
 	
+	/**
+	 * Test passing null as file
+	 */
 	@Test
 	public void nullRelDirExecuteTest() {
 		String[] args = {"delete", null};

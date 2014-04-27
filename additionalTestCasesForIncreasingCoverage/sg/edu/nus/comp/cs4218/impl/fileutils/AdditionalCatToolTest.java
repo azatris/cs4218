@@ -26,6 +26,9 @@ public class AdditionalCatToolTest {
 		catTool = null;
 	}
 	
+	/**
+	 * Test cat absolute_file_path
+	 */
 	@Test
 	public void executeAbsolutePathTest(){
 		catTool = new CatTool(new String[]{"cat", fileForCat.getAbsolutePath()});
@@ -33,18 +36,30 @@ public class AdditionalCatToolTest {
 		assertEquals(0, catTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass null as arguments
+	 */
 	@Test
 	public void passNullToConstructorTest() {
 		catTool = new CatTool(null);
 		assertEquals(127, catTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass empty array as arguments
+	 */
 	@Test
 	public void passEmptyArgumentToConstructorTest() {
 		catTool = new CatTool(new String[]{});
 		assertEquals(127, catTool.getStatusCode());
 	}
 	
+	/**
+	 * For constructor
+	 * pass wrong command as arguments
+	 */
 	@Test
 	public void passWrongArgumentToConstructorTest() {
 		catTool = new CatTool(new String[]{"cp"});
