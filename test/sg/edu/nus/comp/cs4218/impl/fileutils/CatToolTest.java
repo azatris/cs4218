@@ -14,85 +14,119 @@ import sg.edu.nus.comp.cs4218.fileutils.ICatTool;
 
 public class CatToolTest {
 	private ICatTool catTool;
-	private File workingDirectory = new File(System.getProperty("user.dir"));
+	private File workingDir = new File(System.getProperty("user.dir"));
+	private File file1, file2ForRelPath, file3ForRelPath, file4InParDir, empFile, folder1, folder2, subFile1;
+	private String content1, content2, content3, content4, contentSub1;
 	@Before
 	public void setUp() throws Exception {
+		empFile = File.createTempFile("empty", "cat");
+		
+		file1 = File.createTempFile("cat", "");
+		content1 = Common.writeRandomStringTo(file1);
+		
+		file2ForRelPath = File.createTempFile("cat", "", workingDir);
+		content2 = Common.writeRandomStringTo(file2ForRelPath);
+		
+		file3ForRelPath = File.createTempFile("cat", "", workingDir);
+		content3 = Common.writeRandomStringTo(file3ForRelPath);
+		
+		file4InParDir = new File(workingDir.getParentFile() + File.separator + "file4InParDir.txt");
+		content4 = Common.writeRandomStringTo(file4InParDir);
+		
+		folder1 = Files.createTempDirectory("catFolder1").toFile();
+		
+		folder2 = new File("folder2");
+		folder2.mkdir();
+		subFile1 = File.createTempFile("catTool", "", folder2);
+		contentSub1 = Common.writeRandomStringTo(subFile1);
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		empFile.delete();
+		file1.delete();
+		file2ForRelPath.delete();
+		file3ForRelPath.delete();
+		file4InParDir.delete();
+		subFile1.delete();
+		folder1.delete();
+		folder2.delete();
 		catTool = null;
 	}
 	
 	/**
 	 * Testing String getStringForFile(File toRead)
-	 * @throws IOException
+	 * toRead is an empty file
 	 */
 	@Test
-	public void getStringForEmptyFileTest() throws IOException {
-		File fileToRead = File.createTempFile("emptyfile", "cattmp");
-		String[] args = {"cat", fileToRead.getName()};
+	public void getStringForEmptyFileTest(){
+		String[] args = {"cat", empFile.getName()};
 		catTool = new CatTool(args);
-		assertTrue(fileToRead.exists());
-		assertEquals("",catTool.getStringForFile(fileToRead));
+		assertTrue(empFile.exists());
+		assertEquals("",catTool.getStringForFile(empFile));
 		assertEquals(0, catTool.getStatusCode());
-		fileToRead.delete();
 	}
-	
-	// TODO
+	/**
+	 * Testing String getStringForFile(File toRead)
+	 * toRead is a file and is written a random string
+	 */
 	@Test
-	public void getStringForExistingFileTest() throws IOException {
-		File fileToRead = File.createTempFile("random", "cattmp");
-		String[] args = {"cat", fileToRead.getName()};
-		catTool = new CatTool(args);
-		String str = Common.writeRandomStringTo(fileToRead);
-		
-		assertEquals(str,catTool.getStringForFile(fileToRead));
-		assertEquals(0, catTool.getStatusCode());
-		fileToRead.delete();
-	}
-	
-	// TODO
-	@Test
-	public void getStringForNonExistingFileTest() throws IOException {
-		File fileNonExists = File.createTempFile("nonExists", "cattmp");
-		String[] args = {"cat", fileNonExists.getName()};
+	public void getStringForExistingFileTest() {
+		String[] args = {"cat", file1.getName()};
 		catTool = new CatTool(args);
 		
-		assertTrue(fileNonExists.delete());
-		assertFalse(fileNonExists.exists());
-		assertNull(catTool.getStringForFile(fileNonExists));
+		assertEquals(content1,catTool.getStringForFile(file1));
+		assertEquals(0, catTool.getStatusCode());
+	}
+	
+	/**
+	 * Testing String getStringForFile(File toRead)
+	 * toRead is a file that does not exist
+	 */
+	@Test
+	public void getStringForNonExistingFileTest(){
+		String[] args = {"cat", empFile.getName()};
+		catTool = new CatTool(args);
+		
+		assertTrue(empFile.delete());
+		assertFalse(empFile.exists());
+		assertNull(catTool.getStringForFile(empFile));
 		assertTrue(catTool.getStatusCode() != 0);
 	}
 	
-	// TODO
+	/**
+	 * Testing String getStringForFile(File toRead)
+	 * toRead is a folder
+	 */
 	@Test
-	public void getStringForExistingDirectoryTest() throws IOException {
-		File dirExists = Files.createTempDirectory("cattmpfolder").toFile();
-		String[] args = {"cat", dirExists.getName()};
+	public void getStringForExistingDirectoryTest(){
+		String[] args = {"cat", folder1.getName()};
 		catTool = new CatTool(args);
 
-		assertTrue(dirExists.exists());
-		assertNull(catTool.getStringForFile(dirExists));
+		assertTrue(folder1.exists());
+		assertNull(catTool.getStringForFile(folder1));
 		assertTrue(catTool.getStatusCode() != 0);
-		
-		dirExists.delete();
 	}
 	
-	// TODO
+	/**
+	 * Testing String getStringForFile(File toRead)
+	 * toRead is a folder that does not exist
+	 */
 	@Test
-	public void getStringForNonExistingDirectoryTest() throws IOException {
-		File dirNonExists = Files.createTempDirectory("cattmpfolder").toFile();
-		String[] args = {"cat", dirNonExists.getName()};
+	public void getStringForNonExistingDirectoryTest() {
+		String[] args = {"cat", folder1.getName()};
 		catTool = new CatTool(args);
-		dirNonExists.delete();
+		folder1.delete();
 		
-		assertFalse(dirNonExists.exists());
-		assertNull(catTool.getStringForFile(dirNonExists));
+		assertFalse(folder1.exists());
+		assertNull(catTool.getStringForFile(folder1));
 		assertTrue(catTool.getStatusCode() != 0);
 	}
 	
-	// TODO
+	/**
+	 * Testing String getStringForFile(File toRead)
+	 * toRead is null
+	 */
 	@Test
 	public void getStringForNullDirectoryTest() {
 		String[] args = {"cat", null};
@@ -116,92 +150,53 @@ public class CatToolTest {
 	}
 	
 	/**
-	 *  Test cat one file in current directory "cat file1"
+	 * Testing String execute(File workingDir, String stdin)
+	 * Test cat one file in current directory "cat file1"
 	 */
 	@Test
 	public void catOneFileInCurDirTest() {
-		String dummyFileName = "file1.txt";
-		String[] args = {"cat", dummyFileName};
+		String[] args = {"cat", file2ForRelPath.getName()};
 		catTool = new CatTool(args);
-		File fileToRead = new File(dummyFileName);
-		try {
-			String str = Common.writeRandomStringTo(fileToRead);
-			String result = catTool.execute(workingDirectory, null);
-			assertTrue(result.equals(str));
-			assertTrue(catTool.getStatusCode() == 0);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String result = catTool.execute(workingDir, "");
+		assertEquals(content2, result);
+		assertEquals(0, catTool.getStatusCode());
 	}
 	
 	/**
-	 *  Test cat one file in current directory but with dot "cat ./file1"
+	 * Testing String execute(File workingDir, String stdin)
+	 * Test cat one file in current directory but with dot "cat ./file1"
 	 */
 	@Test
 	public void catOneFileInCurDirWithDotInPathTest() {
-		String dummyFileName = "file1.txt";
-		String[] args = {"cat", "." + File.separator + dummyFileName};
+		String[] args = {"cat", "." + File.separator + file2ForRelPath.getName()};
 		catTool = new CatTool(args);
-		File fileToRead = new File(dummyFileName);
-		try {
-			String str = Common.writeRandomStringTo(fileToRead);
-			String result = catTool.execute(workingDirectory, null);
-			assertTrue(result.equals(str));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		fileToRead.delete();
+
+		String result = catTool.execute(workingDir, "");
+		assertEquals(content2, result);
 	}
 	
 	/**
-	 *  Test cat more than one (maybe three) file in current directory "cat file1 file2 file3"
+	 * Test cat more than one (maybe three) file in current directory "cat file1 file2 file3"
 	 */
 	@Test
 	public void catMoreThanOneFilesInCurDirTest() {
-		String dummyFileName1 = "file1.txt";
-		String dummyFileName2 = "file2.txt";
-		String dummyFileName3 = "file3.txt";
-		String[] args = {"cat", dummyFileName1, dummyFileName2, dummyFileName3};
+		String[] args = {"cat", file1.getAbsolutePath(), file2ForRelPath.getName(), file3ForRelPath.getName()};
 		catTool = new CatTool(args);
-		File fileToRead1 = new File(dummyFileName1);
-		File fileToRead2 = new File(dummyFileName2);
-		File fileToRead3 = new File(dummyFileName3);
-		try {
-			String str1 = Common.writeRandomStringTo(fileToRead1);
-			String str2 = Common.writeRandomStringTo(fileToRead2);
-			String str3 = Common.writeRandomStringTo(fileToRead3);
-			String concantenatedStr = str1 + str2 + str3;
-			String result = catTool.execute(workingDirectory, null);
-			assertTrue(result.equals(concantenatedStr));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		fileToRead1.delete();
-		fileToRead2.delete();
-		fileToRead3.delete();
+		String concantenatedStr = content1 + content2 + content3;
+		String result = catTool.execute(workingDir, null);
+		assertEquals(concantenatedStr, result);
+
 	}
 	
 	/**
-	 *  Test cat file in parent directory "cat ../file1"
+	 * Test cat file in parent directory "cat ../file1"
 	 */
 	@Test
 	public void catFileInParentDirTest() {
-		String dummyFileName = "file1.txt";
-		String[] args = {"cat", ".." + File.separator + dummyFileName};
+		String[] args = {"cat", ".." + File.separator + file4InParDir.getName()};
 		catTool = new CatTool(args);
-		File fileToRead = new File(workingDirectory.getParentFile() + File.separator + dummyFileName);
-		try {
-			String str = Common.writeRandomStringTo(fileToRead);
-			String result = catTool.execute(workingDirectory, null);
-			assertTrue(result.equals(str));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		fileToRead.delete();
+		String result = catTool.execute(workingDir, null);
+		assertEquals(content4, result);
 	}
 	
 	/**
@@ -212,7 +207,7 @@ public class CatToolTest {
 		String dummyFileName = "file1.txt";
 		String[] args = {"cat", "~" + File.separator + dummyFileName};
 		catTool = new CatTool(args);
-		catTool.execute(workingDirectory, null);
+		catTool.execute(workingDir, null);
 		assertTrue(catTool.getStatusCode() != 0);
 	}
 	
@@ -221,25 +216,12 @@ public class CatToolTest {
 	 */
 	@Test
 	public void catFileInChildDirTest() {
-		String dummyFileName = "file1.txt";
-		String dummyFolderName = "folder1";
-		String[] args = {"cat", dummyFolderName + File.separator + dummyFileName};
+		String[] args = {"cat", folder2.getName() + File.separator + subFile1.getName()};
 		catTool = new CatTool(args);
-		File childDirectory = new File(dummyFolderName);
-	    childDirectory.mkdir();
-		File fileToRead = new File(workingDirectory + File.separator + dummyFolderName + File.separator + dummyFileName);
-		try {
-			String str = Common.writeRandomStringTo(fileToRead);
-			String result = catTool.execute(workingDirectory, null);
-			assertTrue(result.equals(str));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		fileToRead.delete();
-		childDirectory.delete();
 
-	}
+		String result = catTool.execute(workingDir, null);
+		assertEquals(contentSub1, result);
+		}
 	
 	/**
 	 *  Test cat no arguments "cat"
@@ -248,7 +230,7 @@ public class CatToolTest {
 	public void catNoArgumentTest() {
 		String[] args = {"cat"};
 		catTool = new CatTool(args);
-		catTool.execute(workingDirectory, null);
+		catTool.execute(workingDir, null);
 		assertTrue(catTool.getStatusCode() != 0);
 	}
 
