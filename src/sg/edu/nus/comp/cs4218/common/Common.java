@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -16,8 +17,8 @@ import java.util.Stack;
 public class Common {
 	/**
 	 * Generate absolute path from two inputs
-	 * @param curAbsDir - absolute working directory
-	 * @param newRelDir - relative directory
+	 * @param curAbsDir absolute working directory
+	 * @param newRelDir relative directory
 	 * @return Absolute path of the file
 	 */
 	public static String concatenateDirectory(String curAbsDir, String newRelDir){
@@ -82,6 +83,18 @@ public class Common {
 		writer.close();
 
 		return str;
+	}
+	
+	/**
+	 * Write a string to a file
+	 * @param file file to write
+	 * @param s string to be written to the file
+	 * @throws IOException
+	 */
+	public static void writeFile(File file, String s) throws IOException {
+		BufferedWriter out = new BufferedWriter(new FileWriter(file));
+		out.write(s);
+		out.close();
 	}
 	
 	/**

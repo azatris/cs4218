@@ -2,9 +2,7 @@ package sg.edu.nus.comp.cs4218.impl.extended2;
 
 import static org.junit.Assert.*;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import org.junit.After;
@@ -13,46 +11,46 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import sg.edu.nus.comp.cs4218.common.Common;
 import sg.edu.nus.comp.cs4218.extended2.ICommTool;
 
 public class COMMToolTest {
 	private static ICommTool commTool; 
-	private static File myFile1, myFile2, myFile3, myFile4;
+	private static File myFile1, myFile2, myFile3, myFile4, myFile5;
 	private static File workingDir = new File(System.getProperty("user.dir"));
-	
-	public static void writeFile(File file, String s) throws IOException {
-		BufferedWriter out = new BufferedWriter(new FileWriter(file));
-		out.write(s);
-		out.close();
-	} 
 
 	@BeforeClass 
 	public static void executeThisBeforeClass() throws IOException{
+		//testFile 1 will be the file in sorted order
 		myFile1 = File.createTempFile("commfile", "sorted", workingDir);
-		writeFile(
+		Common.writeFile(
 				myFile1, 
 				"aaa"+System.lineSeparator()+"bbb"+System.lineSeparator()+
 				"ccc"+System.lineSeparator()+"ddd");
-
+		
+		//testFile 2 will be the file in sorted order
 		myFile2 = File.createTempFile("commfile", "sorted", workingDir);
-		writeFile(
+		Common.writeFile(
 				myFile2, 
 				"aaf"+System.lineSeparator()+"abb"+System.lineSeparator()+
 				"ccc"+System.lineSeparator()+"fff");
 
 		//testFile 3 will be the file in unsorted order 
 		myFile3 = File.createTempFile("commfile", "unsorted", workingDir);
-		writeFile(
+		Common.writeFile(
 				myFile3, 
 				"zzz"+System.lineSeparator()+"ccc"+System.lineSeparator()+
 				"aaa"+System.lineSeparator()+"bbb");
 		
 		//testFile 4 will be the file in unsorted order 
 		myFile4 = File.createTempFile("commfile", "unsorted", workingDir);
-		writeFile(
+		Common.writeFile(
 				myFile4, 
 				"aaa"+System.lineSeparator()+"ecc"+System.lineSeparator()+
 				"eaa"+System.lineSeparator()+"zbb");
+		
+		myFile5 = File.createTempFile("commfile", "empty", workingDir);
+		Common.writeFile(myFile5, "");
 	}
 
 	@AfterClass 
@@ -61,7 +59,7 @@ public class COMMToolTest {
 		myFile2.delete();
 		myFile3.delete();
 		myFile4.delete();
-			
+		myFile5.delete();
 	}
 
 	@Before

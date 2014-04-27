@@ -37,6 +37,7 @@ public class EchoTool extends ATool implements IEchoTool {
 					stringBuilder.append(" ");
 				}
 			}
+			stringBuilder.append(System.getProperty("line.separator"));
 			return stringBuilder.toString();
 		}
 	}

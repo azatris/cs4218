@@ -12,7 +12,7 @@ import sg.edu.nus.comp.cs4218.fileutils.IDeleteTool;
  * Fix location 1: Line 31, Common.Java 
  * Fix location 2: Line 43, DeleteTool.Java
  */
-public class TestBug24DeleteToolTest {
+public class TestBug24DeleteTool {
 	private IDeleteTool deleteTool;
 
 	@Test

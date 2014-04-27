@@ -12,9 +12,14 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 public class CommTool extends ATool implements ICommTool {
 	public CommTool(String[] args) {
 		super(args);
+		if (args == null || args.length == 0 || !args[0].equals("comm")) {
+			setStatusCode(127);
+		}
 	}
 
-	// TODO
+	/**
+	 * Compare two files 
+	 */
 	@Override
 	public String compareFiles(String input1, String input2) {
 		File file1 = new File(input1);
@@ -28,32 +33,45 @@ public class CommTool extends ATool implements ICommTool {
 		
 		StringBuilder output = new StringBuilder();
 		boolean sorted1=true, sorted2=true;
-		int minSize = Math.min(lines1.length, lines2.length);
-		for (int i=0; i<minSize; i++){
-			if (i>0){
-				if (lines1[i-1].compareTo(lines1[i]) > 0 && sorted1){
-					output.append("comm: File 1 is not in sorted order ");
-					output.append(System.lineSeparator());
-					sorted1 = false;
-				}
-				if (lines2[i-1].compareTo(lines2[i]) > 0 && sorted2){
-						output.append("comm: File 2 is not in sorted order ");
-						output.append(System.lineSeparator());
-						sorted2 = false;
-				}
+		if (lines1.length == 1 && lines1[0].equals("")){ 
+			//if file 1 is empty
+			for (int i=0;i<lines2.length; i++){
+				output.append(lines2[i] + System.lineSeparator());
 			}
-			if (lines1[i].compareTo(lines2[i]) == 0) {
-				output.append("\t\t" + lines1[i] + System.lineSeparator());
-			}else{
+		}else if (lines2.length == 1&& lines2[0].equals("")){
+			// if file 2 is empty
+			for (int i=0;i<lines1.length; i++){
 				output.append(lines1[i] + System.lineSeparator());
-				output.append("\t" + lines2[i] + System.lineSeparator());
 			}
-		}
-		for (int i = minSize; i < lines1.length; i++){
-			output.append(lines1[i] + System.lineSeparator());
-		}
-		for (int i = minSize; i < lines2.length; i++){
-			output.append(lines2[i] + System.lineSeparator());
+		}else{
+			int minSize;
+			minSize = Math.min(lines1.length, lines2.length);
+			for (int i=0; i<minSize; i++){
+				if (i>0){
+					if (lines1[i-1].compareTo(lines1[i]) > 0 && sorted1){
+						output.append("comm: File 1 is not in sorted order ");
+						output.append(System.lineSeparator());
+						sorted1 = false;
+					}
+					if (lines2[i-1].compareTo(lines2[i]) > 0 && sorted2){
+							output.append("comm: File 2 is not in sorted order ");
+							output.append(System.lineSeparator());
+							sorted2 = false;
+					}
+				}
+				if (lines1[i].compareTo(lines2[i]) == 0) {
+					output.append("\t\t" + lines1[i] + System.lineSeparator());
+				}else{
+					output.append(lines1[i] + System.lineSeparator());
+					output.append("\t" + lines2[i] + System.lineSeparator());
+				}
+			}
+			for (int i = minSize; i < lines1.length; i++){
+				output.append(lines1[i] + System.lineSeparator());
+			}
+			for (int i = minSize; i < lines2.length; i++){
+				output.append(lines2[i] + System.lineSeparator());
+			}
 		}
 		setStatusCode(0);
 		return output.toString();
