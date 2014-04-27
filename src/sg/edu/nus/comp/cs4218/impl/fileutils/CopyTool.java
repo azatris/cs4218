@@ -30,13 +30,6 @@ public class CopyTool extends ATool implements ICopyTool {
 	 * @return true if copy successfully
 	 */
 	@Override
-	
-	
-	
-	
-	
-	
-	
 	public boolean copy(File fromFile, File toFile) {
 		File from = fromFile;
 		File to = toFile;
