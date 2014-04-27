@@ -74,7 +74,7 @@ public class TestPipeingTool {
 		set[0]=echo;
 		pipe = new PipingTool(set);
 		String actual = pipe.pipe(set[0], set[1]);
-		assertEquals("Pipeing failed", "pipe.properties", actual);
+		assertEquals("Pipeing failed", "pipe.properties"+System.lineSeparator(), actual);
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
 	
@@ -107,7 +107,7 @@ public class TestPipeingTool {
 		set[0]=echo;
 		pipe = new PipingTool(set);
 		String actual = pipe.execute(pipe.workingDir, null);
-		assertEquals("Pipeing failed", "pipe.properties", actual);
+		assertEquals("Pipeing failed", "pipe.properties"+System.lineSeparator(), actual);
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
 	/**
@@ -125,7 +125,7 @@ public class TestPipeingTool {
 		set[0]=echo;
 		pipe = new PipingTool(set);
 		String actual = pipe.execute(pipe.workingDir, null);
-		assertEquals("Pipeing failed", "pipe.properties", actual);
+		assertEquals("Pipeing failed", "pipe.properties"+System.lineSeparator(), actual);
 		assertEquals("Statuscode", 0, pipe.getStatusCode());
 	}
 	
