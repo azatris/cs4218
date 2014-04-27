@@ -62,20 +62,7 @@ public class AddotionalPipeingToTest {
 		assertEquals("Statuscode", 98, pipe.getStatusCode());
 	}
 	
-	
-	@Test
-	public void pipeEchoWrongParsingTool(){
-		ITool cd = new CdTool(new String[]{"cd",".."});
-		ITool[] set = new ITool[2];
-		String[] a = new String[] {"echo", "pipe.properties"};
-		ITool echo = new EchoTool(a);
-		set[0]=wrong;
-		set[1]=echo;
-		pipe = new PipingTool(set);
-		String actual = pipe.pipe(set[0], set[1]);
-		assertEquals("Pipeing failed", "", actual);
-		assertEquals("Statuscode", 98, pipe.getStatusCode());
-	}
+
 	
 	/**
 	 * Test null|cat 

@@ -11,12 +11,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import sg.edu.nus.comp.cs4218.ITool;
+import sg.edu.nus.comp.cs4218.impl.extended2.WcTool;
+import sg.edu.nus.comp.cs4218.impl.fileutils.WrongParsingTool;
 
 public class TestBug42Shell {
 
 	Shell shell;
 	String sep = File.separator; // to make testing OS independent
-	ITool tool;
+	ITool instantiatedTool;
 
 	@Before
 	public void setUp() throws Exception {
@@ -26,12 +28,18 @@ public class TestBug42Shell {
 	@After
 	public void tearDown() throws Exception {
 		shell = null;
-		tool = null;
+		instantiatedTool = null;
 	}
 	
+	/**
+	 * Showing bug 42 is now working as intended 
+	 * but cannot be shown by test because the code is in main.
+	 */
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void parserWhatHappensSpaces() {
+		instantiatedTool=shell.parse(" ");
+		assertNull(instantiatedTool);
 	}
+	
 
 }
