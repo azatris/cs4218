@@ -30,6 +30,13 @@ public class CopyTool extends ATool implements ICopyTool {
 	 * @return true if copy successfully
 	 */
 	@Override
+	
+	
+	
+	
+	
+	
+	
 	public boolean copy(File fromFile, File toFile) {
 		File from = fromFile;
 		File to = toFile;
@@ -72,19 +79,8 @@ public class CopyTool extends ATool implements ICopyTool {
 					char ch = (char)i;
 					out.write(ch);
 				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			try {
-				fileReader.close();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			// close buffer writer
-			try {
-				out.close();
+			fileReader.close();
+			out.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

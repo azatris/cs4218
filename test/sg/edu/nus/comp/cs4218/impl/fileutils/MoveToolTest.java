@@ -141,7 +141,6 @@ public class MoveToolTest {
 		to.delete();
 	}
 	
-	// TODO
 	@Test
 	public void moveFileToNonExistDirTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
@@ -164,7 +163,6 @@ public class MoveToolTest {
 		to.delete();
 	}
 	
-	// TODO
 	@Test
 	public void moveFileToNullTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");
@@ -180,7 +178,6 @@ public class MoveToolTest {
 		from.delete();
 	}
 	
-	// TODO
 	@Test
 	public void moveNonExistFileTest() throws IOException {
 		File from = File.createTempFile("from","movetmp");

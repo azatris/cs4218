@@ -49,14 +49,23 @@ public class Shell implements IShell {
 			tool = new PipingTool(allTools);
 		}
 		else if(pipe.length==ONE){
-			String[] commandArray;
 			String argument = pipe[0];
 			argument = argument.trim();
-			commandArray = getCommandArray(argument);
-			tool = getWhatTool(commandArray);
+			tool = getToolFromArgument(argument);
 		} else {
 			tool = null;
 		}
+		return tool;
+	}
+
+	private ITool getToolFromArgument(String argument) {
+		ITool tool;
+		String[] commandArray;
+		commandArray = getCommandArray(argument);
+		if(commandArray.length ==0){
+			commandArray = new String[]{"Parsing failed"};
+		}
+		tool = getWhatTool(commandArray);
 		return tool;
 	}      
 
@@ -67,10 +76,9 @@ public class Shell implements IShell {
 	 */
 	public ITool[] parseWithPipe(String[] pipe){
 		ITool[] work = new ITool[pipe.length];
-		String[] commandArray;
+
 		for(int i=0; i<pipe.length; i++){
-			commandArray = getCommandArray(pipe[i]);
-			work[i]= getWhatTool(commandArray);
+			work[i]=  getToolFromArgument(pipe[i]);
 		}
 		return work;
 	}
@@ -331,10 +339,8 @@ public class Shell implements IShell {
 				break;
 			case 210:
 				message = "A command was null";
-				break;
 			case 211:
 				message = "Cannot copy to the same place";
-				break;
 			default:
 				message = "Error Detected";
 				break;
