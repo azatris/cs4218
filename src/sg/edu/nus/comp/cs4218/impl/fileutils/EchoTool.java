@@ -24,7 +24,6 @@ public class EchoTool extends ATool implements IEchoTool {
 		return toEcho;
 	}
 
-	
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length == 1){

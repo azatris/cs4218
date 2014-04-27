@@ -2,6 +2,8 @@ package sg.edu.nus.comp.cs4218.impl.fileutils;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +12,7 @@ import sg.edu.nus.comp.cs4218.fileutils.IEchoTool;
 
 public class AdditionalEchoToolTest {
 	private IEchoTool echoTool;
-	File workingDir = new File(System.getProperties("user.dir"));
+	File workingDir = new File(System.getProperty("user.dir"));
 	
 	@Before
 	public void setUp() throws Exception {
@@ -22,8 +24,34 @@ public class AdditionalEchoToolTest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void echoNothingTest() {
+		echoTool = new EchoTool(new String[]{"echo"});
+		assertEquals(System.lineSeparator(), echoTool.execute(workingDir, ""));
+		assertEquals(0, echoTool.getStatusCode());
 	}
-
+	
+//	@Test
+//	public void echoEmpytStringTest() {
+//		echoTool = new EchoTool(new String[]{"echo", " "});
+//		assertEquals(System.lineSeparator(), echoTool.execute(workingDir, ""));
+//		assertEquals(0, echoTool.getStatusCode());
+//	}
+	
+	@Test
+	public void passNullToConstructorTest() {
+		echoTool = new EchoTool(null);
+		assertEquals(127, echoTool.getStatusCode());
+	}
+	
+	@Test
+	public void passEmptyArgumentToConstructorTest() {
+		echoTool = new EchoTool(new String[]{});
+		assertEquals(127, echoTool.getStatusCode());
+	}
+	
+	@Test
+	public void passWrongArgumentToConstructorTest() {
+		echoTool = new EchoTool(new String[]{"ecdsgjl"});
+		assertEquals(127, echoTool.getStatusCode());
+	}
 }

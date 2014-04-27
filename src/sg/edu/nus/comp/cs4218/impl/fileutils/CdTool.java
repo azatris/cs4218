@@ -35,6 +35,7 @@ public class CdTool extends ATool implements ICdTool {
 	public String execute(File workingDir, String stdin) {
 		File newDir = null;
 		if (args.length==1){
+			setStatusCode(55);
 			newDir = changeDirectory(System.getProperty( "user.dir" ));
 		}else if(args.length == 2){	
 			if (args[1].equals("~")){
