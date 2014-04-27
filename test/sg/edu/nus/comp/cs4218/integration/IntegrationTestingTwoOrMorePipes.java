@@ -216,7 +216,7 @@ public class IntegrationTestingTwoOrMorePipes {
 		ITool[] toolCollections = {uniqTool,sortTool,cutTool};
 		PipingTool pipingTool = new PipingTool(toolCollections);
 		String result = pipingTool.execute(workingDirectory,null);
-		String expectedResult = "A separator";
+		String expectedResult = "A separator\nThe End\nThis is jus\nThis is jus";
 		assertEquals(expectedResult,result);
 		assertEquals(0,pipingTool.getStatusCode());
 	}
@@ -289,7 +289,7 @@ public class IntegrationTestingTwoOrMorePipes {
 			ITool[] toolCollections = {commTool,sortTool,cutTool};
 			PipingTool pipingTool = new PipingTool(toolCollections);
 			String result = pipingTool.execute(workingDirectory,null);
-			String expectedResult = "\tThe first";
+			String expectedResult = "\tThe first\n\tThe secon\nThe first \nThe second";
 			assertEquals(expectedResult,result);
 			assertEquals(0,pipingTool.getStatusCode());
 			tempFile1.delete();
@@ -367,7 +367,7 @@ public class IntegrationTestingTwoOrMorePipes {
 			ITool[] toolCollections = {commTool,cutTool,wcTool};
 			PipingTool pipingTool = new PipingTool(toolCollections);
 			String result = pipingTool.execute(workingDirectory,null);
-			String expectedResult = "   Character: 10   Word: 2   New Line: 0";
+			String expectedResult = "   Character: 43   Word: 8   New Line: 3";
 			assertEquals(expectedResult,result);
 			assertEquals(0,pipingTool.getStatusCode());
 			tempFile1.delete();

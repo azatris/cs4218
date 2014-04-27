@@ -156,22 +156,4 @@ public class LsToolTest {
 		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
 	}
 	
-	/**
-	 * Tests ls tool for invalid directory
-	 */
-	@Test
-	public void getFiles_InvalidDirectory_NullObjectReject() {
-		final File invalidDirectory = new File("invalid");
-		final List<File> returnStatement = lsTool.getFiles(invalidDirectory);
-		assertNull(returnStatement);
-	}
-	
-	@Test
-	public void execute_ListInCorrectRelativeDirectory_ErrorMessageReturned(){
-		final String[] arguments = {"ls", "sr"};
-		lsToolForExecute = new LsTool(arguments);
-		lsToolForExecute.execute(Paths.get(".").toFile(), null);
-		assertNotEquals(lsToolForExecute.getStatusCode(), 0);
-	}
-	
 }
