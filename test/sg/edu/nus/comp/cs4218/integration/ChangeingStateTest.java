@@ -35,7 +35,7 @@ public class ChangeingStateTest {
     private static File testdir2;
     private static String mapName= "." + File.separator+"ost";
     private static String mapname2="."+ File.separator+"ost" + File.separator + "sleep"; 
-    private static String testfile ="."+ File.separator+"ost" + File.separator + "asd";
+    private static String testfile ="."+ File.separator+"ost" + File.separator + "testfile";
     private static String umapName = File.separator+"ost";
     private ITool cd;
     private ITool copy;
@@ -67,7 +67,7 @@ public class ChangeingStateTest {
     	File testfil = new File(testfile);
 		if (!testfil.isFile()) {
 			PrintWriter writer = new PrintWriter(testfil, "UTF-8");
-			writer.println("asd");
+			writer.println("whateveer");
 			writer.close();
 		}
 		System.out.println("***[HERE STARTS UNAVODIBLE OUTPUTSECTION]***\n"); //NOPMD
@@ -93,19 +93,19 @@ public class ChangeingStateTest {
     public void changeStatePoss1() throws InterruptedException {
 		shell = new Shell();
 		cd = new CdTool(new String[] {"cd", mapName});
-		Thread asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		Thread thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		another = new CdTool(new String []{ "cd", ".."});
-		asd = (Thread) shell.execute(another);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(another);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		
 		cd = new CdTool(new String[] {"cd", mapname2});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		ITool ls = new LsTool(new String[] {"ls"});
@@ -124,35 +124,35 @@ public class ChangeingStateTest {
 	public void changeStatePoss2() throws InterruptedException {
 		shell = new Shell();
 		cd = new CdTool(new String[] {"cd", mapName});
-		Thread asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		Thread thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
-		copy = new CopyTool(new String []{"copy","asd", "hallo"});
-		asd = (Thread) shell.execute(copy);
-		while(asd.isAlive()){
+		copy = new CopyTool(new String []{"copy","testfile", "hallo"});
+		thread = (Thread) shell.execute(copy);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new CdTool(new String[] {"cd", ".."});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new CdTool(new String[] {"cd", mapName});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new LsTool(new String[] {"ls"});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		
 		ITool ls = new LsTool(new String[] {"ls"});
 		String output =System.getProperty("user.dir")+ umapName;
 		String answer = ls.execute(new File(output), null);
-		assertEquals("error", "asd	hallo	sleep"+File.separator+"\t",answer);
+		assertEquals("error", "hallo\tsleep"+File.separator+"\ttestfile\t",answer);
 		ITool pwd = new PWDTool(new String[]{"pwd"});
 		assertEquals("error", output, (pwd.execute(new File(output), "")));
 	}
@@ -166,34 +166,34 @@ public class ChangeingStateTest {
 	public void changeStatePoss3() throws InterruptedException {
 		shell = new Shell();
 		cd = new CdTool(new String[] {"cd", mapName});
-		Thread asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		Thread thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
-		copy = new CopyTool(new String []{"copy","asd", "hallo"});
-		asd = (Thread) shell.execute(copy);
-		while(asd.isAlive()){
+		copy = new CopyTool(new String []{"copy","testfile", "hallo"});
+		thread = (Thread) shell.execute(copy);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new CdTool(new String[] {"cd", ".."});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		
 		cd = new CdTool(new String[] {"cd", mapName});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
-		ITool delete = new DeleteTool(new String []{"delete","asd"});
-		asd = (Thread) shell.execute(delete);
-		while(asd.isAlive()){
+		ITool delete = new DeleteTool(new String []{"delete","testfile"});
+		thread = (Thread) shell.execute(delete);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new LsTool(new String[] {"ls"});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		
@@ -213,39 +213,39 @@ public class ChangeingStateTest {
 	public void changeStatePoss4() throws InterruptedException {
 		shell = new Shell();
 		cd = new CdTool(new String[] {"cd", mapName});
-		Thread asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		Thread thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
-		copy = new CopyTool(new String []{"copy","asd", "hallo"});
-		asd = (Thread) shell.execute(copy);
-		while(asd.isAlive()){
+		copy = new CopyTool(new String []{"copy","testfile", "hallo"});
+		thread = (Thread) shell.execute(copy);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new CdTool(new String[] {"cd", ".."});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new CdTool(new String[] {"cd", mapName});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
-		ITool delete = new DeleteTool(new String []{"delete","asd"});
-		asd = (Thread) shell.execute(delete);
-		while(asd.isAlive()){
+		ITool delete = new DeleteTool(new String []{"delete","testfile"});
+		thread = (Thread) shell.execute(delete);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		
 		copy = new CopyTool(new String []{"copy","hallo","newfile"});
-		asd = (Thread) shell.execute(copy);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(copy);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new LsTool(new String[] {"ls"});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		
@@ -267,29 +267,29 @@ public class ChangeingStateTest {
 	
 		shell = new Shell();
 		cd = new CdTool(new String[] {"cd", mapName});
-		Thread asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		Thread thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new CdTool(new String[] {"cd", "SomewhereELSE"});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
-		copy = new CopyTool(new String []{"copy","asd", "hallo"});
-		asd = (Thread) shell.execute(copy);
-		while(asd.isAlive()){
+		copy = new CopyTool(new String []{"copy","testfile", "hallo"});
+		thread = (Thread) shell.execute(copy);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new CdTool(new String[] {"cd", ".."});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		
 		cd = new CdTool(new String[] {"cd", "SomewhereELSE"});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		// Shouldn't go to this folder don't exists
@@ -297,7 +297,7 @@ public class ChangeingStateTest {
 		ITool ls = new LsTool(new String[] {"ls"});
 		String output =System.getProperty("user.dir")+ umapName;
 		String answer = ls.execute(new File(output), null);
-		assertEquals("error", "asd	hallo	sleep"+File.separator+"\t",answer);
+		assertEquals("error", "hallo\tsleep"+File.separator+"\ttestfile\t",answer);
 		ITool pwd = new PWDTool(new String[]{"pwd"});
 		assertEquals("error", output, (pwd.execute(new File(output), "")));
 		
@@ -313,36 +313,36 @@ public class ChangeingStateTest {
 		shell = new Shell();
 		
 		cd = new CdTool(new String[] {"cd", mapName});
-		Thread asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		Thread thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
-		copy = new CopyTool(new String []{"copy","asd", "hallo"});
-		asd = (Thread) shell.execute(copy);
-		while(asd.isAlive()){
+		copy = new CopyTool(new String []{"copy","testfile", "hallo"});
+		thread = (Thread) shell.execute(copy);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		cd = new CdTool(new String[] {"cd", ".."});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		
 		cd = new CdTool(new String[] {"cd", mapName});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		copy = new CopyTool(new String[] {"copy", "fileNotExist", "dontmatter"});
-		asd = (Thread) shell.execute(cd);
-		while(asd.isAlive()){
+		thread = (Thread) shell.execute(cd);
+		while(thread.isAlive()){
 			Thread.sleep(100);
 		}
 		// Shouldn't go to this folder don't exists
 		ITool ls = new LsTool(new String[] {"ls"});
 		String output =System.getProperty("user.dir")+ umapName;
 		String answer = ls.execute(new File(output), null);
-		assertEquals("error", "asd	hallo	sleep"+File.separator+"\t",answer);
+		assertEquals("error", "hallo\tsleep"+File.separator+"\ttestfile\t",answer);
 		ITool pwd = new PWDTool(new String[]{"pwd"});
 		assertEquals("error", output, (pwd.execute(new File(output), "")));
 		

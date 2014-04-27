@@ -44,16 +44,18 @@ public class Shell implements IShell {
 	public ITool parse(final String commandline) {
 		ITool tool;
 		final String[] pipe=commandline.split(" \\| ");
+
 		if(pipe.length>ONE){
 			ITool[] allTools = parseWithPipe(pipe);
 			tool = new PipingTool(allTools);
+
 		}
 		else if(pipe.length==ONE){
 			String argument = pipe[0];
 			argument = argument.trim();
 			tool = getToolFromArgument(argument);
 		} else {
-			tool = null;
+			tool = new WrongParsingTool(new String[]{"Parsing failed"});
 		}
 		return tool;
 	}
@@ -250,6 +252,7 @@ public class Shell implements IShell {
 		do{
 			try {
 				commandLine = input.readLine(); //Get the command line
+				commandLine=commandLine.trim();
 				if(commandLine.equalsIgnoreCase("ctrl-z")||
 						commandLine.equalsIgnoreCase("ctrl z")||
 						commandLine.equalsIgnoreCase("ctrlz")){
@@ -328,6 +331,7 @@ public class Shell implements IShell {
 				break;
 			case 67:
 				message = "List not right formated";
+				break;
 			case 98:
 				message = "Parsing Failed";
 				break;
@@ -339,8 +343,10 @@ public class Shell implements IShell {
 				break;
 			case 210:
 				message = "A command was null";
+				break;
 			case 211:
 				message = "Cannot copy to the same place";
+				break;
 			default:
 				message = "Error Detected";
 				break;
