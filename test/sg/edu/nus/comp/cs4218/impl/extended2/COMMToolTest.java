@@ -16,50 +16,50 @@ import sg.edu.nus.comp.cs4218.extended2.ICommTool;
 
 public class COMMToolTest {
 	private static ICommTool commTool; 
-	private static File myFile1, myFile2, myFile3, myFile4, myFile5;
+	private static File file1, file2, file3, file4, file5;
 	private static File workingDir = new File(System.getProperty("user.dir"));
 
 	@BeforeClass 
 	public static void executeThisBeforeClass() throws IOException{
 		//testFile 1 will be the file in sorted order
-		myFile1 = File.createTempFile("commfile", "sorted", workingDir);
+		file1 = File.createTempFile("commfile", "sorted", workingDir);
 		Common.writeFile(
-				myFile1, 
+				file1, 
 				"aaa"+System.lineSeparator()+"bbb"+System.lineSeparator()+
 				"ccc"+System.lineSeparator()+"ddd");
 		
 		//testFile 2 will be the file in sorted order
-		myFile2 = File.createTempFile("commfile", "sorted", workingDir);
+		file2 = File.createTempFile("commfile", "sorted", workingDir);
 		Common.writeFile(
-				myFile2, 
+				file2, 
 				"aaf"+System.lineSeparator()+"abb"+System.lineSeparator()+
 				"ccc"+System.lineSeparator()+"fff");
 
 		//testFile 3 will be the file in unsorted order 
-		myFile3 = File.createTempFile("commfile", "unsorted", workingDir);
+		file3 = File.createTempFile("commfile", "unsorted", workingDir);
 		Common.writeFile(
-				myFile3, 
+				file3, 
 				"zzz"+System.lineSeparator()+"ccc"+System.lineSeparator()+
 				"aaa"+System.lineSeparator()+"bbb");
 		
 		//testFile 4 will be the file in unsorted order 
-		myFile4 = File.createTempFile("commfile", "unsorted", workingDir);
+		file4 = File.createTempFile("commfile", "unsorted", workingDir);
 		Common.writeFile(
-				myFile4, 
+				file4, 
 				"aaa"+System.lineSeparator()+"ecc"+System.lineSeparator()+
 				"eaa"+System.lineSeparator()+"zbb");
 		
-		myFile5 = File.createTempFile("commfile", "empty", workingDir);
-		Common.writeFile(myFile5, "");
+		file5 = File.createTempFile("commfile", "empty", workingDir);
+		Common.writeFile(file5, "");
 	}
 
 	@AfterClass 
 	public static void executeThisAfterClass(){
-		myFile1.delete();
-		myFile2.delete();
-		myFile3.delete();
-		myFile4.delete();
-		myFile5.delete();
+		file1.delete();
+		file2.delete();
+		file3.delete();
+		file4.delete();
+		file5.delete();
 	}
 
 	@Before
@@ -76,11 +76,11 @@ public class COMMToolTest {
 	@Test
 	public void compareFilesSortedFile() {
 		String result = commTool.compareFiles(
-				myFile1.getAbsolutePath(), 
-				myFile2.getAbsolutePath());
+				file1.getAbsolutePath(), 
+				file2.getAbsolutePath());
 		assertEquals(
 				"aaa"+System.lineSeparator()+"\taaf"+System.lineSeparator()+
-				"bbb"+System.lineSeparator()+"\tabb"+System.lineSeparator()+
+				"\tabb"+System.lineSeparator()+"bbb"+System.lineSeparator()+
 				"\t\tccc"+System.lineSeparator()+"ddd"+System.lineSeparator()+
 				"\tfff"+System.lineSeparator(),
 				result);
@@ -92,14 +92,15 @@ public class COMMToolTest {
 	@Test
 	public void compareFilesUnSortedFile1() {
 		String result = commTool.compareFiles(
-				myFile3.getAbsolutePath(), 
-				myFile1.getAbsolutePath());
-		assertEquals( 
-				"zzz"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
+				file3.getAbsolutePath(), 
+				file1.getAbsolutePath());
+		assertEquals(
 				"comm: File 1 is not in sorted order "+System.lineSeparator()+
-				"ccc"+System.lineSeparator()+"\tbbb"+System.lineSeparator()+
-				"aaa"+System.lineSeparator()+"\tccc"+System.lineSeparator()+
-				"bbb"+System.lineSeparator()+"\tddd"+System.lineSeparator(),
+				"\taaa"+System.lineSeparator()+"\tbbb"+System.lineSeparator()+
+				"\tccc"+System.lineSeparator()+"\tddd"+System.lineSeparator()+
+				"zzz"+System.lineSeparator()+
+				"ccc"+System.lineSeparator()+
+				"aaa"+System.lineSeparator()+"bbb"+System.lineSeparator(),
 				result);
 	}
 	
@@ -109,14 +110,15 @@ public class COMMToolTest {
 	@Test
 	public void compareFilesUnSortedFile2() {
 		String result = commTool.compareFiles(
-				myFile1.getAbsolutePath(), 
-				myFile3.getAbsolutePath());
+				file1.getAbsolutePath(), 
+				file3.getAbsolutePath());
 		assertEquals(
-				"aaa"+System.lineSeparator()+"\tzzz"+System.lineSeparator()+
-				"comm: File 2 is not in sorted order "+System.lineSeparator()+
-				"bbb"+System.lineSeparator()+"\tccc"+System.lineSeparator()+
-				"ccc"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
-				"ddd"+System.lineSeparator()+"\tbbb"+System.lineSeparator(),
+				"comm: File 2 is not in sorted order " + System.lineSeparator()+
+				"aaa"+System.lineSeparator()+"bbb"+System.lineSeparator()+
+				"ccc"+System.lineSeparator()+"ddd"+System.lineSeparator()+
+				"\tzzz"+System.lineSeparator()+
+				"\tccc"+System.lineSeparator()+
+				"\taaa"+System.lineSeparator()+"\tbbb"+System.lineSeparator(),
 				result);
 	}
 	
@@ -131,7 +133,7 @@ public class COMMToolTest {
 		nonExist.delete();
 		assertEquals(false, nonExist.exists());
 		String result = commTool.compareFiles(
-				myFile1.getAbsolutePath(), 
+				file1.getAbsolutePath(), 
 				nonExist.getAbsolutePath());
 		assertEquals("", result);
 		assertEquals(3, commTool.getStatusCode());
@@ -144,11 +146,11 @@ public class COMMToolTest {
 	@Test
 	public void compareFilesCheckSortStatusSortedFile() throws IOException { 
 		String result = commTool.compareFilesCheckSortStatus(
-				myFile1.getAbsolutePath(), 
-				myFile2.getAbsolutePath());
+				file1.getAbsolutePath(), 
+				file2.getAbsolutePath());
 		assertEquals(
 				"aaa"+System.lineSeparator()+"\taaf"+
-				System.lineSeparator()+"bbb"+System.lineSeparator()+"\tabb"+
+				System.lineSeparator()+"\tabb"+System.lineSeparator()+"bbb"+
 				System.lineSeparator()+"\t\tccc"+System.lineSeparator()+"ddd"+
 				System.lineSeparator()+"\tfff"+System.lineSeparator(),
 				result);
@@ -161,13 +163,12 @@ public class COMMToolTest {
 	@Test
 	public void compareFilesCheckSortStatusOneNotSorted() throws IOException { 
 		String result = commTool.compareFilesCheckSortStatus(
-				myFile1.getAbsolutePath(), 
-				myFile3.getAbsolutePath());
+				file1.getAbsolutePath(), 
+				file3.getAbsolutePath());
 		assertEquals(
-				"aaa"+System.lineSeparator()+"\tzzz"+System.lineSeparator()+
 				"comm: File 2 is not in sorted order "+System.lineSeparator()+
-				"bbb"+System.lineSeparator()+"ccc"+System.lineSeparator()+
-				"ddd"+System.lineSeparator(),
+				"aaa"+System.lineSeparator()+"bbb"+System.lineSeparator()+
+				"ccc"+System.lineSeparator()+"ddd"+System.lineSeparator(),
 				result);
 	}
 
@@ -178,12 +179,11 @@ public class COMMToolTest {
 	@Test
 	public void compareFilesCheckSortStatusBothNotSorted() throws IOException { 
 		String result = commTool.compareFilesCheckSortStatus(
-				myFile3.getAbsolutePath(), 
-				myFile4.getAbsolutePath());
+				file3.getAbsolutePath(), 
+				file4.getAbsolutePath());
 		assertEquals(
-				"zzz"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
-				"comm: File 1 is not in sorted order "+
-				System.lineSeparator()+"\tecc"+System.lineSeparator()+
+				"comm: File 1 is not in sorted order "+System.lineSeparator()+
+				"\taaa"+System.lineSeparator()+
 				"comm: File 2 is not in sorted order "+System.lineSeparator(),
 				result);
 	}
@@ -200,7 +200,7 @@ public class COMMToolTest {
 		assertEquals(false, nonExist.exists());
 		String result = commTool.compareFilesCheckSortStatus(
 				nonExist.getAbsolutePath(),
-				myFile1.getAbsolutePath() 
+				file1.getAbsolutePath() 
 				);
 		assertEquals("", result);
 		assertEquals(3, commTool.getStatusCode());
@@ -214,11 +214,11 @@ public class COMMToolTest {
 	public void compareFilesDoNotCheckSortStatusSortedFile() throws IOException { 
 
 		String result = commTool.compareFilesDoNotCheckSortStatus(
-				myFile1.getAbsolutePath(), 
-				myFile2.getAbsolutePath());
+				file1.getAbsolutePath(), 
+				file2.getAbsolutePath());
 		assertEquals(
 				"aaa"+System.lineSeparator()+"\taaf"+System.lineSeparator()+
-				"bbb"+System.lineSeparator()+"\tabb"+System.lineSeparator()+
+				"\tabb"+System.lineSeparator()+"bbb"+System.lineSeparator()+
 				"\t\tccc"+System.lineSeparator()+"ddd"+System.lineSeparator()+
 				"\tfff"+System.lineSeparator(),
 				result);
@@ -231,13 +231,13 @@ public class COMMToolTest {
 	@Test
 	public void compareFilesDoNotCheckSortStatusNotSortedFile() throws IOException { 
 		String result = commTool.compareFilesDoNotCheckSortStatus(
-				myFile1.getAbsolutePath(), 
-				myFile3.getAbsolutePath());
+				file1.getAbsolutePath(), 
+				file3.getAbsolutePath());
 		assertEquals(
-				"aaa"+System.lineSeparator()+"\tzzz"+System.lineSeparator()+
-				"bbb"+System.lineSeparator()+"\tccc"+System.lineSeparator()+
-				"ccc"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
-				"ddd"+System.lineSeparator()+"\tbbb"+System.lineSeparator(),
+				"aaa"+System.lineSeparator()+"bbb"+System.lineSeparator()+
+				"ccc"+System.lineSeparator()+"ddd"+System.lineSeparator()+
+				"\tzzz"+System.lineSeparator()+"\tccc"+System.lineSeparator()+
+				"\taaa"+System.lineSeparator()+"\tbbb"+System.lineSeparator(),
 				result
 				);
 
@@ -250,13 +250,13 @@ public class COMMToolTest {
 	@Test
 	public void compareFilesDoNotCheckSortStatusNeitherSortedFile() throws IOException { 
 		String result = commTool.compareFilesDoNotCheckSortStatus(
-				myFile3.getAbsolutePath(), 
-				myFile4.getAbsolutePath());
+				file3.getAbsolutePath(), 
+				file4.getAbsolutePath());
 		assertEquals(
-				"zzz"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
-				"ccc"+System.lineSeparator()+"\tecc"+System.lineSeparator()+
-				"aaa"+System.lineSeparator()+"\teaa"+System.lineSeparator()+
-				"bbb"+System.lineSeparator()+"\tzbb"+System.lineSeparator(),
+				"\taaa"+System.lineSeparator()+"\tecc"+System.lineSeparator()+
+				"\teaa"+System.lineSeparator()+"\tzbb"+System.lineSeparator()+
+				"zzz"+System.lineSeparator()+"ccc"+System.lineSeparator()+
+				"aaa"+System.lineSeparator()+"bbb"+System.lineSeparator(),
 				result);
 	}
 
@@ -286,7 +286,7 @@ public class COMMToolTest {
 	public void testExecuteWihtZeroArg(){
 		commTool = new CommTool(new String[]{});
 		assertEquals("", commTool.execute(workingDir, ""));
-		assertEquals(127, commTool.getStatusCode());
+		assertNotEquals(0, commTool.getStatusCode());
 	}
 
 	/**
@@ -306,7 +306,7 @@ public class COMMToolTest {
 	public void testExecuteWihtOneArgNotComm(){
 		commTool = new CommTool(new String[]{"COM"});
 		assertEquals("", commTool.execute(workingDir, ""));
-		assertEquals(127, commTool.getStatusCode());
+		assertNotEquals(0, commTool.getStatusCode());
 	}
 
 	/**
@@ -356,13 +356,13 @@ public class COMMToolTest {
 	 */
 	@Test
 	public void testExecuteWihtThreeArgs(){
-		commTool = new CommTool(new String[]{"comm", myFile1.getName(), myFile2.getName()});
+		commTool = new CommTool(new String[]{"comm", file1.getName(), file2.getName()});
 		String result = "aaa"+System.lineSeparator()+"\taaf"+
-				System.lineSeparator()+"bbb"+System.lineSeparator()+"\tabb"+
+				System.lineSeparator()+"\tabb"+System.lineSeparator()+"bbb"+
 				System.lineSeparator()+"\t\tccc"+System.lineSeparator()+"ddd"+
 				System.lineSeparator()+"\tfff"+System.lineSeparator();
-		assertTrue(myFile1.exists());
-		assertTrue(myFile2.exists());
+		assertTrue(file1.exists());
+		assertTrue(file2.exists());
 
 		assertEquals(result, commTool.execute(workingDir, ""));
 		assertEquals(0, commTool.getStatusCode());
@@ -392,11 +392,11 @@ public class COMMToolTest {
 	 */
 	@Test
 	public void testExecuteWithCheckSorted(){
-		commTool = new CommTool(new String[]{"comm", "-c", myFile2.getName(), myFile4.getName()});
-		String result = "aaf"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
-				"abb"+System.lineSeparator()+"\tecc"+System.lineSeparator()+
+		commTool = new CommTool(new String[]{"comm", "-c", file2.getName(), file4.getName()});
+		String result = "\taaa"+System.lineSeparator()+
 				"comm: File 2 is not in sorted order "+System.lineSeparator()+
-				"ccc"+System.lineSeparator()+
+				"aaf"+System.lineSeparator()+
+				"abb"+System.lineSeparator()+"ccc"+System.lineSeparator()+
 				"fff"+System.lineSeparator();
 		assertEquals(result, commTool.execute(workingDir, ""));
 		assertEquals(0, commTool.getStatusCode());
@@ -407,12 +407,12 @@ public class COMMToolTest {
 	 */
 	@Test
 	public void testExecuteWihtDoNotCheckSorted(){
-		commTool = new CommTool(new String[]{"comm", "-d", myFile2.getName(), myFile3.getName()});
+		commTool = new CommTool(new String[]{"comm", "-d", file2.getName(), file3.getName()});
 		
-		String result = "aaf"+System.lineSeparator()+"\tzzz"+System.lineSeparator()+
-				"abb"+System.lineSeparator()+"\tccc"+System.lineSeparator()+
-				"ccc"+System.lineSeparator()+"\taaa"+System.lineSeparator()+
-				"fff"+System.lineSeparator()+"\tbbb"+System.lineSeparator();
+		String result = "aaf"+System.lineSeparator()+"abb"+System.lineSeparator()+
+				"ccc"+System.lineSeparator()+"fff"+System.lineSeparator()+
+				"\tzzz"+System.lineSeparator()+"\tccc"+System.lineSeparator()+
+				"\taaa"+System.lineSeparator()+"\tbbb"+System.lineSeparator();
 		assertEquals(result, commTool.execute(workingDir, ""));
 		assertEquals(0, commTool.getStatusCode());
 	}
