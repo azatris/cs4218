@@ -331,8 +331,10 @@ public class Shell implements IShell {
 				break;
 			case 210:
 				message = "A command was null";
+				break;
 			case 211:
 				message = "Cannot copy to the same place";
+				break;
 			default:
 				message = "Error Detected";
 				break;

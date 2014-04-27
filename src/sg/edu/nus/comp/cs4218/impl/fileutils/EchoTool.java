@@ -13,7 +13,7 @@ public class EchoTool extends ATool implements IEchoTool {
 		}
 	}
 	
-	// TODO
+	
 	@Override
 	public String echo(String toEcho) {
 		if (toEcho==null){
@@ -24,7 +24,7 @@ public class EchoTool extends ATool implements IEchoTool {
 		return toEcho;
 	}
 
-	// TODO
+	
 	@Override
 	public String execute(File workingDir, String stdin) {
 		if (args.length == 1){

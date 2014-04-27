@@ -1,4 +1,4 @@
-package sg.edu.nus.comp.cs4218.impl.extended1;
+package sg.edu.nus.comp.cs4218.impl.fileutils;
 
 import static org.junit.Assert.*;
 
@@ -35,8 +35,25 @@ public class AdditionalCopyToolTest {
 		String[] args = {"copy", from.getAbsolutePath(), from.getAbsolutePath()};
 		copyTool = new CopyTool(args);
 		copyTool.execute(workingDir, null);
-		assertTrue(copyTool.getStatusCode() == 211);
-		
+		assertEquals(211, copyTool.getStatusCode());	
+	}
+
+	@Test
+	public void passNullToConstructorTest() {
+		copyTool = new CopyTool(null);
+		assertEquals(127, copyTool.getStatusCode());
+	}
+	
+	@Test
+	public void passEmptyArgumentToConstructorTest() {
+		copyTool = new CopyTool(new String[]{});
+		assertEquals(127, copyTool.getStatusCode());
+	}
+	
+	@Test
+	public void passWrongArgumentToConstructorTest() {
+		copyTool = new CopyTool(new String[]{"cp"});
+		assertEquals(127, copyTool.getStatusCode());
 	}
 
 }

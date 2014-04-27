@@ -36,7 +36,7 @@ public class CommTool extends ATool implements ICommTool {
 		if (lines1.length == 1 && lines1[0].equals("")){ 
 			//if file 1 is empty
 			for (int i=0;i<lines2.length; i++){
-				output.append(lines2[i] + System.lineSeparator());
+				output.append("\t"+lines2[i] + System.lineSeparator());
 			}
 		}else if (lines2.length == 1&& lines2[0].equals("")){
 			// if file 2 is empty

@@ -13,20 +13,18 @@ import sg.edu.nus.comp.cs4218.impl.ATool;
 public class MoveTool extends ATool implements IMoveTool {
 	public MoveTool(String[] arguments) {
 		super(arguments);
-		if (args.length == 0 || !args[0].equals("move")) {
-			if (args == null || args.length == 0 || !args[0].equals("move")) {
-				setStatusCode(127);
-			}
+		if (args == null || args.length == 0 || !args[0].equals("move")) {
+			setStatusCode(127);
 		}
 	}
 	
-	// TODO
+	
 	@Override
 	public boolean move(File fromFile, File toFile) {
 		File from = fromFile;
 		File to = toFile;
 		if (from == null || !from.exists() || from.isDirectory() || to == null){
-			setStatusCode(1);
+			setStatusCode(3);
 			return false;
 		}
 		
@@ -67,9 +65,7 @@ public class MoveTool extends ATool implements IMoveTool {
 				toStr = Common.concatenateDirectory(workingDir.getAbsolutePath(), args[2]);
 			}
 			
-			if ( !move(new File(fromStr), new File(toStr)) ) {
-				return "Move unsuccessfully"+System.lineSeparator();
-			}
+			move(new File(fromStr), new File(toStr));
 			return "";
 		}else{
 			setStatusCode(2);
